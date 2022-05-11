@@ -1,2 +1,2 @@
-# is2
-Repo GitHub per il corso di Ingegneria del Software 2
+# RadunAuto - Raduni d'epoca
+Repo GitHub per il progetto di ingegneria del software 2
