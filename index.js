@@ -1,3 +1,4 @@
+require('./data.js');
 const app = require('./app/app.js');
 const mongoose = require('mongoose');
 
@@ -8,7 +9,7 @@ const mongoose = require('mongoose');
 const port = 3000;
 
 mongoose.connect(
-  'mongodb+srv://davidesartori:opy5VDULAct&%23bNq@cluster0.b0noc.mongodb.net/is2?retryWrites=true&w=majority',
+  process.env['DB_URL'],
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
