@@ -30,7 +30,7 @@ router.post('', async (req, res) => {
 
 	    let userId = user.id;
 
-	    console.log('User saved successfully');
+	    res.json({ success: true, message: 'User saved successfully' });
 		}
 
     /**
