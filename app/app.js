@@ -8,6 +8,7 @@ const Users = require('./users.js');
 const Clubs = require('./clubs.js');
 const Raduni = require('./raduni.js');
 const Dotenv = require("dotenv").config();
+const CookieParser = require('cookie-parser');
 
 
 // Configure Express.js parsing middleware
@@ -16,6 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS requests
 app.use(cors())
+
+// cookie parser
+app.use(CookieParser());
 
 
 /**
