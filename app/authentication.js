@@ -52,6 +52,7 @@ router.post('', async function(req, res) {
 					message: 'Adesso che sei loggato, goditi il token!',
 					token: token,
 				});
+				
 			}
             else {
                 res.send("Non autorizzato :(");

@@ -72,7 +72,7 @@ function login() {
 
   .then(function(data) { // Here you get the data to modify as you please
     if(data.success) {
-      result = "Daje chicco sei dentro";
+      result = "bella";
     }
 
     document.write(result);

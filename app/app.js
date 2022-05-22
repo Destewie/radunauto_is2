@@ -56,8 +56,6 @@ app.use('/api/users', Users);
 app.use('/api/clubs', Clubs);
 app.use('/api/raduni', Raduni);
 
-app.use('/api/authenticate', Authentication);
-
 
 
 /* Default 404 handler */

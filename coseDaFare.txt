@@ -1,0 +1,11 @@
+
+devo far in modo di salvare da qualche parte il token, 
+se no da dove me lo piglio quando ho bisogno di fare il login??
+(forse con cookies)
+
+capire come pigliare lo username intrappolato all'interno del token
+
+
+capire come stampare una pagina di benvenuto (tipo index)
+
+
