@@ -57,6 +57,9 @@ app.use('/api/clubs', Clubs);
 app.use('/api/raduni', Raduni);
 
 
+app.use(function(req, res) {
+    res.redirect('/home.html');
+});
 
 /* Default 404 handler */
 app.use((req, res) => {
