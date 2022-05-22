@@ -72,7 +72,7 @@ function login() {
 
   .then(function(data) { // Here you get the data to modify as you please
     if(data.success) {
-      result = "bella";
+      result = data.token;
     }
 
     document.write(result);

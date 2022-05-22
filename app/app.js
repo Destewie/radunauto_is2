@@ -53,6 +53,8 @@ app.use((req,res,next) => {
 app.use('/api/login', Authentication);
 
 app.use('/api/users', Users);
+
+app.use('/api/clubs', TokenChecker);
 app.use('/api/clubs', Clubs);
 app.use('/api/raduni', Raduni);
 
