@@ -8,10 +8,7 @@ const tokenChecker = function(req, res, next) {
 
 	// if there is no token
 	if (!token) {
-		return res.status(401).send({
-			success: false,
-			message: 'No token provided.'
-		});
+		return res.redirect('/login.html');
 	}
 
 	// decode token, verifies secret and checks exp

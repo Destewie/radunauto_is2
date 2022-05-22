@@ -22,6 +22,8 @@ app.use(cors())
 app.use(CookieParser());
 
 
+app.use('/home.html', TokenChecker);
+app.use('/creazione_club.html', TokenChecker);
 /**
  * Serve front-end static files
  */
