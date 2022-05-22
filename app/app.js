@@ -51,7 +51,6 @@ app.use((req,res,next) => {
  * Resource routing
  */
 app.use('/api/login', authentication);
-app.use('/api/add_user', users);
 
 app.use('/api/users', Users);
 app.use('/api/clubs', Clubs);

@@ -55,6 +55,9 @@ function create_club() {
     }
 
     document.getElementById("risultato").innerHTML = outcome;
+  });
+}
+
 //----------------------------------------------------------------------------
 
 function login() {
