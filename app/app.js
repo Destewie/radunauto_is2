@@ -6,6 +6,7 @@ const authentication = require('./authentication.js');
 const tokenChecker = require('./tokenChecker.js');
 const Users = require('./users.js');
 const Clubs = require('./clubs.js');
+const Raduni = require('./raduni.js');
 const dotenv = require("dotenv").config();
 
 
@@ -77,9 +78,9 @@ app.use((req,res,next) => {
  * Resource routing
  */
 
-app.use('/api/v1/users', Users);
-app.use('/api/v1/clubs', Clubs);
-//app.use('/api/v1/booklendings', booklendings);
+app.use('/api/users', Users);
+app.use('/api/clubs', Clubs);
+app.use('/api/raduni', Raduni);
 
 app.use('/api/authenticate', authentication);
 
