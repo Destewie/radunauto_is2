@@ -4,43 +4,16 @@ const cors = require('cors');
 
 const authentication = require('./authentication.js');
 const tokenChecker = require('./tokenChecker.js');
-const Users = require('./users.js');
+const users = require('./users.js');
 const dotenv = require("dotenv").config();
 
 
-/**
- * Configure Express.js parsing middleware
- */
+// Configure Express.js parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-/**
- * CORS requests
- */
+// CORS requests
 app.use(cors())
-
-// // Add headers before the routes are defined
-// app.use(function (req, res, next) {
-
-//     // Website you wish to allow to connect
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-
-//     // Request methods you wish to allow
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-//     // Request headers you wish to allow
-//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-//     // Set to true if you need the website to include cookies in the requests sent
-//     // to the API (e.g. in case you use sessions)
-//     res.setHeader('Access-Control-Allow-Credentials', true);
-
-//     // Pass to next layer of middleware
-//     next();
-// });
-
 
 
 /**
@@ -49,7 +22,6 @@ app.use(cors())
 app.use('/', express.static(process.env.FRONTEND || 'static'));
 // If process.env.FRONTEND folder does not contain index.html then use the one from static
 app.use('../static/', express.static('static')); // expose also this folder
-
 
 
 app.use((req,res,next) => {
@@ -68,6 +40,7 @@ app.use((req,res,next) => {
 // access is restricted only to authenticated users
 // a valid token must be provided in the request
 //app.use('/api/v1/booklendings', tokenChecker);
+//app.use('/api/v1/booklendings', books);
 //app.use('/api/v1/students/me', tokenChecker);
 
 
@@ -75,11 +48,9 @@ app.use((req,res,next) => {
 /**
  * Resource routing
  */
+app.use('/api/login', authentication);
+app.use('/api/add_user', users);
 
-app.use('/api/v1/users', Users);
-//app.use('/api/v1/booklendings', booklendings);
-
-app.use('/api/authenticate', authentication);
 
 
 
@@ -88,7 +59,6 @@ app.use((req, res) => {
     res.status(404);
     res.json({ error: 'Not found' });
 });
-
 
 
 module.exports = app;
