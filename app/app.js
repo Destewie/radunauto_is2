@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const authentication = require('./authentication.js');
-const tokenChecker = require('./tokenChecker.js');
+const Authentication = require('./authentication.js');
+const TokenChecker = require('./tokenChecker.js');
 const Users = require('./users.js');
 const Clubs = require('./clubs.js');
 const Raduni = require('./raduni.js');
-const dotenv = require("dotenv").config();
+const Dotenv = require("dotenv").config();
 
 
 // Configure Express.js parsing middleware
@@ -50,13 +50,13 @@ app.use((req,res,next) => {
 /**
  * Resource routing
  */
-app.use('/api/login', authentication);
+app.use('/api/login', Authentication);
 
 app.use('/api/users', Users);
 app.use('/api/clubs', Clubs);
 app.use('/api/raduni', Raduni);
 
-app.use('/api/authenticate', authentication);
+app.use('/api/authenticate', Authentication);
 
 
 
