@@ -75,7 +75,7 @@ function login() {
       result = data.token;
     }
 
-    document.write(result);
+    window.location = "/home.html";
 
     return;
     }).catch( error => console.error(error));
