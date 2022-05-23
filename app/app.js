@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 
 const Authentication = require('./authentication.js');
+const Logout = require('./logout.js');
 const TokenChecker = require('./tokenChecker.js');
 const Users = require('./users.js');
 const Clubs = require('./clubs.js');
@@ -57,6 +58,7 @@ app.use((req,res,next) => {
  * Resource routing
  */
 app.use('/api/login', Authentication);
+app.use('/api/logout', Logout);
 
 app.use('/api/users', Users);
 

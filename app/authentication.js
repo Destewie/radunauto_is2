@@ -29,7 +29,6 @@ router.post('', async function(req, res) {
     //se trovo l'utente
 	else {
 
-
         try {
         	//controllo se la password arrivata nella richiesta corrisponde a quella nel db
             if(await bcrypt.compare(user.password, userFound.password)) {
@@ -46,7 +45,8 @@ router.post('', async function(req, res) {
 				}
 				var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
 
-        res.cookie("token", token);
+
+                res.cookie("token", token);
 
 				res.json({
 					success: true,
