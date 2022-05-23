@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Club = require('../models/club'); // get our mongoose model
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 const SALT_WORK_FACTOR = 10;

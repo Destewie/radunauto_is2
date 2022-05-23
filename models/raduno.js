@@ -5,5 +5,6 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('Raduno', new Schema({
 	title: String,
 	club: String,
-	description : String
+	description : String,
+	email: String
 }));

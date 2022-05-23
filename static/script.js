@@ -3,11 +3,12 @@
 function registration() {
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
+  var email = document.getElementById('email').value;
 
   fetch('../api/users', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify( { username: username, password: password } ),
+    body: JSON.stringify( { username: username, password: password, email: email } ),
     }).then((resp) => resp.json())
 
   .then(function(data) { // Here you get the data to modify as you please

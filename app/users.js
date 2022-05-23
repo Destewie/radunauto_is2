@@ -10,7 +10,8 @@ router.post('', async (req, res) => {
 		//creo un contenitore per un user basandomi su un modello per mongoose
 		var user = new User({
 	        username: req.body.username,
-	        password: req.body.password
+	        password: req.body.password,
+					email: req.body.email
 	    });
 
 		//cerco lo user in base allo username passato nel body della richiesta
