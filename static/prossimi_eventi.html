@@ -60,6 +60,8 @@
                 'data': { },
                 'success': function(response) {
 
+                  var response= $.parseJSON(response);
+
                   if (response.results) {
                     $('#eventi').html('ciao');
 
