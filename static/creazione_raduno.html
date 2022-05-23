@@ -43,19 +43,31 @@
 </div>
 </nav>
 
-  <h1 id="titolo"> Creazione raduno </h1>
+  <br>
 
-  <form id="form" action="/" method="POST">
-    Titolo<br>
-    <input type="text" id="title" name="title"><br><br>
-    Club<br>
-    <input type="text" id="club" name="club"><br><br>
-    Descrizione<br>
-    <input type="textarea" id="description" name="description"><br><br>
-    <button type="button" onclick="create_event()">Crea raduno</button>
-  </form>
+  <div class="container">
+    <h1 class="textcenter" id="titolo"> Creazione raduno </h1><br>
+
+  <div id="form" class="container">
+    <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Titolo</label>
+    <input type="text" class="form-control" id="title" name="title" placeholder="Titolo raduno">
+    </div>
+    <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Descrizione</label>
+    <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrizione raduno">
+    </textarea>
+    </div>
+    <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Club</label>
+    <input type="text" class="form-control" id="club" name="club" placeholder="Club">
+    </div>
+    <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="create_club()">Crea club</button>
+  </div>
 
   <p id="risultato"> </p>
+
+  </div>
 
 </body>
 
