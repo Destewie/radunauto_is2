@@ -8,7 +8,6 @@ const SALT_WORK_FACTOR = 10;
 router.get('', async (req, res) => {
     // https://mongoosejs.com/docs/api.html#model_Model.find
     let clubs = await Club.find({});
-    var token = req.cookies.token;
 
     clubs = clubs.map( (club) => {
         return {
