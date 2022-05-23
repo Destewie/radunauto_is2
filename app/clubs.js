@@ -33,8 +33,8 @@ router.post('', async (req, res) => {
 				name: req.body.name
 			}).exec();
 
-		if(findClub) {
-			res.json({ success: false, message: 'This club already exists.' });
+		if(findClub || club.name == "") {
+			res.json({ success: false, message: 'This club already exists o non ha un nome' });
 		}
 		else {
 			club = await club.save();

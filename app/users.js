@@ -18,12 +18,8 @@ router.post('', async (req, res) => {
 				username: req.body.username
 			}).exec();
 
-		//se l'utente viene trovato non va bene perché vogliamo che gli username siano univoci
-		if(userFound) {
-			res.json({ success: false, message: 'This username is used.' });
-		}
-		//in caso contrario, provvedo a fare l'hash della sua password e a salvarlo nel db
-		else {
+		//se l'utente non è stato trovato ed ha inserito una password qualsiasi, per noi va bene
+		if(!userFound && user.password != "" && user.username != "") {
 			//hash della password
 			const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
 			var hash = await bcrypt.hash(user.password, salt);
@@ -33,6 +29,16 @@ router.post('', async (req, res) => {
 			user = await user.save();
 
 	    	res.json({ success: true, message: 'User saved successfully' });
+		}
+		//se l'utente è stato trovato all'interno del db, non può registrarsi
+		else if (userFound){
+			res.json({ success: false, message: 'This username is used.' });
+		}
+		else if (user.username == ""){
+			res.json({ success: false, message: 'Il campo username non può essere lasciato vuoto!' });
+		}
+		else if (user.password == ""){
+			res.json({ success: false, message: 'La password non può essere vuota!' });
 		}
 
     /**
