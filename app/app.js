@@ -2,47 +2,31 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const authentication = require('./authentication.js');
-const tokenChecker = require('./tokenChecker.js');
+const Authentication = require('./authentication.js');
+const Logout = require('./logout.js');
+const TokenChecker = require('./tokenChecker.js');
 const Users = require('./users.js');
 const Clubs = require('./clubs.js');
 const Raduni = require('./raduni.js');
-const dotenv = require("dotenv").config();
+const Dotenv = require("dotenv").config();
+const CookieParser = require('cookie-parser');
 
 
-/**
- * Configure Express.js parsing middleware
- */
+// Configure Express.js parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-/**
- * CORS requests
- */
+// CORS requests
 app.use(cors())
 
-// // Add headers before the routes are defined
-// app.use(function (req, res, next) {
+// cookie parser
+app.use(CookieParser());
 
-//     // Website you wish to allow to connect
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-
-//     // Request methods you wish to allow
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-//     // Request headers you wish to allow
-//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-//     // Set to true if you need the website to include cookies in the requests sent
-//     // to the API (e.g. in case you use sessions)
-//     res.setHeader('Access-Control-Allow-Credentials', true);
-
-//     // Pass to next layer of middleware
-//     next();
-// });
-
+//Sicurezza di base
+//Per fare in modo che un utente non loggato non possa richiedere queste pagine
+app.use('/home.html', TokenChecker);
+app.use('/creazione_club.html', TokenChecker);
+app.use('/creazione_raduno.html', TokenChecker);
 
 
 /**
@@ -53,45 +37,34 @@ app.use('/', express.static(process.env.FRONTEND || 'static'));
 app.use('../static/', express.static('static')); // expose also this folder
 
 
-
 app.use((req,res,next) => {
     console.log(req.method + ' ' + req.url)
     next()
 })
 
 
-
-/**
- * Authentication routing and middleware
- */
-//app.use('/api/v1/authentications', authentication);
-
-// Protect booklendings endpoint
-// access is restricted only to authenticated users
-// a valid token must be provided in the request
-//app.use('/api/v1/booklendings', tokenChecker);
-//app.use('/api/v1/students/me', tokenChecker);
-
-
-
 /**
  * Resource routing
  */
+app.use('/api/login', Authentication);
+app.use('/api/logout', Logout);
 
 app.use('/api/users', Users);
+
+app.use('/api/clubs', TokenChecker);
 app.use('/api/clubs', Clubs);
 app.use('/api/raduni', Raduni);
 
-app.use('/api/authenticate', authentication);
 
-
+app.use(function(req, res) {
+    res.redirect('/home.html');
+});
 
 /* Default 404 handler */
 app.use((req, res) => {
     res.status(404);
     res.json({ error: 'Not found' });
 });
-
 
 
 module.exports = app;
