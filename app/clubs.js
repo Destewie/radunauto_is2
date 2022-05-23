@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Club = require('../models/club'); // get our mongoose model
+const jwt = require('jsonwebtoken');
 
 const SALT_WORK_FACTOR = 10;
 
@@ -20,9 +21,12 @@ router.get('', async (req, res) => {
 
 
 router.post('', async (req, res) => {
+    var token = req.cookies.token;
+    const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+
 		var club = new Club({
 	        name: req.body.name,
-	        owner: req.body.owner
+	        owner: payload.username
 	    });
 
 		let findClub = await Club.findOne({

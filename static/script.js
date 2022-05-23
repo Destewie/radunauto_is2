@@ -35,15 +35,44 @@ function registration() {
 
 function create_club() {
   var name = document.getElementById('name').value;
-  var owner = document.getElementById('owner').value;
 
   fetch('../api/clubs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify( { name: name, owner: owner } ),
+    body: JSON.stringify( { name: name } ),
     }).then((resp) => resp.json())
 
   .then(function(data) { // Here you get the data to modify as you please
+    var result = data.success;
+
+    document.getElementById("form").innerHTML = "";
+    document.getElementById("titolo").innerHTML = "Esito creazione club";
+
+    var outcome;
+
+    if(result == true) {
+      outcome = "Club creato con successo";
+    }
+    else {
+      outcome = "Errore";
+    }
+
+    document.getElementById("risultato").innerHTML = outcome;
+  });
+}
+
+function create_event() {
+  var title = document.getElementById('title').value;
+  var club = document.getElementById('club').value;
+  var description = document.getElementById('description').value;
+
+  fetch('../api/raduni', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { title: title, description: description } ),
+    }).then((resp) => resp.json())
+
+  .then(function(data) {
     var result = data.success;
 
     document.getElementById("form").innerHTML = "";
@@ -74,13 +103,13 @@ function login() {
     body: JSON.stringify( { username: username, password: password } ),
     }).then((resp) => resp.json())
 
-  .then(function(data) { 
+  .then(function(data) {
     // qui "data" è il json che è stato tornato da  authentication
     //volendo qui puoi fare quello che vuoi con quel json
     if(data.success) {
       window.location = "/home.html"; //se il login è andato, rimando alla home
     } else {
-      window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login 
+      window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login
     }
 
     return;
@@ -109,14 +138,14 @@ function getCookie(name) {
   // because unescape has been deprecated, replaced with decodeURI
   //return unescape(dc.substring(begin + prefix.length, end));
   return decodeURI(dc.substring(begin + prefix.length, end));
-} 
+}
 
 //----------------------------------------------------------------------------
 
 function logout() {
   var cookie = getCookie("token");
 
-  //faccio una richiesta POST a /api/logout 
+  //faccio una richiesta POST a /api/logout
   fetch('../api/logout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -128,7 +157,7 @@ function logout() {
     if(data.success) {
       window.location = "/logout.html"; //se il login è andato, rimando alla home
     } else {
-      window.location = "home.html"; //se il login non è andato, rimando di nuovo alla pagina del login 
+      window.location = "home.html"; //se il login non è andato, rimando di nuovo alla pagina del login
     }
 
     return;

@@ -50,17 +50,11 @@
       <div class="row align-items-center">
         <h1 class="" id="titolo"> Creazione club </h1> <br>
 
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="name" placeholder="Nome Club">
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Nome Proprietario</label>
-          <input type="text" class="form-control" id="owner" placeholder="Mario Rossi">
-        </div>
-        <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="create_club()">Crea club</button>
-      </div>
-    </div>
+  <form id="form" action="/" method="POST">
+    Nome<br>
+    <input type="text" id="name" name="name"><br><br>
+    <button type="button" onclick="create_club()">Crea club</button>
+  </form>
 
   <p id="risultato"> </p>
   <p id="a"> </p>
