@@ -9,7 +9,7 @@ router.post('', async (req, res) => {
 	        title: req.body.title, //il titolo sarà univoco tra i raduni
             club: req.body.club,
             description: req.body.description
-	    });
+        });
 
         //cerca il raduno basandosi sul titolo (che è univoco)
 		let findRaduno = await Raduno.findOne({
@@ -24,12 +24,6 @@ router.post('', async (req, res) => {
 
 	    res.json({ success: true, message: 'Event successfully created' });
 		}
-
-    /**
-     * Link to the newly created resource is returned in the Location header
-     * https://www.restapitutorial.com/lessons/httpmethods.html
-     */
-    //res.location("/api/v1/user/" + userId).status(201).send();
 });
 
 //----------------------------------------------------------------------------

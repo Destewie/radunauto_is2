@@ -41,12 +41,6 @@ router.post('', async (req, res) => {
 
 	    res.json({ success: true, message: 'Club successfully created' });
 		}
-
-    /**
-     * Link to the newly created resource is returned in the Location header
-     * https://www.restapitutorial.com/lessons/httpmethods.html
-     */
-    //res.location("/api/v1/user/" + userId).status(201).send();
 });
 
 module.exports = router;
