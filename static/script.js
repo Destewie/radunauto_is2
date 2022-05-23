@@ -70,7 +70,7 @@ function create_event() {
   fetch('../api/raduni', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify( { title: title, description: description } ),
+    body: JSON.stringify( { title: title, description: description, club: club } ),
     }).then((resp) => resp.json())
 
   .then(function(data) {
