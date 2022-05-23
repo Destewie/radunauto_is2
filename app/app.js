@@ -22,9 +22,13 @@ app.use(cors())
 // cookie parser
 app.use(CookieParser());
 
-
+//Sicurezza di base
+//Per fare in modo che un utente non loggato non possa richiedere queste pagine
 app.use('/home.html', TokenChecker);
 app.use('/creazione_club.html', TokenChecker);
+app.use('/creazione_raduno.html', TokenChecker);
+
+
 /**
  * Serve front-end static files
  */
@@ -37,21 +41,6 @@ app.use((req,res,next) => {
     console.log(req.method + ' ' + req.url)
     next()
 })
-
-
-
-/**
- * Authentication routing and middleware
- */
-//app.use('/api/v1/authentications', authentication);
-
-// Protect booklendings endpoint
-// access is restricted only to authenticated users
-// a valid token must be provided in the request
-//app.use('/api/v1/booklendings', tokenChecker);
-//app.use('/api/v1/booklendings', books);
-//app.use('/api/v1/students/me', tokenChecker);
-
 
 
 /**
