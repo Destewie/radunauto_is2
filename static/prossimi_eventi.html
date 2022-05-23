@@ -60,19 +60,19 @@
                 'data': { },
                 'success': function(response) {
 
-                  var response= $.parseJSON(response);
+                  console.log(response);
 
-                  if (response.results) {
+                  if (response) {
                     $('#eventi').html('ciao');
-
-                        var html = '';
-                        for (var i = 0; i < response.results.length; i++) {
-                            html += '<table><thead class="thead-default"> <tr> <th>Reitur</th> <th>Gildi</th> </tr> </thead>';
-                            html += '<tr><td>Tegund</td><td>' + response.results[i].title + '</td></tr>';
-                            html += '</table><p>&nbsp</p>';
+                        var html = '<br><div class=container-lg textcenter>';
+                        html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th></tr></thead>';
+                        for (var i = 0; i < response.length; i++) {
+                          html += "<tr><td>" + response[i].title + "</td><td>" + response[i].club + "</td><td>" + response[i].description + "</td></tr>";
                         }
 
-                        //$('#eventi').html(html);
+                        html += "</table></div>";
+
+                        $('#eventi').html(html);
                 }
 
               }

@@ -81,7 +81,7 @@ function create_event() {
     var outcome;
 
     if(result == true) {
-      outcome = "Club creato con successo";
+      outcome = "Raduno creato con successo";
     }
     else {
       outcome = "Errore";
