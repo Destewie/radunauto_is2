@@ -1,13 +1,31 @@
 {
-    "dependencies": {
-        "bcrypt": "^5.0.1",
-        "bcrypt-nodejs": "^0.0.3",
-        "bcryptjs": "^2.4.3",
-        "cookie-parser": "^1.4.6",
-        "cors": "^2.8.5",
-        "dotenv": "^16.0.1",
-        "express": "^4.18.1",
-        "jsonwebtoken": "^8.5.1",
-        "mongoose": "^6.3.3"
-    }
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bcrypt-nodejs": "^0.0.3",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.3"
+  },
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
+  "name": "radunauto_is2",
+  "description": "Repo GitHub per il progetto di ingegneria del software 2",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Destewie/radunauto_is2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Destewie/radunauto_is2/issues"
+  },
+  "homepage": "https://github.com/Destewie/radunauto_is2#readme"
 }
