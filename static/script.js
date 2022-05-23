@@ -22,7 +22,7 @@ function registration() {
       outcome = "Registrazione effettuata con successo";
     }
     else {
-      outcome = "Username già esistente";
+      outcome = "Username già esistente o campi necessari non compilati";
     }
 
     document.getElementById("risultato").innerHTML = outcome;
