@@ -29,25 +29,11 @@ router.post('', async function(req, res) {
     //se trovo l'utente
 	else {
 
-	// if user is found and password is right create a token
-	var payload = {
-		username: user.username,
-		id: user._id
-		// other data encrypted in the token
-	}
-	var options = {
-		expiresIn: 86400 // expires in 24 hours
-	}
-	var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
-
-	res.json({
-		success: true,
-		message: 'Enjoy your token!',
-		token: token,
-		email: user.username,
-		id: user._id,
-		self: "api/v1/" + user._id
-	});
+        try {
+        	//controllo se la password arrivata nella richiesta corrisponde a quella nel db
+            if(await bcrypt.compare(user.password, userFound.password)) {
+				//se sei qui è perché hai azzeccato sia il nome utente che la password
+                console.log(user.username + " sei dentro! :)");
 
 				//creo il token
 				var payload = {
