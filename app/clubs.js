@@ -20,9 +20,12 @@ router.get('', async (req, res) => {
 
 
 router.post('', async (req, res) => {
+    var token = req.cookies.token;
+    const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+
 		var club = new Club({
 	        name: req.body.name,
-	        owner: req.body.owner
+	        owner: payload.username
 	    });
 
 		let findClub = await Club.findOne({
