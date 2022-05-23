@@ -61,6 +61,36 @@ function create_club() {
   });
 }
 
+function create_event() {
+  var title = document.getElementById('title').value;
+  var club = document.getElementById('club').value;
+  var description = document.getElementById('description').value;
+
+  fetch('../api/raduni', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { title: title, description: description } ),
+    }).then((resp) => resp.json())
+
+  .then(function(data) {
+    var result = data.success;
+
+    document.getElementById("form").innerHTML = "";
+    document.getElementById("titolo").innerHTML = "Esito creazione club";
+
+    var outcome;
+
+    if(result == true) {
+      outcome = "Club creato con successo";
+    }
+    else {
+      outcome = "Errore";
+    }
+
+    document.getElementById("risultato").innerHTML = outcome;
+  });
+}
+
 //----------------------------------------------------------------------------
 
 function login() {
@@ -79,7 +109,8 @@ function login() {
     if(data.success) {
       window.location = "/home.html"; //se il login è andato, rimando alla home
     } else {
-      window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login
+      document.getElementById('errore').innerHTML = "Username o password errati";
+      //window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login
     }
 
     return;

@@ -24,7 +24,8 @@ router.post('', async function(req, res) {
     //se non trovo l'utente
 	if(userFound == null) {
 		console.log("Utente non trovato");
-        return res.status(400).send("Non siamo riusciti a trovare l'utente in questione");
+        res.json({ success: false, message: 'login errato' });
+        return;
     }
     //se trovo l'utente
 	else {
@@ -45,8 +46,7 @@ router.post('', async function(req, res) {
 				}
 				var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
 
-
-                res.cookie("token", token);
+        res.cookie("token", token);
 
 				res.json({
 					success: true,
