@@ -109,7 +109,8 @@ function login() {
     if(data.success) {
       window.location = "/home.html"; //se il login è andato, rimando alla home
     } else {
-      window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login
+      document.getElementById('errore').innerHTML = "Username o password errati";
+      //window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login
     }
 
     return;
