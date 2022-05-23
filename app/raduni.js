@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Raduno = require('../models/raduno'); // get our mongoose model
 
+//----------------------------------------------------------------------------
+
 router.post('', async (req, res) => {
 		var raduno = new Raduno({
 	        title: req.body.title,
@@ -26,5 +28,21 @@ router.post('', async (req, res) => {
      */
     //res.location("/api/v1/user/" + userId).status(201).send();
 });
+
+//----------------------------------------------------------------------------
+
+router.get('', (req, res) => {
+    let tuttiRaduni = await Raduno.find({});
+
+    tuttiRaduni = tuttiRaduni.map( (raduno) => {
+        return {
+            name: raduno.name,
+            owner: raduno.owner
+        };
+    });
+    res.status(200).json(tuttiRaduni);
+});
+
+//----------------------------------------------------------------------------
 
 module.exports = router;
