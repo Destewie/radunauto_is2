@@ -3,78 +3,175 @@ HOST: https://polls.apiblueprint.org/
 
 # radunauto
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+API per visualizzare, creare e gestire i raduni d'auto d'epoca.
 
-## Questions Collection [/questions]
 
-### List All Questions [GET]
+## Registration [/api/users]
 
-+ Response 200 (application/json)
+### Create a New User [POST]
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+Crea un nuovo utente nel sistema.
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "username": "username",
+            "password": "password",
+            "email": "email"
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /api/users
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "success": true,
+                "message": "User saved successfully"
+            }
+            
+            
+## Login [/api/login]
+
+### Login [POST]
+
+Verifica username e password inseriti e fa accedere l'utente al sito.
+
++ Request (application/json)
+
+        {
+            "username": "username",
+            "password": "password"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/login
+
+    + Body
+
+            {
+                "success": true,
+                "username": "username",
+                "message": "Adesso che sei loggato, goditi il token!",
+                "token": "token"
+            }
+            
+
+## Logout [/api/logout]
+
+### Logout [POST]
+
+Revoca il token di accesso all'utente.
+
++ Request (application/json)
+
+        {
+            "cookie": "cookie"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/login
+
+    + Body
+
+            {
+                "success": true,
+                "message": "Logout avvenuto con successo"
+            }
+            
+
+## Clubs [/api/clubs]
+
+### List Clubs [GET]
+
+Restituisce la lista dei club.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "name": "name",
+                "owner": "owner"
+            }
+        ]
+
+### Create a new club [POST]
+
+Crea un nuovo club.
+
++ Request (application/json)
+
+        {
+            "name": "name",
+            "owner": "owner"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/clubs
+
+    + Body
+
+            {
+                "success": true,
+                "message": "Club successfully created"
+            }
+                       
+
+## Raduni [/api/raduni]
+
+### Create a new event [POST]
+
+Crea un nuovo raduno.
+
++ Request (application/json)
+
+        {   
+            "title": "title",
+            "club": "club",
+            "description": "description",
+            "email": "email"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/raduni     
+
+    + Body
+
+            {
+                "success": true,
+                "message": "Event successfully created"
+            }
+            
+### List raduni [GET]
+
+Restituisce la lista dei raduni.
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/raduni     
+
+    + Body
+
+            {
+                "title": "title",
+                "description": "description",
+                "club": "club",
+                "email": "email"
             }
