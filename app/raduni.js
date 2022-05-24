@@ -7,18 +7,20 @@ const jwt = require('jsonwebtoken');
 //----------------------------------------------------------------------------
 
 router.post('', async (req, res) => {
+        //il token mi serve per prendere la mail dell'utente che sta facendo la richiesta
 		var token = req.cookies.token;
 		const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
 
+        //prendo l'utente con username uguale a quello presente nel token
 		let user = await User.findOne({
 			name: payload.username
 		}).exec();
 
 		var raduno = new Raduno({
-	        	title: req.body.title, //il titolo sarà univoco tra i raduni
+            title: req.body.title, //il titolo sarà univoco tra i raduni
             club: req.body.club,
             description: req.body.description,
-						email: user.email
+            email: user.email
         });
 
         //cerca il raduno basandosi sul titolo (che è univoco)
@@ -31,8 +33,7 @@ router.post('', async (req, res) => {
 		}
 		else {
 			raduno = await raduno.save();
-
-	    res.json({ success: true, message: 'Event successfully created' });
+	        res.json({ success: true, message: 'Event successfully created' });
 		}
 });
 
@@ -46,7 +47,7 @@ router.get('', async (req, res) => {
             title: raduno.title,
             club: raduno.club,
             description: raduno.description,
-						email: raduno.email
+            email: raduno.email
         };
     });
     res.status(200).json(tuttiRaduni);
