@@ -60,10 +60,10 @@
                 'data': { },
                 'success': function(response) {
 
-                  console.log(response);
+                  console.log(response); //response è il json contenente tutti gli eventi
 
                   if (response) {
-                    $('#eventi').html('ciao');
+                    $('#eventi').html('ciao'); //test
                         var html = '<br><div class=container-lg textcenter>';
                         html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th>Email per l\'iscrizione</th></tr></thead>';
                         for (var i = 0; i < response.length; i++) {
@@ -72,7 +72,7 @@
 
                         html += "</table></div>";
 
-                        $('#eventi').html(html);
+                        $('#eventi').html(html); //va a mettere tutto dento all'elemento con id = eventi
                 }
 
               }
