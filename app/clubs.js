@@ -20,6 +20,16 @@ router.get('', async (req, res) => {
     res.status(200).json(clubs);
 });
 
+router.get('/:owner', async (req, res) => {
+    // https://mongoosejs.com/docs/api.html#model_Model.find
+
+    let club = await Club.findOne({
+			owner: req.params.owner
+		}).exec();
+
+    res.status(200).json(club);
+});
+
 
 router.post('', async (req, res) => {
     var token = req.cookies.token;
