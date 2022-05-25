@@ -2,18 +2,23 @@ const express = require('express');
 const router = express.Router();
 const Raduno = require('../models/raduno'); // get our mongoose model
 const User = require('../models/user');
+const Club = require('../models/club');
 const jwt = require('jsonwebtoken');
 
 //----------------------------------------------------------------------------
 
 router.post('', async (req, res) => {
-        //il token mi serve per prendere la mail dell'utente che sta facendo la richiesta
+  	//il token mi serve per prendere la mail dell'utente che sta facendo la richiesta
 		var token = req.cookies.token;
 		const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
 
-        //prendo l'utente con username uguale a quello presente nel token
+    //prendo l'utente con username uguale a quello presente nel token
 		let user = await User.findOne({
 			name: payload.username
+		}).exec();
+
+		let club = await Club.findOne({
+			name: req.body.club
 		}).exec();
 
 		var raduno = new Raduno({
@@ -23,12 +28,12 @@ router.post('', async (req, res) => {
             email: user.email
         });
 
-        //cerca il raduno basandosi sul titolo (che è univoco)
+    //cerca il raduno basandosi sul titolo (che è univoco)
 		let findRaduno = await Raduno.findOne({
 				title: req.body.title
 			}).exec();
 
-		if(findRaduno || raduno.title == "") {
+		if(findRaduno || raduno.title == "" || !club || club.owner != payload.username) {
 			res.json({ success: false, message: 'Error.' });
 		}
 		else {
