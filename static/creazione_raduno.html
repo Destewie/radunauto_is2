@@ -11,7 +11,12 @@
   <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"></script>
+  crossorigin="anonymous">
+  </script>
+
+  <script src=
+  "https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js">
+  </script>
 </head>
 
 <body>
@@ -76,12 +81,13 @@
   </div>
 
   <script>
+
     $(document).ready(function() {
       $.ajax({
                 'url': '/api/clubs',
                 'type': 'GET',
                 'dataType': 'json',
-                'data': { 'owner': 'a'},
+                'data': { },
                 'success': function(response) {
 
                   console.log(response); //response è il json contenente tutti gli eventi
@@ -90,7 +96,9 @@
                         var html = '';
 
                         for (var i = 0; i < response.length; i++) {
-                          html += '<option>' + response[i].name + '</option>';
+                          if($.cookie('username') == response[i].owner) {
+                            html += '<option>' + response[i].name + '</option>';
+                          }
                         }
 
                         $('#club').html(html); //va a mettere tutto dentro all'elemento con id = eventi

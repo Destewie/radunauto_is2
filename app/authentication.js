@@ -47,6 +47,7 @@ router.post('', async function(req, res) {
 				var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
 
         res.cookie("token", token);
+        res.cookie("username", user.username);
 
 				res.json({
 					success: true,
