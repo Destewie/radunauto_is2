@@ -75,10 +75,17 @@
                         for (var i = 0; i < response.length; i++) {
                           var idBtn = "btn"+ response[i].title;
                           
+                          var usernameCookie = getCookie("username");
+                          
                           //creo la riga del singolo evento
 
-                          //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone
-                          if(response[i].subscribers.includes(getCookie("username"))) {
+                          if(usernameCookie == null) {
+                            //se un utente non autenticato vuole vedere la pagina dei prossimi eventi non avrà un cookie e i tasti lo rimanderanno alla pagina del login
+                            console.log("cookie username = " + usernameCookie);
+                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button class="btn btn-outline-primary"><a href="./login.html"> Devi fare il login!</a></button> </td></tr>';
+                          }
+                          else if(response[i].subscribers.includes(usernameCookie)) {
+                            //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone per registrarsi
                             html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub(\''+ response[i].title +'\')" disabled>Iscriviti!</button> </td></tr>';
                           }
                           else {
