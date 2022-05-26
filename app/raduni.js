@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 
 //----------------------------------------------------------------------------
 
+//ISCRIVE AL RADUNO L'UTENTE CHE FA LA RICHIESTA
 router.post('/add_subscriber', async(req, res) => {
 	//devo pigliarmi il raduno a cui voglio aggiungere un subscruber
 	let findRaduno = await Raduno.findOne({
@@ -49,6 +50,7 @@ router.post('/add_subscriber', async(req, res) => {
 
 //----------------------------------------------------------------------------
 
+//AGGIUNGE UN RADUNO
 router.post('', async (req, res) => {
   	//il token mi serve per prendere la mail dell'utente che sta facendo la richiesta
 		var token = req.cookies.token;
@@ -86,6 +88,7 @@ router.post('', async (req, res) => {
 
 //----------------------------------------------------------------------------
 
+//GET DI TUTTI I RADUNI
 router.get('', async (req, res) => {
     let tuttiRaduni = await Raduno.find({});
 
