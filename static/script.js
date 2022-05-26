@@ -167,3 +167,18 @@ function logout() {
 };
 
 //----------------------------------------------------------------------------
+
+function add_sub(titoloRaduno) {
+  console.log("bottone premuto");
+  var cookie = getCookie("token");
+
+  //faccio una POST asincrona alla api che ho in raduni.js
+  fetch('../api/raduni/add_subscriber', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({title: titoloRaduno, cookie:cookie})
+  }).then((resp) => resp.json()); //magari dopo ci faccio qualcosa con questo json risposta... boh
+
+}
+
+//----------------------------------------------------------------------------

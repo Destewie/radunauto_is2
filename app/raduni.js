@@ -72,7 +72,7 @@ router.post('', async (req, res) => {
 			//aggiugni iscritti
         });
 
-    //cerca il raduno basandosi sul titolo (che è univoco)
+    	//cerca il raduno basandosi sul titolo (che è univoco)
 		let findRaduno = await Raduno.findOne({
 				title: req.body.title
 			}).exec();
@@ -90,14 +90,14 @@ router.post('', async (req, res) => {
 
 //GET DI TUTTI I RADUNI
 router.get('', async (req, res) => {
-    let tuttiRaduni = await Raduno.find({});
+let tuttiRaduni = await Raduno.find({});
 
     tuttiRaduni = tuttiRaduni.map( (raduno) => {
         return {
             title: raduno.title,
             club: raduno.club,
             description: raduno.description,
-			//aggiungi iscritti
+			subscribers: raduno.subscribers
         };
     });
     res.status(200).json(tuttiRaduni);

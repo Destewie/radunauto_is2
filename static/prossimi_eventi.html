@@ -9,11 +9,15 @@
     src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
     crossorigin="anonymous"></script>
+    
+    <script src="script.js"></script>
 
     <title> Eventi </title>
   </head>
 
   <body>
+
+  <!-- navbar -->
     <nav class="navbar navbar-expand-lg" style="background-color: #ffb4b0;">
   <div class="container-fluid">
     <a class="navbar-brand" href="/home.html">Radunauto</a>
@@ -47,6 +51,7 @@
     </div>
   </div>
 </nav>
+  <!-- fine navbar -->
 
   <div id='eventi'>
 
@@ -66,9 +71,9 @@
                   if (response) {
                     $('#eventi').html('ciao'); //test
                         var html = '<br><div class=container-lg textcenter>';
-                        html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th style=\"text-align:center\">Visualizza raduno</th></tr></thead>';
+                        html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
                         for (var i = 0; i < response.length; i++) {
-                          html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + "</td><td style=\"text-align:center\"> <button type=\"button\">Info</button> </td></tr>";
+                          html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button type="button" class="btn btn-outline-primary" onclick="add_sub(\''+ response[i].title +'\')">Iscriviti!</button> </td></tr>';
                         }
 
                         html += "</table></div>";
@@ -81,10 +86,5 @@
     });
   </script>
   
-  <form id="form" action="/api/raduni/add_subscriber" method="POST">
-    Titolo raduno:<input type="text" id="title" name="title"><br><br>
-    <button type="submit">Aggiungi utente</button>
-  </form>
-
   </body>
 </html>
