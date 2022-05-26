@@ -137,8 +137,7 @@ function getCookie(name) {
       end = dc.length;
       }
   }
-  // because unescape has been deprecated, replaced with decodeURI
-  //return unescape(dc.substring(begin + prefix.length, end));
+
   return decodeURI(dc.substring(begin + prefix.length, end));
 }
 
@@ -169,7 +168,6 @@ function logout() {
 //----------------------------------------------------------------------------
 
 function add_sub(titoloRaduno) {
-  console.log("bottone premuto");
   var cookie = getCookie("token");
 
   //faccio una POST asincrona alla api che ho in raduni.js
@@ -181,6 +179,9 @@ function add_sub(titoloRaduno) {
 
   .then(function(data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
     // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
+    
+    document.getElementById("btn"+titoloRaduno).disabled = true; //disattiva il bottone dopo averlo premuto
+
     if(data.success) {
       alert("Iscrizione avvenuta con successo!")
     } else {

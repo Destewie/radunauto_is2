@@ -73,7 +73,18 @@
                         var html = '<br><div class=container-lg textcenter>';
                         html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
                         for (var i = 0; i < response.length; i++) {
-                          html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button type="button" class="btn btn-outline-primary" onclick="add_sub(\''+ response[i].title +'\')">Iscriviti!</button> </td></tr>';
+                          var idBtn = "btn"+ response[i].title;
+                          
+                          //creo la riga del singolo evento
+
+                          //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone
+                          if(response[i].subscribers.includes(getCookie("username"))) {
+                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub(\''+ response[i].title +'\')" disabled>Iscriviti!</button> </td></tr>';
+                          }
+                          else {
+                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub(\''+ response[i].title +'\')" >Iscriviti!</button> </td></tr>';
+                          }
+
                         }
 
                         html += "</table></div>";
