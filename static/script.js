@@ -177,8 +177,18 @@ function add_sub(titoloRaduno) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({title: titoloRaduno, cookie:cookie})
-  }).then((resp) => resp.json()); //magari dopo ci faccio qualcosa con questo json risposta... boh
+  }).then((resp) => resp.json()) 
 
+  .then(function(data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
+    // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
+    if(data.success) {
+      alert("Iscrizione avvenuta con successo!")
+    } else {
+      alert("Sei già iscritto a questo evento")
+    }
+
+    return;
+    }).catch( error => console.error(error));
 }
 
 //----------------------------------------------------------------------------
