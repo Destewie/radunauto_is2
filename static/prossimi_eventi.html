@@ -66,9 +66,9 @@
                   if (response) {
                     $('#eventi').html('ciao'); //test
                         var html = '<br><div class=container-lg textcenter>';
-                        html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th>Visualizza raduno</th></tr></thead>';
+                        html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th style=\"text-align:center\">Visualizza raduno</th></tr></thead>';
                         for (var i = 0; i < response.length; i++) {
-                          html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + "</td><td> Futuro bottone </td></tr>";
+                          html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + "</td><td style=\"text-align:center\"> <button type=\"button\">Info</button> </td></tr>";
                         }
 
                         html += "</table></div>";
