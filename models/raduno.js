@@ -7,6 +7,6 @@ module.exports = mongoose.model('Raduno', new Schema({
 	club: String,
 	description: String,
 	subscribers: [
-		{username: String}
+		{type : String}
 	]
 }));

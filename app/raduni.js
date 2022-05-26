@@ -7,6 +7,48 @@ const jwt = require('jsonwebtoken');
 
 //----------------------------------------------------------------------------
 
+router.post('/add_subscriber', async(req, res) => {
+	//devo pigliarmi il raduno a cui voglio aggiungere un subscruber
+	let findRaduno = await Raduno.findOne({
+			title: req.body.title
+		}).exec();
+	
+	if(!findRaduno) {
+		res.json({success: false, message: 'Raduno non trovato'});
+	} 
+	else {
+		//prendo e verifico il token
+		var token = req.cookies.token;
+		const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+
+		//mi prendo l'array del raduno trovato nel db
+		var iscritti = findRaduno.subscribers;
+
+		//controllo che l'utente non sia già iscritto
+		if(iscritti.includes(payload.username)) {
+			res.json({success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti al raduno"});
+		}
+		else {
+			//se non dovesse essere già iscritto
+			//aggiorno l'array con lo username del nuovo iscritto
+			iscritti.push(payload.username);
+			
+			iscritti.forEach(element => {
+				console.log(element);
+			});
+
+			const filter = { title: req.body.title };
+			const update = { subscribers: iscritti};
+
+			const oldRaduno = await Raduno.updateOne(filter, update);
+
+			res.json({success: true, message: 'Raduno modificato', raduno: oldRaduno});
+		}
+	}
+});
+
+//----------------------------------------------------------------------------
+
 router.post('', async (req, res) => {
   	//il token mi serve per prendere la mail dell'utente che sta facendo la richiesta
 		var token = req.cookies.token;
@@ -34,7 +76,7 @@ router.post('', async (req, res) => {
 			}).exec();
 
 		if(findRaduno || raduno.title == "" || !club || club.owner != payload.username) {
-			res.json({ success: false, message: 'Error.' });
+			res.json({ success: false, message: 'Informazioni per la creazione del raduno errate' });
 		}
 		else {
 			raduno = await raduno.save();
