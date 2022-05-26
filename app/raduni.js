@@ -25,7 +25,7 @@ router.post('', async (req, res) => {
             title: req.body.title, //il titolo sarà univoco tra i raduni
             club: req.body.club,
             description: req.body.description,
-            email: user.email
+			//aggiugni iscritti
         });
 
     //cerca il raduno basandosi sul titolo (che è univoco)
@@ -52,7 +52,7 @@ router.get('', async (req, res) => {
             title: raduno.title,
             club: raduno.club,
             description: raduno.description,
-            email: raduno.email
+			//aggiungi iscritti
         };
     });
     res.status(200).json(tuttiRaduni);
