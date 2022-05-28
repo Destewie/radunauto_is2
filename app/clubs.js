@@ -14,7 +14,8 @@ router.get('', async (req, res) => {
     clubs = clubs.map( (club) => {
         return {
             name: club.name,
-            owner: club.owner
+            owner: club.owner,
+			subscribers : club.subscribers
         };
     });
     res.status(200).json(clubs);
