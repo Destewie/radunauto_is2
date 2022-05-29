@@ -1,27 +1,34 @@
 <html>
 
 <head>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
   <script src="script.js"> </script>
 </head>
 
 <body>
 
-  <h1> Login </h1>
-
-  <br>
-
   <p id="errore"> </p>
 
-  <form id="form" method="POST">
-    Username<br>
-    <input type="text" id="username" name="username"><br><br>
-    Password<br>
-    <input type="password" id="password" name="password"><br><br>
-    <button type="button" onclick="login()">Login</button>
-  </form>
+  <div class="container d-flex">
+    <div class="mx-auto">
+      <h1 class="textcenter"> Login </h1> <br>
 
-  <br><br>
-  Non hai un account? <a href="registrazione.html"> Registrati </a>
+      <form id="form" method="POST">
+        Username<br>
+        <input type="text" id="username" name="username"><br><br>
+        Password<br>
+        <input type="password" id="password" name="password"><br><br>
+        <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="login()">Login</button>
+      </form>
+
+      <br><br>
+      Non hai un account? <a href="registrazione.html"> Registrati </a>
+    </div>
+  </div>
 
 </body>
 
