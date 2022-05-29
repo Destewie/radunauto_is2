@@ -1,5 +1,4 @@
 <html>
-  <head>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
@@ -9,13 +8,14 @@
     src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
     crossorigin="anonymous"></script>
-
+    
     <script src="script.js"></script>
 
-    <title> Eventi </title>
+    <title> Club </title>
   </head>
 
   <body>
+
 
   <!-- navbar -->
     <nav class="navbar navbar-expand-lg" style="background-color: #ffb4b0;">
@@ -28,7 +28,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item dropdown">
-          <a class="nav-link active dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Eventi
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -39,7 +39,7 @@
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link active dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Club
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -50,70 +50,56 @@
         </li>
 
       </ul>
-
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="" id="navbarDropRight" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Impostazioni
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropRight">
-            <li><a class="dropdown-item" href="" onclick="logout()"> Logout </a></li>
-          </ul>
-        </li>
-      </ul>
     </div>
   </div>
 </nav>
   <!-- fine navbar -->
 
-  <div id='eventi'>
-
-  </div>
-
+    <div id='clubs'>
+    </div>
+  
   <script>
     $(document).ready(function() {
       $.ajax({
-                'url': '/api/raduni',
+                'url': '/api/clubs',
                 'type': 'GET',
                 'dataType': 'json',
                 'data': { },
                 'success': function(response) {
 
                   if (response) {
-                    $('#eventi').html('ciao'); //test
+                    $('#clubs').html('ciao'); //test
                         var html = '<br><div class=container-lg textcenter>';
-                        html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
+                        html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
                         for (var i = 0; i < response.length; i++) {
-                          var idBtn = "btn"+ response[i].title;
-
+                          var idBtn = "btn"+ response[i].name;
+                                                    
                           var usernameCookie = getCookie("username");
-
-                          //creo la riga del singolo evento
-
+                          
                           if(usernameCookie == null) {
                             //se un utente non autenticato vuole vedere la pagina dei prossimi eventi non avrà un cookie e i tasti lo rimanderanno alla pagina del login
                             console.log("cookie username = " + usernameCookie);
-                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button class="btn btn-outline-primary"><a href="./login.html"> Devi fare il login!</a></button> </td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + "</td><td style=\"text-align:center\"> <button class=\"btn\" style=\"background-color: #ffb4b0;\"><a href=\"./login.html\"> Devi fare il login!</a></button> </td></tr>";
                           }
                           else if(response[i].subscribers.includes(usernameCookie)) {
                             //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone per registrarsi
-                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_raduno(\''+ response[i].title +'\')" disabled>Iscriviti!</button> </td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\''+ response[i].name +'\')" disabled>Entra nel club!</button> </td></tr>';
                           }
                           else {
-                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_raduno(\''+ response[i].title +'\')" >Iscriviti!</button> </td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\''+ response[i].name +'\')" >Entra nel club!</button> </td></tr>';
                           }
 
                         }
 
                         html += "</table></div>";
 
-                        $('#eventi').html(html); //va a mettere tutto dento all'elemento con id = eventi
+                        $('#clubs').html(html); //va a mettere tutto dento all'elemento con id = eventi
                 }
 
               }
             });
     });
   </script>
-
+  
   </body>
 </html>

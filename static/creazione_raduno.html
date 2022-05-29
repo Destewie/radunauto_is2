@@ -45,6 +45,8 @@
           Club
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="/lista_club.html">Tutti i club</a></li>
+          <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="/creazione_club.html">Crea club</a></li>
         </ul>
       </li>
@@ -104,16 +106,27 @@
 
                   console.log(response); //response è il json contenente tutti gli eventi
 
+                  var nClub = 0;
+
                   if (response) {
-                        var html = '';
+                      var html = '';
 
-                        for (var i = 0; i < response.length; i++) {
-                          if($.cookie('username') == response[i].owner) {
-                            html += '<option>' + response[i].name + '</option>';
-                          }
+                      for (var i = 0; i < response.length; i++) {
+                        if($.cookie('username') == response[i].owner) {
+                          nClub = nClub + 1;
+                          html += '<option>' + response[i].name + '</option>';
                         }
+                      }
+                      
+                      if(nClub > 0) {
+                        $('#club').html(html); //va a mettere tutto dentro all'elemento con id = club
+                      }
+                      else {
+                        html = '<h3> Purtroppo puoi creare dei raduni solo se hai un club. </h3><br>';
+                        html += '<button class="btn" style="background-color: #ffb4b0;" type="button" onclick=""><a href=\"./creazione_club.html\">Crea il tuo primo club!</a></button>';
+                        $('#form').html(html);
+                      }
 
-                        $('#club').html(html); //va a mettere tutto dentro all'elemento con id = eventi
                 }
 
               }
