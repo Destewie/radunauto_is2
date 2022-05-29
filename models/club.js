@@ -5,4 +5,8 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('Club', new Schema({
 	name: String,
 	owner: String,
+	subscribers: [
+		{type : String}
+	]
+
 }));
