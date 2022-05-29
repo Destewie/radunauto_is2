@@ -51,11 +51,14 @@ app.use('/api/logout', Logout);
 
 app.use('/api/users', Users);
 
-app.use('/api/clubs', TokenChecker);
 app.use('/api/clubs', Clubs);
+app.use('/api/clubs', TokenChecker);
+app.use('/api/clubs/add_subscriber', Clubs);
 
-app.use('/api/raduni/add_user', Raduni);
+//non sono sicuro che quest'ordine delle api funzioni
 app.use('/api/raduni', Raduni);
+app.use('/api/raduni', TokenChecker);
+app.use('/api/raduni/add_subscriber', Raduni);
 
 
 app.use(function(req, res) {

@@ -86,10 +86,10 @@
                           }
                           else if(response[i].subscribers.includes(usernameCookie)) {
                             //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone per registrarsi
-                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub(\''+ response[i].title +'\')" disabled>Iscriviti!</button> </td></tr>';
+                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_raduno(\''+ response[i].title +'\')" disabled>Iscriviti!</button> </td></tr>';
                           }
                           else {
-                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub(\''+ response[i].title +'\')" >Iscriviti!</button> </td></tr>';
+                            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_raduno(\''+ response[i].title +'\')" >Iscriviti!</button> </td></tr>';
                           }
 
                         }

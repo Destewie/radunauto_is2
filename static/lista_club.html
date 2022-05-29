@@ -55,7 +55,7 @@
 </nav>
   <!-- fine navbar -->
 
-    <div id='eventi'>
+    <div id='clubs'>
     </div>
   
   <script>
@@ -68,15 +68,14 @@
                 'success': function(response) {
 
                   if (response) {
-                    $('#eventi').html('ciao'); //test
+                    $('#clubs').html('ciao'); //test
                         var html = '<br><div class=container-lg textcenter>';
                         html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
                         for (var i = 0; i < response.length; i++) {
                           var idBtn = "btn"+ response[i].name;
-                          
+                                                    
                           var usernameCookie = getCookie("username");
                           
-
                           if(usernameCookie == null) {
                             //se un utente non autenticato vuole vedere la pagina dei prossimi eventi non avrà un cookie e i tasti lo rimanderanno alla pagina del login
                             console.log("cookie username = " + usernameCookie);
@@ -84,17 +83,17 @@
                           }
                           else if(response[i].subscribers.includes(usernameCookie)) {
                             //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone per registrarsi
-                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="" disabled>Entra nel club!</button> </td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\''+ response[i].name +'\')" disabled>Entra nel club!</button> </td></tr>';
                           }
                           else {
-                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="" >Entra nel club!</button> </td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\''+ response[i].name +'\')" >Entra nel club!</button> </td></tr>';
                           }
 
                         }
 
                         html += "</table></div>";
 
-                        $('#eventi').html(html); //va a mettere tutto dento all'elemento con id = eventi
+                        $('#clubs').html(html); //va a mettere tutto dento all'elemento con id = eventi
                 }
 
               }
