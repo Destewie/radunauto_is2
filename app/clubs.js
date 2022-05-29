@@ -58,7 +58,8 @@ router.post('', async (req, res) => {
 
 		var club = new Club({
 	        name: req.body.name,
-	        owner: payload.username
+	        owner: payload.username,
+			subscribers: [payload.username]
 	    });
 
 		let findClub = await Club.findOne({
