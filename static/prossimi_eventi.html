@@ -9,7 +9,7 @@
     src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
     crossorigin="anonymous"></script>
-    
+
     <script src="script.js"></script>
 
     <title> Eventi </title>
@@ -48,6 +48,17 @@
         </li>
 
       </ul>
+
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="" id="navbarDropRight" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Impostazioni
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropRight">
+            <li><a class="dropdown-item" href="" onclick="logout()"> Logout </a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
@@ -74,9 +85,9 @@
                         html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
                         for (var i = 0; i < response.length; i++) {
                           var idBtn = "btn"+ response[i].title;
-                          
+
                           var usernameCookie = getCookie("username");
-                          
+
                           //creo la riga del singolo evento
 
                           if(usernameCookie == null) {
@@ -103,6 +114,6 @@
             });
     });
   </script>
-  
+
   </body>
 </html>
