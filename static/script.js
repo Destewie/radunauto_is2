@@ -248,9 +248,9 @@ function filtra_mieiClub() {
                         }
                         else {
                           //mostro i club di cui l'utente è proprietario
-                          html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th></tr></thead>';
+                          html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th>Gestisci iscritti</tr></thead>';
                           for (var i = 0; i < response.length; i++) {
-                              html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td><button type="button" class="btn btn-primary" onclick="">Iscritti</button></td></tr>';
                           }
                           html += "</table></div>";
                         }
