@@ -56,9 +56,10 @@ router.post('', async function(req, res) {
 					token: token,
 				});
 
-			}
+			   }
             else {
-                res.send("Non autorizzato :(");
+                res.json({success: false,
+                message: 'Login non autorizzato'});
             }
         }
         catch (err) {

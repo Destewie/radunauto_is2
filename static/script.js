@@ -208,12 +208,12 @@ function add_sub_club(nomeClub) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({name: nomeClub, cookie:cookie})
-  }).then((resp) => resp.json()) 
+  }).then((resp) => resp.json())
 
   .then(function(data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
     // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
     console.log(data.message)
-    
+
     document.getElementById("btn"+nomeClub).disabled = true; //disattiva il bottone dopo averlo premuto
 
     if(data.success) {
