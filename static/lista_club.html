@@ -65,6 +65,10 @@
   </div>
 </nav>
   <!-- fine navbar -->
+  
+  Mostra solo i club di cui sei proprietario -> <button type="button" onclick="filtra_mieiClub()" class="btn btn-primary"> <i>Filtra</i> </button><br>
+  
+  <br>
 
     <div id='clubs'>
     </div>
@@ -75,7 +79,7 @@
                 'url': '/api/clubs',
                 'type': 'GET',
                 'dataType': 'json',
-                'data': { },
+                'data': {},
                 'success': function(response) {
 
                   if (response) {

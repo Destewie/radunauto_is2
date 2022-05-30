@@ -227,3 +227,40 @@ function add_sub_club(nomeClub) {
 }
 
 //----------------------------------------------------------------------------
+
+function filtra_mieiClub() {
+  var usernameCookie = getCookie("username");
+  
+      $.ajax ({
+                'url': '/api/clubs',
+                'type': 'GET',
+                'dataType': 'json',
+                'data': {proprietario: usernameCookie},
+                'success': function(response) {
+
+                  if (response) {
+                    $('#clubs').html('ciao'); //test
+                        var html = '<br><div class=container-lg textcenter>';
+                    
+                        //se l'utente non è loggato non può filtrare i club per vedere solo quelli di cui è proprietario
+                        if(usernameCookie == null) {
+                          html = 'Purtroppo per vedere i tuoi club devi aver fatto il <a href="login.html">login</a>';
+                        }
+                        else {
+                          //mostro i club di cui l'utente è proprietario
+                          html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th></tr></thead>';
+                          for (var i = 0; i < response.length; i++) {
+                              html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td></tr>';
+                          }
+                          html += "</table></div>";
+                        }
+
+
+                        $('#clubs').html(html); //va a mettere tutto dento all'elemento con id = eventi
+                }
+
+              }
+        });
+}
+
+//----------------------------------------------------------------------------

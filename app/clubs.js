@@ -82,6 +82,19 @@ module.exports = router;
 
 router.get('', async (req, res) => {
     // https://mongoosejs.com/docs/api.html#model_Model.find
+	console.log(req.query.proprietario);
+	
+	if(req.query.proprietario != null) {
+		console.log("il proprietario non è null nella richiesta");
+		getMieiClub(req, res);
+	}
+	else {
+		console.log("get di base");
+		getDiBase(res);
+	}
+});
+
+async function getDiBase(res) {
     let clubs = await Club.find({});
 
     clubs = clubs.map( (club) => {
@@ -92,6 +105,19 @@ router.get('', async (req, res) => {
         };
     });
     res.status(200).json(clubs);
-});
+}
+
+async function getMieiClub(req, res) {
+	let clubs = await Club.find({owner: req.query.proprietario});
+
+    clubs = clubs.map( (club) => {
+        return {
+            name: club.name,
+            owner: club.owner,
+			subscribers : club.subscribers
+        };
+    });
+    res.status(200).json(clubs);
+}
 
 //-------------------------------------------------------------------------------------------
