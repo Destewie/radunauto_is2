@@ -239,7 +239,10 @@ function filtra_mieiClub() {
                 'success': function(response) {
 
                   if (response) {
-                    $('#clubs').html('ciao'); //test
+                    //per modificare la riga sopra alla tabella
+                    $('#filtro').html("");
+
+                    //per modificare la lista dei club
                         var html = '<br><div class=container-lg textcenter>';
                     
                         //se l'utente non è loggato non può filtrare i club per vedere solo quelli di cui è proprietario
