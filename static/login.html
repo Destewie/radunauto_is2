@@ -11,21 +11,25 @@
 
 <body>
 
+  <div id="login_alert" class="alert alert-danger" style="display: none" role="alert">
+    Username o password errati
+  </div>
+
   <p id="errore"> </p>
 
-  <div class="container d-flex">
-    <div class="mx-auto">
+  <div class="container-fluid d-flex">
+    <div class="mx-auto"><br><br>
       <h1 class="textcenter"> Login </h1> <br>
 
       <form id="form" method="POST">
         Username<br>
-        <input type="text" id="username" name="username"><br><br>
+        <input class="form-control" type="text" id="username" name="username"><br>
         Password<br>
-        <input type="password" id="password" name="password"><br><br>
+        <input class="form-control" type="password" id="password" name="password"><br><br>
         <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="login()">Login</button>
       </form>
 
-      <br><br>
+      <br>
       Non hai un account? <a href="registrazione.html"> Registrati </a>
     </div>
   </div>

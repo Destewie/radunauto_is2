@@ -14,19 +14,25 @@ function registration() {
   .then(function(data) { // Here you get the data to modify as you please
     var result = data.success;
 
-    document.getElementById("form").innerHTML = "";
-    document.getElementById("titolo").innerHTML = "Esito registrazione";
-
     var outcome;
 
     if(result == true) {
-      outcome = "Registrazione effettuata con successo";
+      outcome = "Registrazione effettuata con successo, ";
+
+      //document.getElementById("form").innerHTML = "";
+      //document.getElementById("titolo").innerHTML = "Registrazione effettuata con successo";
+
+      document.getElementById("registration_alert").className = "alert alert-success";
+      document.getElementById("registration_alert").innerHTML = outcome + '<a href="login.html">Accedi</a>';
+      document.getElementById("registration_alert").style = "display: block";
     }
     else {
-      outcome = "Username già esistente o campi necessari non compilati";
-    }
+      outcome = "Username già esistente";
 
-    document.getElementById("risultato").innerHTML = outcome;
+      document.getElementById("registration_alert").className = "alert alert-danger";
+      document.getElementById("registration_alert").innerHTML = outcome;
+      document.getElementById("registration_alert").style = "display: block";
+    }
 
     return;
     }).catch( error => console.error(error));
@@ -110,7 +116,7 @@ function login() {
     if(data.success) {
       window.location = "/home.html"; //se il login è andato, rimando alla home
     } else {
-      document.getElementById('errore').innerHTML = "Username o password errati";
+      document.getElementById("login_alert").style = "display: block";
       //window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login
     }
 
@@ -175,11 +181,11 @@ function add_sub(titoloRaduno) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({title: titoloRaduno, cookie:cookie})
-  }).then((resp) => resp.json()) 
+  }).then((resp) => resp.json())
 
   .then(function(data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
     // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
-    
+
     document.getElementById("btn"+titoloRaduno).disabled = true; //disattiva il bottone dopo averlo premuto
 
     if(data.success) {
