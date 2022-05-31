@@ -13,34 +13,34 @@ router.post('/remove_subscriber', async (req, res) => {
 
 	//devo pigliarmi il club da cui voglio togliere un subscruber
 	let clubFound = await Club.findOne({
-			name: req.body.nomeClub
-		}).exec();
-	
-	if(!clubFound) {
+		name: req.body.nomeClub
+	}).exec();
+
+	if (!clubFound) {
 		//se il club in questione non esiste
-		res.json({success: false, message: 'Club non trovato'});
+		res.json({ success: false, message: 'Club non trovato' });
 	}
-	else if(clubFound.subscribers.indexOf(nomeUtente) == -1) {
+	else if (clubFound.subscribers.indexOf(nomeUtente) == -1) {
 		//se l'utente non è iscritto al club
-		res.json({success: false, message: 'Non puoi rimuovere dal club un utente non iscritto'});
+		res.json({ success: false, message: 'Non puoi rimuovere dal club un utente non iscritto' });
 	}
-	else if(clubFound.owner == nomeUtente) { 
-		res.json({success: false, message: 'Non puoi rimuovere il proprietario del club'});
+	else if (clubFound.owner == nomeUtente) {
+		res.json({ success: false, message: 'Non puoi rimuovere il proprietario del club' });
 	}
 	else {
 		//devo togliere l'utente dal club
 		let index = clubFound.subscribers.indexOf(nomeUtente);
-		if(index > -1) {
+		if (index > -1) {
 			clubFound.subscribers.splice(index, 1);
 		}
-		
+
 		//devo aggiornare il club
-		clubFound.save(function(err) {
-			if(err) {
-				res.json({success: false, message: 'Errore nell\'aggiornamento del club'});
+		clubFound.save(function (err) {
+			if (err) {
+				res.json({ success: false, message: 'Errore nell\'aggiornamento del club' });
 			}
 			else {
-				res.json({success: true, message: 'Utente rimosso dal club'});
+				res.json({ success: true, message: 'Utente rimosso dal club' });
 			}
 		});
 	}
@@ -48,88 +48,111 @@ router.post('/remove_subscriber', async (req, res) => {
 
 //-------------------------------------------------------------------------------------------
 
-router.post('/add_subscriber', async(req, res) => {
-	
+router.post('/add_subscriber', async (req, res) => {
+
 	console.log("Entro in /add_subscriber di clubs");
 
 	//devo pigliarmi il club da cui voglio aggiungere un subscruber
 	let clubFound = await Club.findOne({
-			name: req.body.name
-		}).exec();
-	
-	if(!clubFound) {
+		name: req.body.name
+	}).exec();
+
+	if (!clubFound) {
 		//se il club in questione non esiste
-		res.json({success: false, message: 'Club non trovato'});
-	} 
+		res.json({ success: false, message: 'Club non trovato' });
+	}
 	else {
 		//prendo e verifico il token
 		var token = req.cookies.token;
-		const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+		const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
 
 		//mi prendo l'array del club trovato nel db
 		var iscritti = clubFound.subscribers;
 
 		//controllo che l'utente non sia già iscritto
-		if(iscritti.includes(payload.username)) {
-			res.json({success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti del club"});
+		if (iscritti.includes(payload.username)) {
+			res.json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti del club" });
 		}
 		else {
 			//se non dovesse essere già iscritto
 			//aggiorno l'array con lo username del nuovo iscritto
 			iscritti.push(payload.username);
-			
+
 			iscritti.forEach(element => {
 				console.log(element);
 			});
 
 			const filter = { name: req.body.name };
-			const update = { subscribers: iscritti};
+			const update = { subscribers: iscritti };
 
 			const oldClub = await Club.updateOne(filter, update);
 
-			res.json({success: true, message: 'Club modificato', club: oldClub});
+			res.json({ success: true, message: 'Club modificato', club: oldClub });
 		}
 	}
 });
 
 //-------------------------------------------------------------------------------------------
 
+
 router.post('', async (req, res) => {
-    var token = req.cookies.token;
-    const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+	var token = req.cookies.token;
+	const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
 
-		var club = new Club({
-	        name: req.body.name,
-	        owner: payload.username,
-			subscribers: [payload.username]
-	    });
+	var club = new Club({
+		name: req.body.name,
+		owner: payload.username,
+		subscribers: [payload.username]
+	});
 
-		let findClub = await Club.findOne({
-				name: req.body.name
-			}).exec();
+	let findClub = await Club.findOne({
+		name: req.body.name
+	}).exec();
 
-		if(club.name == "") {
-			res.json({success: false, message: 'Nome del club non valido'});
-		}
-		else if(findClub) {
-			res.json({ success: false, message: 'Club già esistente' });
-		}
-		else {
-			club = await club.save();
+	if (club.name == "") {
+		res.json({ success: false, message: 'Nome del club non valido' });
+	}
+	else if (findClub) {
+		res.json({ success: false, message: 'Club già esistente' });
+	}
+	else {
+		club = await club.save();
 
-	    res.json({ success: true, message: 'Club successfully created' });
-		}
+		res.json({ success: true, message: 'Club successfully created' });
+	}
 });
 
 module.exports = router;
 
 //-------------------------------------------------------------------------------------------
 
+//ritorna gli iscritti ad un particolare club
+router.get('/subscribers', async (req, res) => {
+	if (req.query.nomeClub) {
+		let clubFound = await Club.findOne({
+			name: req.query.nomeClub
+		}).exec();
+
+		if (!clubFound) {
+			res.json({ success: false, message: 'Club non trovato' });
+		}
+		else {
+			res.status(200).json({ success: true, owner: clubFound.owner, nomeClub: clubFound.name, subscribers: clubFound.subscribers });
+		}
+	}
+	else {
+		res.json({ success: false, message: 'Nessun club specificato nei parametri della URL' });
+	}
+});
+
+//-------------------------------------------------------------------------------------------
+
+//torna tutti i club
 router.get('', async (req, res) => {
-    // https://mongoosejs.com/docs/api.html#model_Model.find
+	// https://mongoosejs.com/docs/api.html#model_Model.find
 	console.log(req.query.proprietario);
-	
-	if(req.query.proprietario != null) {
+
+	if (req.query.proprietario != null) {
 		console.log("il proprietario non è null nella richiesta");
 		getMieiClub(req, res);
 	}
@@ -140,29 +163,29 @@ router.get('', async (req, res) => {
 });
 
 async function getDiBase(res) {
-    let clubs = await Club.find({});
+	let clubs = await Club.find({});
 
-    clubs = clubs.map( (club) => {
-        return {
-            name: club.name,
-            owner: club.owner,
-			subscribers : club.subscribers
-        };
-    });
-    res.status(200).json(clubs);
+	clubs = clubs.map((club) => {
+		return {
+			name: club.name,
+			owner: club.owner,
+			subscribers: club.subscribers
+		};
+	});
+	res.status(200).json(clubs);
 }
 
 async function getMieiClub(req, res) {
-	let clubs = await Club.find({owner: req.query.proprietario});
+	let clubs = await Club.find({ owner: req.query.proprietario });
 
-    clubs = clubs.map( (club) => {
-        return {
-            name: club.name,
-            owner: club.owner,
-			subscribers : club.subscribers
-        };
-    });
-    res.status(200).json(clubs);
+	clubs = clubs.map((club) => {
+		return {
+			name: club.name,
+			owner: club.owner,
+			subscribers: club.subscribers
+		};
+	});
+	res.status(200).json(clubs);
 }
 
 //-------------------------------------------------------------------------------------------

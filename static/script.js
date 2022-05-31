@@ -228,6 +228,34 @@ function add_sub_club(nomeClub) {
 
 //----------------------------------------------------------------------------
 
+function remove_sub_club(userName, clubName) {
+  //faccio una POST asincrona alla api che ho in raduni.js
+  fetch('../api/clubs/remove_subscriber', { 
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({nomeUtente: userName, nomeClub: clubName})
+  }).then((resp) => resp.json())
+
+  .then(function(data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
+    // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
+    console.log(data.message)
+
+    btnId = "btnRm"+userName;
+    document.getElementById(btnId).disabled = true; //disattiva il bottone dopo averlo premuto
+
+    if(data.success) {
+      alert("Utente rimosso con successo!")
+    } else {
+      alert("Ci sono stati problemi nella rimozione dell'utente")
+    }
+
+    return;
+    }).catch( error => console.error(error));
+}
+
+//----------------------------------------------------------------------------
+
+//modifica il contenuto della div con id="clubs" riempiendola solo con club di cui l'utente attivo è proprietario
 function filtra_mieiClub() {
   var usernameCookie = getCookie("username");
   
@@ -252,8 +280,9 @@ function filtra_mieiClub() {
                         else {
                           //mostro i club di cui l'utente è proprietario
                           html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th>Gestisci iscritti</tr></thead>';
+                          btnId = 'btnRm'+usernameCookie;
                           for (var i = 0; i < response.length; i++) {
-                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td><button type="button" class="btn btn-primary" onclick="">Iscritti</button></td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td><button id="'+ btnId +'" type="button" class="btn btn-primary" onclick="apriPaginaIscritti(\''+ response[i].name+'\')">Iscritti</button></td></tr>';
                           }
                           html += "</table></div>";
                         }
@@ -264,6 +293,12 @@ function filtra_mieiClub() {
 
               }
         });
+}
+
+//----------------------------------------------------------------------------
+
+function apriPaginaIscritti(nomeClub) {
+  window.location.href = "iscritti_club.html?nomeClub="+nomeClub;
 }
 
 //----------------------------------------------------------------------------
