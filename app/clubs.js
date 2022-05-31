@@ -58,6 +58,7 @@ router.post('/add_subscriber', async(req, res) => {
 		}).exec();
 	
 	if(!clubFound) {
+		//se il club in questione non esiste
 		res.json({success: false, message: 'Club non trovato'});
 	} 
 	else {
@@ -107,8 +108,11 @@ router.post('', async (req, res) => {
 				name: req.body.name
 			}).exec();
 
-		if(findClub || club.name == "") {
-			res.json({ success: false, message: 'This club already exists o non ha un nome' });
+		if(club.name == "") {
+			res.json({success: false, message: 'Nome del club non valido'});
+		}
+		else if(findClub) {
+			res.json({ success: false, message: 'Club già esistente' });
 		}
 		else {
 			club = await club.save();
