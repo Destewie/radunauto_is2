@@ -14,6 +14,55 @@
   </head>
 
   <body>
+    <!-- navbar -->
+      <nav class="navbar navbar-expand-lg" style="background-color: #ffb4b0;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/home.html">Radunauto</a>
+      <button class="navbar-toggler" typ
+  		console.log(club.name);e="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Eventi
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/prossimi_eventi.html">Prossimi eventi</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/creazione_raduno.html">Crea evento</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Club
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/lista_club.html">Tutti i club</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/creazione_club.html">Crea club</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropRight" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Impostazioni
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropRight">
+              <li><a class="dropdown-item" href="" onclick="logout()"> Logout </a></li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+    <!-- fine navbar -->
+
     <br><br>
     <div class="container-fluid d-flex">
       <div class="mx-auto">
@@ -40,14 +89,16 @@
                       for(var i = 0; i < response.length; i++) {
                         html += '<div class="d-flex w-100 justify-content-between">';
                         html += '<h5 class="mb-1">' + response[i].title + '</h5>';
-                        html += '<small>' + response[i].timestamp + '</small>';
+                        html += '<small>' + response[i].timestamp.slice(11, 16) + ' ' + response[i].timestamp.slice(0, 10) + '</small>';
                         html += '</div>';
                         html += '<p class="mb-1">' + response[i].description + '</p>';
-                        html += '<b><h6>' + response[i].author + '</h6></b>';
+                        html += '<b><h6>autore: </b>' + response[i].author + '</h6>';
                         html += '<br><br>';
                       }
 
-                      console.log(html);
+                      if(response.length == 0) { // se non ci sono post da stampare
+                        html = 'Al momento sembra che non ci sia alcun post';
+                      }
 
                       $('#listaPost').html(html);
                     }
