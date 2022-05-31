@@ -19,6 +19,12 @@ router.post('/remove_subscriber', async (req, res) => {
 	if(!clubFound) {
 		res.json({success: false, message: 'Club non trovato'});
 	}
+	else if(clubFound.subscribers.indexOf(nomeUtente) == -1) {
+		res.json({success: false, message: 'Non puoi rimuovere dal club un utente non iscritto'});
+	}
+	else if(clubFound.owner == nomeUtente) { 
+		res.json({success: false, message: 'Non puoi rimuovere il proprietario del club'});
+	}
 	else {
 		//devo togliere l'utente dal club
 		let index = clubFound.subscribers.indexOf(nomeUtente);
