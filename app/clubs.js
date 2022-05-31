@@ -7,11 +7,44 @@ const jwt = require('jsonwebtoken');
 const SALT_WORK_FACTOR = 10;
 
 //-------------------------------------------------------------------------------------------
+
+router.post('/remove_subscriber', async (req, res) => {
+	var nomeUtente = req.body.nomeUtente;
+
+	//devo pigliarmi il club da cui voglio togliere un subscruber
+	let clubFound = await Club.findOne({
+			name: req.body.nomeClub
+		}).exec();
+	
+	if(!clubFound) {
+		res.json({success: false, message: 'Club non trovato'});
+	}
+	else {
+		//devo togliere l'utente dal club
+		let index = clubFound.subscribers.indexOf(nomeUtente);
+		if(index > -1) {
+			clubFound.subscribers.splice(index, 1);
+		}
+		
+		//devo aggiornare il club
+		clubFound.save(function(err) {
+			if(err) {
+				res.json({success: false, message: 'Errore nell\'aggiornamento del club'});
+			}
+			else {
+				res.json({success: true, message: 'Utente rimosso dal club'});
+			}
+		});
+	}
+});
+
+//-------------------------------------------------------------------------------------------
+
 router.post('/add_subscriber', async(req, res) => {
 	
 	console.log("Entro in /add_subscriber di clubs");
 
-	//devo pigliarmi il raduno a cui voglio aggiungere un subscruber
+	//devo pigliarmi il club da cui voglio aggiungere un subscruber
 	let clubFound = await Club.findOne({
 			name: req.body.name
 		}).exec();

@@ -54,6 +54,7 @@ app.use('/api/users', Users);
 app.use('/api/clubs', Clubs);
 app.use('/api/clubs', TokenChecker);
 app.use('/api/clubs/add_subscriber', Clubs);
+app.use('/api/clubs/remove_subscriber', Clubs);
 
 //non sono sicuro che quest'ordine delle api funzioni
 app.use('/api/raduni', Raduni);
