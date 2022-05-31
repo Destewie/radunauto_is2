@@ -266,5 +266,5 @@ function filtra_mieiClub() {
 //----------------------------------------------------------------------------
 
 function show_club_feed(nomeClub) {
-  console.log(nomeClub);
+  window.location.href = "/club_feed.html?club=" + nomeClub;
 }

@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+
+    <title> Club Feed </title>
+  </head>
+
+  <body>
+    <br><br>
+    <div class="container-fluid d-flex">
+      <div class="mx-auto">
+        <div class="list-group" id="listaPost">
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var parameterList = new URLSearchParams(window.location.search);
+      var club = parameterList.get("club"); // prendo il club dai parametri
+
+      $(document).ready(function() {
+        $.ajax({
+                  'url': '/api/club_posts',
+                  'type': 'GET',
+                  'dataType': 'json',
+                  'data': { club: club },
+                  'success': function(response) {
+
+                    if(response) {
+                      var html = "";
+
+                      for(var i = 0; i < response.length; i++) {
+                        html += '<div class="d-flex w-100 justify-content-between">';
+                        html += '<h5 class="mb-1">' + response[i].title + '</h5>';
+                        html += '<small>' + response[i].timestamp + '</small>';
+                        html += '</div>';
+                        html += '<p class="mb-1">' + response[i].description + '</p>';
+                        html += '<b><h6>' + response[i].author + '</h6></b>';
+                        html += '<br><br>';
+                      }
+
+                      console.log(html);
+
+                      $('#listaPost').html(html);
+                    }
+                  }
+                });
+      });
+    </script>
+
+  </body>
+</html>

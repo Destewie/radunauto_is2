@@ -98,7 +98,8 @@
                             html += '<td style="text-align: center"> <button id="' + idBtn + 'feed' + ' type="button" class="btn btn-outline-primary" onclick="show_club_feed(\'' + response[i].name + '\')"> Visualizza </button> </td></tr>';
                           }
                           else {
-                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\''+ response[i].name +'\')" >Entra nel club!</button> </td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\''+ response[i].name +'\')" >Entra nel club!</button> </td>';
+                            html += '<td style="text-align: center"> <button id="' + idBtn + 'feed' + ' type="button" class="btn btn-outline-primary disabled" onclick="show_club_feed(\'' + response[i].name + '\')"> Visualizza </button> </td></tr>';
                           }
 
                         }
