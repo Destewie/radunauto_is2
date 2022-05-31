@@ -8,17 +8,17 @@ const SALT_WORK_FACTOR = 10;
 
 //-------------------------------------------------------------------------------------------
 router.post('/add_subscriber', async(req, res) => {
-	
+
 	console.log("Entro in /add_subscriber di clubs");
 
 	//devo pigliarmi il raduno a cui voglio aggiungere un subscruber
 	let clubFound = await Club.findOne({
 			name: req.body.name
 		}).exec();
-	
+
 	if(!clubFound) {
 		res.json({success: false, message: 'Club non trovato'});
-	} 
+	}
 	else {
 		//prendo e verifico il token
 		var token = req.cookies.token;
@@ -35,7 +35,7 @@ router.post('/add_subscriber', async(req, res) => {
 			//se non dovesse essere già iscritto
 			//aggiorno l'array con lo username del nuovo iscritto
 			iscritti.push(payload.username);
-			
+
 			iscritti.forEach(element => {
 				console.log(element);
 			});
@@ -83,7 +83,7 @@ module.exports = router;
 router.get('', async (req, res) => {
     // https://mongoosejs.com/docs/api.html#model_Model.find
 	console.log(req.query.proprietario);
-	
+
 	if(req.query.proprietario != null) {
 		console.log("il proprietario non è null nella richiesta");
 		getMieiClub(req, res);

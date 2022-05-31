@@ -230,7 +230,7 @@ function add_sub_club(nomeClub) {
 
 function filtra_mieiClub() {
   var usernameCookie = getCookie("username");
-  
+
       $.ajax ({
                 'url': '/api/clubs',
                 'type': 'GET',
@@ -241,7 +241,7 @@ function filtra_mieiClub() {
                   if (response) {
                     $('#clubs').html('ciao'); //test
                         var html = '<br><div class=container-lg textcenter>';
-                    
+
                         //se l'utente non è loggato non può filtrare i club per vedere solo quelli di cui è proprietario
                         if(usernameCookie == null) {
                           html = 'Purtroppo per vedere i tuoi club devi aver fatto il <a href="login.html">login</a>';
@@ -264,3 +264,7 @@ function filtra_mieiClub() {
 }
 
 //----------------------------------------------------------------------------
+
+function show_club_feed(nomeClub) {
+  console.log(nomeClub);
+}
