@@ -101,6 +101,7 @@ router.post('', async (req, res) => {
 
 	var club = new Club({
 		name: req.body.name,
+		description: req.body.description,
 		owner: payload.username,
 		subscribers: [payload.username]
 	});

@@ -42,11 +42,14 @@ function registration() {
 
 function create_club() {
   var name = document.getElementById('name').value;
+  var description = document.getElementById('description').value;
 
   fetch('../api/clubs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify( { name: name } ),
+    body: JSON.stringify( { name: name,
+                            description: description
+    } ),
     }).then((resp) => resp.json())
 
   .then(function(data) { // Here you get the data to modify as you please
@@ -230,7 +233,7 @@ function add_sub_club(nomeClub) {
 
 function remove_sub_club(userName, clubName) {
   //faccio una POST asincrona alla api che ho in raduni.js
-  fetch('../api/clubs/remove_subscriber', { 
+  fetch('../api/clubs/remove_subscriber', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({nomeUtente: userName, nomeClub: clubName})
@@ -258,7 +261,7 @@ function remove_sub_club(userName, clubName) {
 //modifica il contenuto della div con id="clubs" riempiendola solo con club di cui l'utente attivo è proprietario
 function filtra_mieiClub() {
   var usernameCookie = getCookie("username");
-  
+
       $.ajax ({
                 'url': '/api/clubs',
                 'type': 'GET',
@@ -272,7 +275,7 @@ function filtra_mieiClub() {
 
                     //per modificare la lista dei club
                         var html = '<br><div class=container-lg textcenter>';
-                    
+
                         //se l'utente non è loggato non può filtrare i club per vedere solo quelli di cui è proprietario
                         if(usernameCookie == null) {
                           html = 'Purtroppo per vedere i tuoi club devi aver fatto il <a href="login.html">login</a>';
