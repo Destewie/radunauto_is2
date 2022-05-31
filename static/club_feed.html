@@ -88,6 +88,19 @@
 
       $(document).ready(function() {
         $.ajax({
+                  'url': '/api/clubs',
+                  'type': 'GET',
+                  'dataType': 'json',
+                  'data': { name: club },
+                  'success': function(response) {
+
+                    if(response) {
+                      $('#descrizioneClub').html(response[0].description);
+                    }
+                  }
+                });
+
+        $.ajax({
                   'url': '/api/club_posts',
                   'type': 'GET',
                   'dataType': 'json',
