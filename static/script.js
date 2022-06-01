@@ -313,3 +313,61 @@ function apriPaginaIscritti(nomeClub) {
 }
 
 //----------------------------------------------------------------------------
+
+function show_club_feed(nomeClub) {
+  window.location.href = "/club_feed.html?club=" + nomeClub;
+}
+
+//----------------------------------------------------------------------------
+
+function show_post_form() {
+  document.getElementById('mostrapostform').style = "background-color: #ffb4b0; display: none";
+  document.getElementById('form').style = "display: block";
+}
+
+//----------------------------------------------------------------------------
+
+function hide_post_form() {
+  document.getElementById('mostrapostform').style = "background-color: #ffb4b0; display: block";
+  document.getElementById('form').style = "display: none";
+}
+
+//----------------------------------------------------------------------------
+
+function create_new_post() {
+  var usernameCookie = getCookie("username");
+
+  var parameterList = new URLSearchParams(window.location.search);
+  var club = parameterList.get("club"); // prendo il club dai parametri
+
+  var title = document.getElementById("title").value;
+  var description = document.getElementById("description").value;
+
+  if(title != "" && description != "") {
+    fetch('../api/club_posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({club: club,
+                            author: usernameCookie,
+                            title: title,
+                            description: description})
+    }).then((resp) => resp.json())
+
+    .then(function(data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
+      // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
+      console.log(data.message)
+
+      hide_post_form();
+
+      if(data.success) {
+        alert("Post creato!");
+
+        show_club_feed(club);
+      } else {
+        alert("Qualcosa è andato storto");
+      }
+
+      return;
+      }).catch( error => console.error(error));
+  }
+}

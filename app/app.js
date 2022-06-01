@@ -8,6 +8,7 @@ const TokenChecker = require('./tokenChecker.js');
 const Users = require('./users.js');
 const Clubs = require('./clubs.js');
 const Raduni = require('./raduni.js');
+const Club_post = require('./club_posts.js');
 const Dotenv = require("dotenv").config();
 const CookieParser = require('cookie-parser');
 
@@ -27,6 +28,7 @@ app.use(CookieParser());
 app.use('/home.html', TokenChecker);
 app.use('/creazione_club.html', TokenChecker);
 app.use('/creazione_raduno.html', TokenChecker);
+app.use('/club_feed.html', TokenChecker);
 
 
 /**
@@ -60,6 +62,8 @@ app.use('/api/clubs/remove_subscriber', Clubs);
 app.use('/api/raduni', Raduni);
 app.use('/api/raduni', TokenChecker);
 app.use('/api/raduni/add_subscriber', Raduni);
+
+app.use('/api/club_posts', Club_post);
 
 
 app.use(function (req, res) {

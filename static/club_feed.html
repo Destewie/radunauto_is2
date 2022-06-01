@@ -1,0 +1,154 @@
+<html>
+  <head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+
+    <script src="script.js"> </script>
+
+    <title> Club Feed </title>
+  </head>
+
+  <body>
+    <!-- navbar -->
+      <nav class="navbar navbar-expand-lg" style="background-color: #ffb4b0;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/home.html">Radunauto</a>
+      <button class="navbar-toggler" typ
+  		console.log(club.name);e="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Eventi
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/prossimi_eventi.html">Prossimi eventi</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/creazione_raduno.html">Crea evento</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Club
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/lista_club.html">Tutti i club</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/creazione_club.html">Crea club</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropRight" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Impostazioni
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropRight">
+              <li><a class="dropdown-item" href="" onclick="logout()"> Logout </a></li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+    <!-- fine navbar -->
+
+    <br>
+    <div class="container">
+      <div class="p-5 bg-light border rounded-3">
+        <h2 id="nomeClub">Club</h2>
+        <p id="descrizioneClub">Descrizione</p>
+        <button id="mostrapostform" class="btn" style="background-color: #ffb4b0;" type="button" onclick="show_post_form()"> Crea post </button>
+
+        <div id="form" style="display: none" class="container">
+          <br><br>
+          <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Titolo</label>
+          <input type="text" class="form-control" id="title" name="title" placeholder="Titolo">
+          </div>
+          <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Titolo</label>
+          <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrizione"></textarea>
+          </div>
+          <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="create_new_post()">Crea post</button>
+          <button class=btn type="button" onclick="hide_post_form()">Annulla</button>
+        </div>
+
+      </div>
+    </div>
+
+    <br><br>
+    <div class="container-fluid d-flex">
+      <div class="mx-auto">
+        <div class="list-group" id="listaPost">
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var parameterList = new URLSearchParams(window.location.search);
+      var club = parameterList.get("club"); // prendo il club dai parametri
+
+      $('#nomeClub').html(club);
+
+      $(document).ready(function() {
+        $.ajax({
+                  'url': '/api/clubs',
+                  'type': 'GET',
+                  'dataType': 'json',
+                  'data': { name: club },
+                  'success': function(response) {
+
+                    if(response) {
+                      $('#descrizioneClub').html(response[0].description);
+                    }
+                  }
+                });
+
+        $.ajax({
+                  'url': '/api/club_posts',
+                  'type': 'GET',
+                  'dataType': 'json',
+                  'data': { club: club },
+                  'success': function(response) {
+
+                    if(response) {
+                      var html = "";
+
+                      for(var i = 0; i < response.length; i++) {
+                        html += '<a href="" class="list-group-item list-group-item-action" aria-current="true">';
+                        html += '<div class="d-flex w-100 justify-content-between">';
+                        html += '<h5 class="mb-1">' + response[i].title + '&nbsp;&nbsp;</h5>';
+                        html += '<small>' + response[i].timestamp.slice(0, 10) + '&nbsp;alle ore&nbsp;' + response[i].timestamp.slice(11, 16) + '</small>';
+                        html += '</div>';
+                        html += '<p class="mb-1">' + response[i].description + '</p>';
+                        html += '<b><h6>autore: </b>' + response[i].author + '</h6>';
+                        html += '</a>';
+                        html += '<br>';
+                      }
+
+                      if(response.length == 0) { // se non ci sono post da stampare
+                        html = 'Al momento sembra che non ci sia alcun post';
+                      }
+
+                      $('#listaPost').html(html);
+                    }
+                  }
+                });
+      });
+    </script>
+
+  </body>
+</html>
