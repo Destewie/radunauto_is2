@@ -285,10 +285,10 @@ function filtra_mieiClub() {
                         }
                         else {
                           //mostro i club di cui l'utente è proprietario
-                          html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th>Gestisci iscritti</tr></thead>';
+                          html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th style="text-align:center">Gestisci iscritti</th></tr></thead>';
                           btnId = 'btnRm'+usernameCookie;
                           for (var i = 0; i < response.length; i++) {
-                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td><button id="'+ btnId +'" type="button" class="btn btn-primary" onclick="apriPaginaIscritti(\''+ response[i].name+'\')">Iscritti</button></td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"><button id="'+ btnId +'" type="button" class="btn btn-primary" onclick="apriPaginaIscritti(\''+ response[i].name+'\')">Iscritti</button></td></tr>';
                           }
                           html += "</table></div>";
                         }

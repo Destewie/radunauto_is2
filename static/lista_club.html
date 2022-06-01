@@ -118,7 +118,7 @@
               if (usernameCookie == null) {
                 //se un utente non autenticato vuole vedere la pagina dei prossimi eventi non avrà un cookie e i tasti lo rimanderanno alla pagina del login
                 console.log("cookie username = " + usernameCookie);
-                html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + "</td><td style=\"text-align:center\"> <button class=\"btn\" style=\"background-color: #ffb4b0;\"><a href=\"./login.html\"> Devi fare il login!</a></button> </td></tr>";
+                html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + "</td><td style=\"text-align:center\"> <button class=\"btn\" style=\"background-color: #ffb4b0; text-align:center\"><a href=\"./login.html\"> Devi fare il login!</a></button> </td></tr>";
               }
               else if (response[i].subscribers.includes(usernameCookie)) {
                 //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone per registrarsi
