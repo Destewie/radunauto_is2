@@ -131,6 +131,7 @@
                       var html = "";
 
                       for(var i = 0; i < response.length; i++) {
+                        html += '<div id="post' + response[i]._id + '">';
                         html += '<a href="" class="list-group-item list-group-item-action" aria-current="true">';
                         html += '<div class="d-flex w-100 justify-content-between">';
                         html += '<h5 class="mb-1">' + response[i].title + '&nbsp;&nbsp;</h5>';
@@ -138,10 +139,11 @@
                         html += '</div>';
                         html += '<p class="mb-1">' + response[i].description + '</p>';
                         html += '<b><h6>autore: </b>' + response[i].author + '</h6>';
-                        html += '</a></div>';
+                        html += '</a>';
 
                         if(owner == username) {
-                          html += '<button class="btn" onclick="remove_post(' + response[i]._id + ')">Rimuovi Post </button><br>';
+                          html += '<button class="btn" onclick="remove_post(\'' + response[i]._id + '\')">Rimuovi Post</button>';
+                          html += "</div><br>";
                         }
                       }
 

@@ -374,3 +374,18 @@ function create_new_post() {
       }).catch( error => console.error(error));
   }
 }
+
+//----------------------------------------------------------------------------
+
+function remove_post(post_id) {
+  fetch('../api/club_posts/remove_post', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ post_id: post_id})
+  }).then((resp) => resp.json())
+
+  .then(function(data) {
+    document.getElementById("post" + post_id).innerHTML = ""; // cancello dalla pagina il post appena tolto
+    alert("post eliminato!");
+  });
+}

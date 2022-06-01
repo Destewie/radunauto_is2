@@ -11,8 +11,33 @@ const jwt = require('jsonwebtoken');
 router.post('/remove_post', async (req, res) => {
   var token = req.cookies.token;
   const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+  var username = payload.username;
+  var post_id = req.body.post_id;
 
-  var club = req.body.club;
+  let post = await Club_post.findOne({ // trovo il post in base all'id
+			_id: post_id
+		}).exec();
+
+  if(post) { // se ho trovato il post
+    let club = await Club.findOne({ // trovo il club dove è stato caricato il post
+  			name: post.club
+  		}).exec();
+
+    if(club) { // se ho trovato il club
+      if(username == club.owner) { // se l'user che ha fatto richiesta è proprietario del club
+        console.log("cancello il post");
+        await Club_post.deleteOne({ _id: post_id }); // elimino il post
+
+        res.status(200).json("Post eliminato");
+      }
+    }
+    else {
+      res.status(404).json("Errore");
+    }
+  }
+  else {
+    res.status(404).json("Errore");
+  }
 
 });
 
