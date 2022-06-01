@@ -7,7 +7,7 @@ module.exports = mongoose.model('Club', new Schema({
 	description: String,
 	owner: String,
 	subscribers: [
-		{type : String}
+		{ type: String }
 	]
 
 }));

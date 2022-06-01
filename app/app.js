@@ -37,7 +37,7 @@ app.use('/', express.static(process.env.FRONTEND || 'static'));
 app.use('../static/', express.static('static')); // expose also this folder
 
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
     console.log(req.method + ' ' + req.url)
     next()
 })
@@ -62,7 +62,7 @@ app.use('/api/raduni', TokenChecker);
 app.use('/api/raduni/add_subscriber', Raduni);
 
 
-app.use(function(req, res) {
+app.use(function (req, res) {
     res.redirect('/home.html');
 });
 

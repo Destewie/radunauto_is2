@@ -8,64 +8,66 @@ const bcrypt = require('bcryptjs/dist/bcrypt');
 // ---------------------------------------------------------
 // route to authenticate and get a new token
 // ---------------------------------------------------------
-router.post('', async function(req, res) {
+router.post('', async function (req, res) {
 
     //creo un contenitore per un user basandomi su un modello per mongoose
     var user = new User({
         username: req.body.username,
         password: req.body.password
-	});
+    });
 
     //cerco lo user in base allo username passato nel body della richiesta
     let userFound = await User.findOne({
-            username: req.body.username
-        }).exec();
+        username: req.body.username
+    }).exec();
 
     //se non trovo l'utente
-	if(userFound == null) {
-		console.log("Utente non trovato");
+    if (userFound == null) {
+        console.log("Utente non trovato");
         res.json({ success: false, message: 'login errato' });
         return;
     }
     //se trovo l'utente
-	else {
+    else {
 
         try {
-        	//controllo se la password arrivata nella richiesta corrisponde a quella nel db
-            if(await bcrypt.compare(user.password, userFound.password)) {
-				//se sei qui è perché hai azzeccato sia il nome utente che la password
+            //controllo se la password arrivata nella richiesta corrisponde a quella nel db
+            if (await bcrypt.compare(user.password, userFound.password)) {
+                //se sei qui è perché hai azzeccato sia il nome utente che la password
                 console.log(user.username + " sei dentro! :)");
 
-				//creo il token
-				var payload = {
-					username: user.username,
-					// other data encrypted in the token
-				}
-				var options = {
-					expiresIn: 86400 // expires in 24 hours
-				}
-				var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
+                //creo il token
+                var payload = {
+                    username: user.username,
+                    // other data encrypted in the token
+                }
+                var options = {
+                    expiresIn: 86400 // expires in 24 hours
+                }
+                var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
 
-        res.cookie("token", token);
-        res.cookie("username", user.username);
+                res.cookie("token", token);
+                res.cookie("username", user.username);
 
-				res.json({
-					success: true,
-					username: user.username,
-					message: 'Adesso che sei loggato, goditi il token!',
-					token: token,
-				});
+                res.json({
+                    success: true,
+                    username: user.username,
+                    message: 'Adesso che sei loggato, goditi il token!',
+                    token: token,
+                });
 
-			   }
+            }
             else {
-                res.json({success: false,
-                message: 'Login non autorizzato'});
+                res.json({
+                    success: false,
+                    message: 'Login non autorizzato'
+                });
             }
         }
         catch (err) {
             res.status(500).send(err);
         }
-	}
+    }
 
 });
 
