@@ -113,8 +113,8 @@
                       for(var i = 0; i < response.length; i++) {
                         html += '<a href="" class="list-group-item list-group-item-action" aria-current="true">';
                         html += '<div class="d-flex w-100 justify-content-between">';
-                        html += '<h5 class="mb-1">' + response[i].title + '</h5>';
-                        html += '<small>' + response[i].timestamp.slice(11, 16) + ' ' + response[i].timestamp.slice(0, 10) + '</small>';
+                        html += '<h5 class="mb-1">' + response[i].title + '&nbsp;&nbsp;</h5>';
+                        html += '<small>' + response[i].timestamp.slice(0, 10) + '&nbsp;alle ore&nbsp;' + response[i].timestamp.slice(11, 16) + '</small>';
                         html += '</div>';
                         html += '<p class="mb-1">' + response[i].description + '</p>';
                         html += '<b><h6>autore: </b>' + response[i].author + '</h6>';
