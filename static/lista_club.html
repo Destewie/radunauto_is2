@@ -122,13 +122,13 @@
                           }
                           else if(response[i].subscribers.includes(usernameCookie)) {
                             //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone per registrarsi
-                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\''+ response[i].name +'\')" disabled>Entra nel club!</button> </td>';
-                            html += '<td style="text-align: center"> <button id="' + idBtn + 'feed' + ' type="button" class="btn btn-outline-primary" onclick="show_club_feed(\'' + response[i].name + '\')"> Visualizza </button> </td></tr>';
+                            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary disabled" onclick="add_sub_club(\''+ response[i].name +'\')">Entra nel club!</button> </td>';
+                            html += '<td style="text-align: center"> <button id="' + idBtn + 'feed"' + ' type="button" class="btn btn-outline-primary" onclick="show_club_feed(\'' + response[i].name + '\')"> Visualizza </button> </td></tr>';
                           }
                           else {
                             // se l'utente è autenticato ma non è iscritto al club
                             html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="'+ idBtn +'" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\''+ response[i].name +'\')" >Entra nel club!</button> </td>';
-                            html += '<td style="text-align: center"> <button id="' + idBtn + 'feed' + ' type="button" class="btn btn-outline-primary disabled" onclick="show_club_feed(\'' + response[i].name + '\')"> Visualizza </button> </td></tr>';
+                            html += '<td style="text-align: center"> <button id="' + idBtn + 'feed"' + ' type="button" class="btn btn-outline-primary disabled" onclick="show_club_feed(\'' + response[i].name + '\')"> Visualizza </button> </td></tr>';
                           }
 
                         }

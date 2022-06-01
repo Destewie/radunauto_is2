@@ -220,7 +220,10 @@ function add_sub_club(nomeClub) {
       // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
       console.log(data.message)
 
-      document.getElementById("btn" + nomeClub).disabled = true; //disattiva il bottone dopo averlo premuto
+      console.log("modifico i pulsanti di " + "btn" + nomeClub + "feed");
+
+      document.getElementById("btn" + nomeClub).classList.add('disabled'); //disattiva il bottone dopo averlo premuto
+      document.getElementById("btn" + nomeClub + "feed").classList.remove('disabled'); // attiva il bottone per vedere il club feed
 
       if (data.success) {
         alert("Iscrizione avvenuta con successo!")
