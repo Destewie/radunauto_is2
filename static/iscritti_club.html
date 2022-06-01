@@ -130,10 +130,10 @@
                                 
                                 if(response.subscribers[i] == usernameCookie){
                                     //non posso rimuovere se stesso
-                                    html += "<tr><td>" + response.subscribers[i] + "</td><td><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('"+ response.subscribers[i] +"', '"+ response.nomeClub +"')\" disabled>Rimuovi</button></td></tr>";
+                                    html += "<tr><td>" + response.subscribers[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('"+ response.subscribers[i] +"', '"+ response.nomeClub +"')\" disabled>Rimuovi</button></td></tr>";
                                 }
                                 else{
-                                    html += "<tr><td>" + response.subscribers[i] + "</td><td><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('"+ response.subscribers[i] +"', '"+ response.nomeClub +"')\">Rimuovi</button></td></tr>";
+                                    html += "<tr><td>" + response.subscribers[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('"+ response.subscribers[i] +"', '"+ response.nomeClub +"')\">Rimuovi</button></td></tr>";
                                 }
                             }
 
