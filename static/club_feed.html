@@ -10,6 +10,8 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
     crossorigin="anonymous"></script>
 
+    <script src="script.js"> </script>
+
     <title> Club Feed </title>
   </head>
 
@@ -68,7 +70,22 @@
       <div class="p-5 bg-light border rounded-3">
         <h2 id="nomeClub">Club</h2>
         <p id="descrizioneClub">Descrizione</p>
-        <button class="btn" style="background-color: #ffb4b0;" type="button"> Crea post </button>
+        <button id="mostrapostform" class="btn" style="background-color: #ffb4b0;" type="button" onclick="show_post_form()"> Crea post </button>
+
+        <div id="form" style="display: none" class="container">
+          <br><br>
+          <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Titolo</label>
+          <input type="text" class="form-control" id="title" name="title" placeholder="Titolo">
+          </div>
+          <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Titolo</label>
+          <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrizione"></textarea>
+          </div>
+          <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="create_new_post()">Crea post</button>
+          <button class=btn type="button" onclick="hide_post_form()">Annulla</button>
+        </div>
+
       </div>
     </div>
 

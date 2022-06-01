@@ -21,7 +21,9 @@ router.get('', async (req, res) => {
     if(iscritti.includes(payload.username)) {
       let findPost = await Club_post.find({
     			club: req.query.club
-    		}).exec();
+    		})
+        .sort('-timestamp')
+        .exec();
 
         if(findPost) {
           res.status(200).json(findPost);
