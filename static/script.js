@@ -61,7 +61,10 @@ function create_club() {
     var outcome;
 
     if(result == true) {
-      outcome = "Club creato con successo";
+      outcome =  "Club creato con successo <br><br>";
+      outcome += '<form method="get" action="lista_club.html">';
+        outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Mostra tutti i club</button>';
+      outcome += '</form>';
     }
     else {
       outcome = "Errore";
