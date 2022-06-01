@@ -59,7 +59,7 @@ function create_club() {
     document.getElementById("titolo").innerHTML = "Esito creazione club";
 
     var outcome;
-
+  
     if(result == true) {
       outcome =  "Club creato con successo <br><br>";
       outcome += '<form method="get" action="lista_club.html">';
@@ -92,7 +92,7 @@ function create_event() {
     document.getElementById("titolo").innerHTML = "Esito creazione club";
 
     var outcome;
-
+  
     if(result == true) {
       outcome = "Raduno creato con successo";
     }
@@ -274,7 +274,12 @@ function filtra_mieiClub() {
 
                   if (response) {
                     //per modificare la riga sopra alla tabella
-                    $('#filtro').html("");
+                    let htmlFiltro = '<br> Mostra nuovamente tutti i club<br>'
+                    htmlFiltro += '<form action="lista_club.html" method="get">'
+                    htmlFiltro += '<button type="submit" style="background-color: #ffb4b0;" class="btn"> <i>Mostra</i> </button><br>'
+                    htmlFiltro += '</form>'
+                    $('#filtro').html(htmlFiltro);
+     
 
                     //per modificare la lista dei club
                         var html = '<br><div class=container-lg textcenter>';
