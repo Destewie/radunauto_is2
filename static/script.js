@@ -286,7 +286,7 @@ function filtra_mieiClub() {
 
                         //se l'utente non è loggato non può filtrare i club per vedere solo quelli di cui è proprietario
                         if(usernameCookie == null) {
-                          html = 'Purtroppo per vedere i tuoi club devi aver fatto il <a href="login.html">login</a>';
+                          html = '<br> <div style="text-align:center"> Purtroppo per vedere i tuoi club devi aver fatto il <a href="login.html">login</a></div>';
                         }
                         else {
                           //mostro i club di cui l'utente è proprietario
