@@ -48,17 +48,33 @@ router.post('', async (req, res) => {
     var token = req.cookies.token;
     const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
 
-		if(req.club != "" && req.title != "" && req.description != "" && req.author != "") {
-      var club_post = new Club_post({
-        club: req.body.club,
-  	    author: payload.username,
-        title: req.body.title,
-        description: req.body.description
-  	    });
+		if(req.body.club != "" && req.body.title != "" && req.body.description != "" && req.body.author != "") {
+      let clubFound = await Club.findOne({
+    			name: req.body.club
+    		}).exec();
 
-        club_post = await club_post.save();
+      if(clubFound) {
+        var iscritti = clubFound.subscribers;
 
-        res.json({ success: true, message: 'Post successfully created' });
+        if(iscritti.includes(payload.username)) {
+          var club_post = new Club_post({
+            club: req.body.club,
+      	    author: payload.username,
+            title: req.body.title,
+            description: req.body.description
+      	    });
+
+            club_post = await club_post.save();
+
+            res.json({ success: true, message: 'Post successfully created' });
+        }
+        else {
+          res.json({success: false, message: 'Non sei iscritto al club'});
+        }
+
+      }
+
+
     }
     else {
       res.json({success: false, message: 'Inserire tutti i campi richiesti'});
