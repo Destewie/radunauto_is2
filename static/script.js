@@ -389,3 +389,17 @@ function remove_post(post_id) {
     alert("post eliminato!");
   });
 }
+
+//----------------------------------------------------------------------------
+
+function show_car_form() {
+  document.getElementById('aggiungiautomobile').style = "background-color: #ffb4b0; display: none";
+  document.getElementById('form').style = "display: block";
+}
+
+//----------------------------------------------------------------------------
+
+function hide_car_form() {
+  document.getElementById('aggiungiautomobile').style = "background-color: #ffb4b0; display: block";
+  document.getElementById('form').style = "display: none";
+}
