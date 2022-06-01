@@ -148,6 +148,22 @@ router.get('/subscribers', async (req, res) => {
 
 //-------------------------------------------------------------------------------------------
 
+// torna le info di un club, dato il nome nel body
+router.get('/get_club', async (req, res) => {
+	let club = await Club.findOne({
+		name: req.query.name
+	}).exec();
+
+	if(club) {
+		res.json(club);
+	}
+	else {
+		res.json({});
+	}
+});
+
+//-------------------------------------------------------------------------------------------
+
 //torna tutti i club
 router.get('', async (req, res) => {
 	// https://mongoosejs.com/docs/api.html#model_Model.find

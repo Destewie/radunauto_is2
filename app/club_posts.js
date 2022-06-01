@@ -6,6 +6,18 @@ const jwt = require('jsonwebtoken');
 
 //----------------------------------------------------------------------------
 
+// POST PER RIMUOVERE UN POST DI UN CLUB
+
+router.post('/remove_post', async (req, res) => {
+  var token = req.cookies.token;
+  const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+
+  var club = req.body.club;
+
+});
+
+//----------------------------------------------------------------------------
+
 //GET DEI POST DI UN DETERMINATO CLUB
 router.get('', async (req, res) => {
   var token = req.cookies.token;
@@ -22,7 +34,7 @@ router.get('', async (req, res) => {
       let findPost = await Club_post.find({
     			club: req.query.club
     		})
-        .sort('-timestamp')
+        .sort('-timestamp') // ordina per timestamp in ordine decrescente
         .exec();
 
         if(findPost) {

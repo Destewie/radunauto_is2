@@ -100,19 +100,22 @@
     <script>
       var parameterList = new URLSearchParams(window.location.search);
       var club = parameterList.get("club"); // prendo il club dai parametri
+      var owner;
+      var username = getCookie("username");
 
       $('#nomeClub').html(club);
 
       $(document).ready(function() {
         $.ajax({
-                  'url': '/api/clubs',
+                  'url': '/api/clubs/get_club',
                   'type': 'GET',
                   'dataType': 'json',
                   'data': { name: club },
                   'success': function(response) {
 
                     if(response) {
-                      $('#descrizioneClub').html(response[0].description);
+                      $('#descrizioneClub').html(response.description);
+                      owner = response.owner;
                     }
                   }
                 });
@@ -135,8 +138,11 @@
                         html += '</div>';
                         html += '<p class="mb-1">' + response[i].description + '</p>';
                         html += '<b><h6>autore: </b>' + response[i].author + '</h6>';
-                        html += '</a>';
-                        html += '<br>';
+                        html += '</a></div>';
+
+                        if(owner == username) {
+                          html += '<button class="btn" onclick="remove_post(' + response[i]._id + ')">Rimuovi Post </button><br>';
+                        }
                       }
 
                       if(response.length == 0) { // se non ci sono post da stampare
