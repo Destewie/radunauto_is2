@@ -82,8 +82,9 @@
 
         if(usernameCookie == requestedUserProfile) {
           html += '<div class="container-fluid d-flex">';
-          html += '<div class="mx-auto">';
-          html += '<button id="aggiungiautomobile" class="btn" style="background-color: #ffb4b0;" type="button" onclick="show_car_form()"> Aggiungi automobile </button>';
+          html += '<div id="aggiungiautomobile" class="mx-auto">';
+          html += '<button class="btn m-2" style="background-color: #ffb4b0;" type="button" onclick="show_car_form()"> Aggiungi automobile </button>';
+          html += '<button id="pulsanterimozioneauto"class="btn m-2" type="button" onclick="show_removal_buttons()"> Rimuovi </button>';
           html += '</div></div>';
 
           $('#pulsanteaggiuntaauto').html(html);
@@ -151,6 +152,7 @@
             html += 'Modello: ' + response[i].model + '<br>';
             html += 'Anno: ' + response[i].model;
             html += '</p>';
+            html += '<button class="btn btn-danger pulsanterimozione" style="display: none" onclick="removeCar(\'' + response[i]._id + '\')">Rimuovi</button>';
             html += '</div></div></div>';
 
             if((i + 1) % 3 == 0) {

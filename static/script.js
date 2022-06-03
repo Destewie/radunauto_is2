@@ -393,14 +393,14 @@ function remove_post(post_id) {
 //----------------------------------------------------------------------------
 
 function show_car_form() {
-  document.getElementById('aggiungiautomobile').style = "background-color: #ffb4b0; display: none";
+  document.getElementById('aggiungiautomobile').style = "display: none";
   document.getElementById('form').style = "display: block";
 }
 
 //----------------------------------------------------------------------------
 
 function hide_car_form() {
-  document.getElementById('aggiungiautomobile').style = "background-color: #ffb4b0; display: block";
+  document.getElementById('aggiungiautomobile').style = "display: block";
   document.getElementById('form').style = "display: none";
 }
 
@@ -432,5 +432,40 @@ function add_car() {
       window.location.reload();
     });
   }
+}
 
+//----------------------------------------------------------------------------
+
+function show_removal_buttons() {
+  var removal_buttons = document.getElementsByClassName("pulsanterimozione");
+
+  if(removal_buttons[0].style.display == "none") {
+    for(let removal_button of removal_buttons) {
+      removal_button.style = "display: block";
+    }
+
+    document.getElementById("pulsanterimozioneauto").innerHTML = "Annulla";
+  }
+  else {
+    for(let removal_button of removal_buttons) {
+      removal_button.style = "display: none";
+    }
+
+    document.getElementById("pulsanterimozioneauto").innerHTML = "Rimuovi";
+  }
+}
+
+//----------------------------------------------------------------------------
+
+function removeCar(id) {
+  fetch('../api/cars/remove', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({_id: id})
+  }).then((resp) => resp.json())
+
+  .then(function(data) {
+    alert("Auto rimossa");
+    window.location.reload();
+  });
 }

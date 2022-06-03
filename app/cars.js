@@ -22,6 +22,27 @@ router.get('', async (req, res) => {
 
 //----------------------------------------------------------------------------
 
+// POST PER RIMUOVERE UN'AUTO
+router.post('/remove', async (req, res) => {
+    var token = req.cookies.token;
+    const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+
+    let car = await Car.findOne({ // trovo il post in base all'id
+  			_id: req.body._id
+  		}).exec();
+
+    if(car.owner == payload.username) {
+      await Car.deleteOne({ _id: car._id }); // elimino l'automobile
+
+      res.status(201).json("Auto rimossa");
+    }
+    else {
+      res.status(400).json("Non puoi rimuovere questa automobile");
+    }
+});
+
+//----------------------------------------------------------------------------
+
 // POST PER INSERIRE UN AUTO
 router.post('', async (req, res) => {
     var token = req.cookies.token;
