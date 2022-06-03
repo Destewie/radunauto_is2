@@ -99,11 +99,71 @@
     </script>
 
 
+    <!-- Script per prendersi gli iscritti al club dal server -->
     <script>
 
         $(document).ready(function () {
             $.ajax({
                 'url': '/api/clubs/subscribers',
+                'type': 'GET',
+                'dataType': 'json',
+                'data': { nomeClub: club_name },
+                'success': function (response) {
+
+                    if (response) {
+                        var usernameCookie = getCookie("username");
+
+                        var html = '<br><div class=container-lg textcenter>';
+
+                        //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere l'iscritto
+                        if (usernameCookie == response.owner) {
+                            console.log(response.subscribers);
+                            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Username</th><th style=\"text-align:center\">Gestisci</th></tr></thead>';
+                        }
+                        else {
+                            console.log("non sono il proprietario");
+                            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Username</th></tr></thead>';
+                        }
+
+                        for (var i = 0; i < response.subscribers.length; i++) {
+                            var idBtn = "btnRm" + response.subscribers[i];
+
+                            if (usernameCookie != response.owner) {
+                                //qualsiasi utente che non sia il proprietario non può eliminare degli utenti iscritti al club
+                                html += "<tr><td>" + response.subscribers[i] + "</td></tr>";
+                            }
+                            else {
+                                //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere l'iscritto
+
+                                if (response.subscribers[i] == usernameCookie) {
+                                    //non posso rimuovere se stesso
+                                    html += "<tr><td>" + response.subscribers[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('" + response.subscribers[i] + "', '" + response.nomeClub + "')\" disabled>Rimuovi</button></td></tr>";
+                                }
+                                else {
+                                    html += "<tr><td>" + response.subscribers[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('" + response.subscribers[i] + "', '" + response.nomeClub + "')\">Rimuovi</button></td></tr>";
+                                }
+                            }
+
+                        }
+
+                        html += "</table></div>";
+
+                        $('#iscritti').html(html); //va a mettere tutto dento all'elemento con id = eventi
+                    }
+
+                }
+            });
+        });
+    </script>
+
+
+
+    <!-- Script per prendersi gli iscritti banditi dal club dal server -->
+    <script>
+
+        $(document).ready(function () {
+            $.ajax({
+                'url': '/api/clubs/',
                 'type': 'GET',
                 'dataType': 'json',
                 'data': { nomeClub: club_name },

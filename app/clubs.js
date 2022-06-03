@@ -202,6 +202,32 @@ router.get('/subscribers', async (req, res) => {
 
 //-------------------------------------------------------------------------------------------
 
+//ritorna gli utenti banditi da un particolare club
+router.get('/banditi', async (req, res) => {
+
+	//prendo il club da cui voglio vedere gli utenti banditi
+	if (req.query.nomeClub) {
+
+		let clubFound = await Club.findOne({
+			name: req.query.nomeClub
+		}).exec();
+
+		if (!clubFound) {
+			//se non trovo il club
+			res.json({ success: false, message: 'Club non trovato' });
+		}
+		else {
+			//se trovo il club
+			res.status(200).json({ success: true, owner: clubFound.owner, nomeClub: clubFound.name, banditi: clubFound.bans });
+		}
+	}
+	else {
+		res.json({ success: false, message: 'Nessun club specificato nei parametri della URL' });
+	}
+});
+
+//-------------------------------------------------------------------------------------------
+
 // torna le info di un club, dato il nome nel body
 router.get('/get_club', async (req, res) => {
 	let club = await Club.findOne({
