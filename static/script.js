@@ -403,3 +403,32 @@ function hide_car_form() {
   document.getElementById('aggiungiautomobile').style = "background-color: #ffb4b0; display: block";
   document.getElementById('form').style = "display: none";
 }
+
+//----------------------------------------------------------------------------
+
+function add_car() {
+  var name = document.getElementById("name").value;
+  var license_plate = document.getElementById("license_plate").value;
+  var manufacturer = document.getElementById("manufacturer").value;
+  var model = document.getElementById("model").value;
+  var year = document.getElementById("year").value;
+
+  if(name != "" && license_plate != "" && manufacturer != "" && model != "" && year != "") {
+    fetch('../api/cars', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({name: name,
+                            license_plate: license_plate,
+                            manufacturer: manufacturer,
+                            model: model,
+                            year: year})
+    }).then((resp) => resp.json())
+
+    .then(function(data) {
+      alert("Auto inserita");
+
+      hide_car_form();
+    });
+  }
+
+}

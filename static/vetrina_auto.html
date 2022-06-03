@@ -66,11 +66,31 @@
     <!-- fine navbar -->
 
     <br>
-    <div class="container-fluid d-flex">
-      <div class="mx-auto">
-        <button id="aggiungiautomobile" class="btn" style="background-color: #ffb4b0;" type="button" onclick="show_car_form()"> Aggiungi automobile </button>
-      </div>
+
+    <div id="pulsanteaggiuntaauto">
     </div>
+
+    <script>
+      $(document).ready(function () {
+        var usernameCookie = getCookie("username");
+        var parameterList = new URLSearchParams(window.location.search);
+        var requestedUserProfile = parameterList.get("user"); // prendo il nome utente dai parametri
+        var html = "";
+
+        console.log(usernameCookie);
+        console.log(requestedUserProfile);
+
+        if(usernameCookie == requestedUserProfile) {
+          html += '<div class="container-fluid d-flex">';
+          html += '<div class="mx-auto">';
+          html += '<button id="aggiungiautomobile" class="btn" style="background-color: #ffb4b0;" type="button" onclick="show_car_form()"> Aggiungi automobile </button>';
+          html += '</div></div>';
+
+          $('#pulsanteaggiuntaauto').html(html);
+        }
+
+      });
+    </script>
 
     <div>
       <div id="form" style="display: none" class="container">
@@ -78,6 +98,10 @@
         <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Nome</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Nome">
+        </div>
+        <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Targa</label>
+        <input type="text" class="form-control" id="license_plate" name="license_plate" placeholder="Targa">
         </div>
         <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Costruttore</label>
@@ -91,10 +115,16 @@
         <label for="exampleFormControlInput1" class="form-label">Anno</label>
         <input type="number" class="form-control" id="year" name="year" placeholder="Anno">
         </div>
-        <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="">Aggiungi automobile</button>
+        <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="add_car()">Aggiungi automobile</button>
         <button class=btn type="button" onclick="hide_car_form()">Annulla</button>
       </div>
     </div>
+
+    <script>
+    $(document).ready(function () {
+
+    });
+    </script>
 
   </body>
 </html>

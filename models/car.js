@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('Car', new Schema({
 	name: String,
   owner: String,
+	license_plate: String,
   manufacturer: String,
 	model: String,
   year: String

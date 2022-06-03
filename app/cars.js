@@ -27,10 +27,11 @@ router.post('', async (req, res) => {
     var token = req.cookies.token;
     const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
 
-		if(req.body.name != "" && req.body.manufacturer != "" && req.body.model != "" && req.body.year != "") {
+		if(req.body.name != "" && req.body.manufacturer != "" && req.body.model != "" && req.body.year != "" && req.body.license_plate != "") {
       var car = new Car({
         name: req.body.name,
         owner: payload.username,
+        license_plate: req.body.license_plate,
         manufacturer: req.body.manufacturer,
         model: req.body.model,
         year: req.body.year
