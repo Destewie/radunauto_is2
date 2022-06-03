@@ -8,6 +8,49 @@ const SALT_WORK_FACTOR = 10;
 
 //-------------------------------------------------------------------------------------------
 
+router.post('/remove_ban', async(req, res) => {
+
+	var nomeUtenteSbannato = req.body.nomeUtente;
+
+	//devo pigliarmi il club da cui voglio rimuovere il ban sull'utente
+	let clubFound = await Club.findOne({ name: req.body.name }).exec();
+
+	//prendo e verifico il token
+	try {
+		var token = req.cookies.token;
+		const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
+	} catch (err) {
+		res.status(401).json({ success: false, message: 'Invalid token' });
+		return;
+	}
+
+	//prendo lo username dell'utente che sta facendo la chiamata
+	var usernameChiamante = payload.username;
+
+	//sfilza di messaggi d'errore vari
+	if(!clubFound) {
+		//se il club in questione non esiste
+		res.json({ success: false, message: 'Club non trovato' });
+	}
+	else if (clubFound.bans.indexOf(nomeUtenteSbannato) == -1) {
+		//se l'utente non è stato bannato 
+		res.json({ success: false, message: 'Non puoi togliere il ban ad un utente non bannato' });
+	}
+	else if (usernameChiamante != clubFound.owner) {
+		//se l'utente che fa la chiamata alle api non è il proprietario del club da cui vuole sbannare un utente
+		res.json({ success: false, message: 'Non puoi sbannare qualcuno da un club non tuo'});
+	}
+	else {
+		//se tutto è ok
+		clubFound.bans.splice(clubFound.bans.indexOf(nomeUtenteSbannato), 1);
+		clubFound.save();
+		res.json({ success: true, message: 'Utente sbannato' });
+	}
+
+});
+
+//-------------------------------------------------------------------------------------------
+
 router.post('/remove_subscriber', async (req, res) => {
 	var nomeUtente = req.body.nomeUtente;
 
