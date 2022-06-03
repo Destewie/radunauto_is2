@@ -131,7 +131,9 @@
             }
             else {
               html = '<h3> Purtroppo puoi creare dei raduni solo se hai un club. </h3><br>';
-              html += '<button class="btn" style="background-color: #ffb4b0;" type="button" onclick=""><a href=\"./creazione_club.html\">Crea il tuo primo club!</a></button>';
+              html += '<form action=creazione_club.html method="get">';
+              html += '<button class="btn" style="background-color: #ffb4b0;" type="submit">Crea il tuo primo club!</button>';
+              html += '</form>';
               $('#form').html(html);
             }
 

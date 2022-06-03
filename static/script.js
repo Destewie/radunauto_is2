@@ -75,6 +75,8 @@ function create_club() {
     });
 }
 
+//----------------------------------------------------------------------------
+
 function create_event() {
   var title = document.getElementById('title').value;
   var club = document.getElementById('club').value;
@@ -96,7 +98,7 @@ function create_event() {
 
       if (result == true) {
         outcome = "Raduno creato con successo";
-      }
+      } 
       else {
         outcome = "Errore";
       }
