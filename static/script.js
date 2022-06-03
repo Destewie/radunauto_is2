@@ -428,6 +428,8 @@ function add_car() {
       alert("Auto inserita");
 
       hide_car_form();
+
+      window.location.reload();
     });
   }
 
