@@ -120,9 +120,47 @@
       </div>
     </div>
 
+    <br>
+    <div id="automobili" class="container">
+    </div>
+
     <script>
     $(document).ready(function () {
+      var parameterList = new URLSearchParams(window.location.search);
+      var requestedUserProfile = parameterList.get("user"); // prendo il nome utente dai parametri
 
+      $.ajax({
+        'url': '/api/cars',
+        'type': 'GET',
+        'dataType': 'json',
+        'data': { owner: requestedUserProfile },
+        'success': function(response) {
+          var html = "";
+
+          for(var i = 0; i < response.length; i++) {
+            if(i % 3 == 0) { // se sono al primo elemento dopo la fine della riga, creo una nuova riga
+              html += '<div class="row">';
+            }
+
+            html += '<div class="col" style="justify-content: center; display: flex;">'
+            html += '<div class="card" style="width: 18rem">';
+            html += '<img src="..." class="card-img-top" alt="...">';
+            html += '<div class="card-body">';
+            html += '<h5 class="card-title">' + response[i].name + '</h5>';
+            html += '<p class="card-text">Costruttore: ' + response[i].manufacturer + '<br>';
+            html += 'Modello: ' + response[i].model + '<br>';
+            html += 'Anno: ' + response[i].model;
+            html += '</p>';
+            html += '</div></div></div>';
+
+            if((i + 1) % 3 == 0) {
+              html += '</div>'; //chiudo il div della riga
+            }
+
+            $('#automobili').html(html);
+          }
+        }
+      });
     });
     </script>
 
