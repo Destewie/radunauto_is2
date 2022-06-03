@@ -8,6 +8,8 @@ module.exports = mongoose.model('Club', new Schema({
 	owner: String,
 	subscribers: [
 		{ type: String }
+	],
+	bans: [
+		{ type: String }
 	]
-
 }));

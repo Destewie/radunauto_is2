@@ -25,24 +25,31 @@ router.post('/remove_subscriber', async (req, res) => {
 		res.json({ success: false, message: 'Non puoi rimuovere dal club un utente non iscritto' });
 	}
 	else if (clubFound.owner == nomeUtente) {
+		//se l'utente è il proprietario del club
 		res.json({ success: false, message: 'Non puoi rimuovere il proprietario del club' });
 	}
 	else {
-		//devo togliere l'utente dal club
+		//devo togliere l'utente dal club e aggiornare la lista dei banditi
+		
 		let index = clubFound.subscribers.indexOf(nomeUtente);
 		if (index > -1) {
-			clubFound.subscribers.splice(index, 1);
+			clubFound.subscribers.splice(index, 1); //dalla posizione index, rimuovo 1 elemento
+			clubFound.bans.push(nomeUtente);
+		}
+		else {
+			res.json({ success: false, message: 'Stavo provando ad eliminare l\'utente dal club ma non lo trovo' });
 		}
 
-		//devo aggiornare il club
+		//aggiorno il club
 		clubFound.save(function (err) {
 			if (err) {
 				res.json({ success: false, message: 'Errore nell\'aggiornamento del club' });
 			}
 			else {
-				res.json({ success: true, message: 'Utente rimosso dal club' });
+				res.json({ success: true, message: 'Utente rimosso definitivamente dal club' });
 			}
 		});
+
 	}
 });
 
@@ -69,9 +76,13 @@ router.post('/add_subscriber', async (req, res) => {
 		//mi prendo l'array del club trovato nel db
 		var iscritti = clubFound.subscribers;
 
-		//controllo che l'utente non sia già iscritto
 		if (iscritti.includes(payload.username)) {
+			//controllo che l'utente non sia già iscritto
 			res.json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti del club" });
+		}
+		else if (clubFound.bans.includes(payload.username)) {
+			//controllo che l'utente non sia già bannato
+			res.json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è bannato dal club" });
 		}
 		else {
 			//se non dovesse essere già iscritto
