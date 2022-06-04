@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 var storage = multer.diskStorage(
   {
-    destination: "data/images/",
+    destination: "static/images/",
     filename: function(req, file, cb) {
       var token = req.cookies.token;
       const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
