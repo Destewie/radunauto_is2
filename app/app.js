@@ -10,6 +10,7 @@ const Clubs = require('./clubs.js');
 const Raduni = require('./raduni.js');
 const Club_post = require('./club_posts.js');
 const Cars = require('./cars.js');
+const UploadFiles = require('./upload.js');
 const Dotenv = require("dotenv").config();
 const CookieParser = require('cookie-parser');
 
@@ -69,6 +70,7 @@ app.use('/api/club_posts', Club_post);
 
 app.use('/api/cars', Cars);
 
+app.use('/api/upload', UploadFiles);
 
 app.use(function (req, res) {
     res.redirect('/home.html');

@@ -412,6 +412,7 @@ function add_car() {
   var manufacturer = document.getElementById("manufacturer").value;
   var model = document.getElementById("model").value;
   var year = document.getElementById("year").value;
+  var image = document.getElementById("image").files[0]; // prendo il file dal form
 
   if(name != "" && license_plate != "" && manufacturer != "" && model != "" && year != "") {
     fetch('../api/cars', {
@@ -425,11 +426,21 @@ function add_car() {
     }).then((resp) => resp.json())
 
     .then(function(data) {
-      alert("Auto inserita");
+      const formData = new FormData();
+      formData.append("image", image);
 
-      hide_car_form();
+      fetch('../api/upload/single', {
+        method: 'POST',
+        body: formData
+      }).then((resp) => resp.json())
 
-      window.location.reload();
+      .then(function(data) {
+        alert("Auto inserita");
+
+        hide_car_form();
+      });
+
+      //window.location.reload();
     });
   }
 }

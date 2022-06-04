@@ -94,7 +94,7 @@
     </script>
 
     <div>
-      <div id="form" style="display: none" class="container">
+      <form id="form" style="display: none" class="container" enctype="multipart/form-data">
         <br><br>
         <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Nome</label>
@@ -116,9 +116,13 @@
         <label for="exampleFormControlInput1" class="form-label">Anno</label>
         <input type="number" class="form-control" id="year" name="year" placeholder="Anno">
         </div>
+        <div class="mb-3">
+        <label for="formFile" class="form-label">Immagine</label>
+        <input class="form-control" type="file" id="image">
+        </div>
         <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="add_car()">Aggiungi automobile</button>
         <button class=btn type="button" onclick="hide_car_form()">Annulla</button>
-      </div>
+      </form>
     </div>
 
     <br>

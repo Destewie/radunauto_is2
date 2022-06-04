@@ -58,7 +58,14 @@ router.post('', async (req, res) => {
         year: req.body.year
         });
 
+        var image = req.body.image;
+
         car = await car.save();
+
+        /**fs.writeFile('data/images/immagine.png', req.body.image, function (err) {
+          if (err) throw err;
+          console.log("Immagine salvata");
+        });**/
 
         if(car) {
           res.status(201).json("Auto salvata");
