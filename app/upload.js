@@ -11,8 +11,9 @@ var storage = multer.diskStorage(
       var token = req.cookies.token;
       const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
       var username = payload.username;
+      var time = Date.now().toString();
 
-      cb(null, username + Date.now() + ".png");
+      cb(null, username + time.slice(0, time.length - 7) + token.slice(0, 15) + ".png");
     }
   }
 )

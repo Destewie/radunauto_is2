@@ -8,5 +8,6 @@ module.exports = mongoose.model('Car', new Schema({
 	license_plate: String,
   manufacturer: String,
 	model: String,
-  year: String
+  year: String,
+	image: String
 }));

@@ -47,6 +47,8 @@ router.post('/remove', async (req, res) => {
 router.post('', async (req, res) => {
     var token = req.cookies.token;
     const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+    var time = Date.now().toString();
+    const image = payload.username + time.slice(0, time.length - 7) + token.slice(0, 15);
 
 		if(req.body.name != "" && req.body.manufacturer != "" && req.body.model != "" && req.body.year != "" && req.body.license_plate != "") {
       var car = new Car({
@@ -55,17 +57,11 @@ router.post('', async (req, res) => {
         license_plate: req.body.license_plate,
         manufacturer: req.body.manufacturer,
         model: req.body.model,
-        year: req.body.year
+        year: req.body.year,
+        image: image
         });
 
-        var image = req.body.image;
-
         car = await car.save();
-
-        /**fs.writeFile('data/images/immagine.png', req.body.image, function (err) {
-          if (err) throw err;
-          console.log("Immagine salvata");
-        });**/
 
         if(car) {
           res.status(201).json("Auto salvata");

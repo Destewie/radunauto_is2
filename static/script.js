@@ -440,7 +440,7 @@ function add_car() {
         hide_car_form();
       });
 
-      //window.location.reload();
+      window.location.reload();
     });
   }
 }
