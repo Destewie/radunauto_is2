@@ -48,7 +48,8 @@ router.post('', async (req, res) => {
     var token = req.cookies.token;
     const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
     var time = Date.now().toString();
-    const image = payload.username + time.slice(0, time.length - 7) + token.slice(0, 15);
+    const image = payload.username + time;
+    res.cookie("image_timestamp", time);
 
 		if(req.body.name != "" && req.body.manufacturer != "" && req.body.model != "" && req.body.year != "" && req.body.license_plate != "") {
       var car = new Car({

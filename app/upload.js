@@ -3,17 +3,17 @@ const router = express.Router();
 const multer = require("multer");
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const Car = require('../models/car');
 
 var storage = multer.diskStorage(
   {
     destination: "static/images/",
     filename: function(req, file, cb) {
       var token = req.cookies.token;
-      const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
-      var username = payload.username;
-      var time = Date.now().toString();
+    	const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
+      const filename = payload.username + req.cookies.image_timestamp;
 
-      cb(null, username + time.slice(0, time.length - 7) + token.slice(0, 15) + ".png");
+      cb(null, filename + ".png");
     }
   }
 )
