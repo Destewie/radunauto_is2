@@ -61,10 +61,18 @@ router.get('/user', async (req, res) => {
 	var token = req.cookies.token;
   const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
 
-	let user = await User.findOne({
-    username: req.query.user
-  })
-  .exec();
+	if(req.query.user == "") {
+		var user = await User.findOne({
+			username: payload.username
+		})
+		.exec();
+	}
+	else {
+		var user = await User.findOne({
+			username: req.query.user
+		})
+		.exec();
+	}
 
 	if(user) {
 		if(user.username == payload.username) {
