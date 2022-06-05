@@ -10,5 +10,6 @@ module.exports = mongoose.model('User', new Schema({
 	birth_date: String,
 	address: String,
 	phone_number: String,
-	fiscal_code: String
+	fiscal_code: String,
+	img: String
 }));

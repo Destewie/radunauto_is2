@@ -10,6 +10,9 @@ const SALT_WORK_FACTOR = 10;
 router.post('/update', async (req, res) => {
 	var token = req.cookies.token;
   const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+	var time = Date.now().toString();
+	const image = payload.username + time;
+	res.cookie("image_timestamp", time);
 
 	var filter = { username: payload.username };
 	var update = {};
@@ -19,9 +22,13 @@ router.post('/update', async (req, res) => {
 	}
 
 	for(key in req.body) {
-		if(req.body[key] != "") {
+		if(req.body[key] != "" && key != "img") {
 			update[key] = req.body[key];
 		}
+	}
+
+	if(req.body.img == "img") {
+		update["img"] = payload.username + time;
 	}
 
 	let user = await User.findOneAndUpdate(filter, update, {
@@ -34,8 +41,6 @@ router.post('/update', async (req, res) => {
 	else {
 		res.status(400).json({success: false, message: "Errore"});
 	}
-
-
 });
 
 //----------------------------------------------------------------------------
@@ -113,7 +118,7 @@ router.get('/user', async (req, res) => {
 			res.status(200).json(user);
 		}
 		else {
-			res.status(200).json( {display_name: user.display_name, username: user.username, email: user.email} );
+			res.status(200).json( {display_name: user.display_name, username: user.username, email: user.email, img: user.img} );
 		}
 	}
 	else {

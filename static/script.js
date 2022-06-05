@@ -502,17 +502,33 @@ function updateProfile() {
   var phone_number = document.getElementById("phone_number").value;
   var image = document.getElementById("image").files[0]; // prendo il file dal form
 
+  if(image) {
+    var img = "img";
+  }
+
   fetch('../api/users/update', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({display_name: display_name,
-                          birth_date: birth_date,
-                          address: address,
-                          phone_number: phone_number })
+    body: JSON.stringify({ display_name: display_name,
+                           birth_date: birth_date,
+                           address: address,
+                           phone_number: phone_number,
+                           img: img })
   }).then((resp) => resp.json())
 
   .then(function(data) {
-    window.location.href = "profilo.html";
+    if(image) {
+      const formData = new FormData();
+      formData.append("image", image);
+
+      fetch('../api/upload/single', {
+        method: 'POST',
+        body: formData
+      }).then((resp) => resp.json())
+      .then(function(data) {
+        window.location.href = "profilo.html";
+      });
+    }
   });
 
 }

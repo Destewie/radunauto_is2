@@ -158,8 +158,8 @@
 
                     $('#userInfo').html(html);
 
-                    if(response.image) {
-                      html = '<img width="200" class="rounded-circle border border-dark" src="images/' + response.image + '.jpg"/>';
+                    if(response.img && response.img != "") {
+                      html = '<img width="200" class="rounded-circle border border-dark" src="images/' + response.img + '.png"/>';
                       $('#profilepic').html(html);
                     }
 
