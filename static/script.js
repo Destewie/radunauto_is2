@@ -188,7 +188,7 @@ function add_sub_raduno(titoloRaduno) {
   fetch('../api/raduni/add_subscriber', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title: titoloRaduno, cookie: cookie })
+    body: JSON.stringify({ title: titoloRaduno})
   }).then((resp) => resp.json())
 
     .then(function (data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
