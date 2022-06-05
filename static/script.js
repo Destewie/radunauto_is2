@@ -4,11 +4,23 @@ function registration() {
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
   var email = document.getElementById('email').value;
+  var display_name = document.getElementById('display_name').value;
+  var birth_date = document.getElementById('birth_date').value;
+  var address = document.getElementById('address').value;
+  var phone_number = document.getElementById('phone_number').value;
+  var fiscal_code = document.getElementById('fiscal_code').value;
 
   fetch('../api/users', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: username, password: password, email: email }),
+    body: JSON.stringify({ username: username,
+                           password: password,
+                           email: email,
+                           display_name: display_name,
+                           birth_date: birth_date,
+                           address: address,
+                           phone_number: phone_number,
+                           fiscal_code: fiscal_code }),
   }).then((resp) => resp.json())
 
     .then(function (data) { // Here you get the data to modify as you please
@@ -98,7 +110,7 @@ function create_event() {
 
       if (result == true) {
         outcome = "Raduno creato con successo";
-      } 
+      }
       else {
         outcome = "Errore";
       }
@@ -483,6 +495,49 @@ function removeCar(id) {
 
 //----------------------------------------------------------------------------
 
+function updateProfile() {
+  var display_name = document.getElementById("display_name").value;
+  var birth_date = document.getElementById("birth_date").value;
+  var address = document.getElementById("address").value;
+  var phone_number = document.getElementById("phone_number").value;
+  var image = document.getElementById("image").files[0]; // prendo il file dal form
+
+  if(image) {
+    var img = "img";
+  }
+
+  fetch('../api/users/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ display_name: display_name,
+                           birth_date: birth_date,
+                           address: address,
+                           phone_number: phone_number,
+                           img: img })
+  }).then((resp) => resp.json())
+
+  .then(function(data) {
+    if(image) {
+      const formData = new FormData();
+      formData.append("image", image);
+
+      fetch('../api/upload/single', {
+        method: 'POST',
+        body: formData
+      }).then((resp) => resp.json())
+      .then(function(data) {
+        window.location.href = "profilo.html";
+      });
+    }
+    else {
+      window.location.href = "profilo.html";
+    }
+  });
+
+}
+
+//----------------------------------------------------------------------------
+
 function remove_ban(userName, clubName) {
   fetch('../api/clubs/remove_ban', {
     method: 'POST',
@@ -497,8 +552,8 @@ function remove_ban(userName, clubName) {
     if(data.success) {
       //disabilito il bottone se la richiesta è andata a buon fine
       btnId = "btnRmBan" + userName;
-      document.getElementById(btnId).disabled = true; 
-      
+      document.getElementById(btnId).disabled = true;
+
       alert("Utente rimosso dal ban!");
     }
     else {
