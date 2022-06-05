@@ -74,14 +74,14 @@
     <script>
       $(document).ready(function () {
         var usernameCookie = getCookie("username");
-        var parameterList = new URLSearchParams(window.location.search);
+        var parameterList = new URLSearchParams(window.location.search); // utente richiesto tramite parametri
         var requestedUserProfile = parameterList.get("user"); // prendo il nome utente dai parametri
         var html = "";
 
         console.log(usernameCookie);
         console.log(requestedUserProfile);
 
-        if(usernameCookie == requestedUserProfile) {
+        if(usernameCookie == requestedUserProfile) { // se l'utente richiesto sono io aggiungo i pulsanti per rimuovere le auto
           html += '<div class="container-fluid d-flex">';
           html += '<div id="aggiungiautomobile" class="mx-auto">';
           html += '<button class="btn m-2" style="background-color: #ffb4b0;" type="button" onclick="show_car_form()"> Aggiungi automobile </button>';
