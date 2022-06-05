@@ -77,23 +77,7 @@
 
     <div class="row m-5">
       <div class="col-lg-6 mb-3 offset-lg-1">
-        <div class="row mb-3">
-          <div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">
-          <h5 class="m-0"> <strong> Nome e cognome </strong> </h5>
-          <span>Peter Parker</span>
-          </div>
-          <div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">
-          <h5 class="m-0"> <strong> Email </strong> </h5>
-          <span>peter.parker@gmail.com</span>
-          </div>
-          <div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">
-          <h5 class="m-0"> <strong> Nome e cognome </strong> </h5>
-          <span>Peter Parker</span>
-          </div>
-          <div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">
-          <h5 class="m-0"> <strong> Email </strong> </h5>
-          <span>peter.parker@gmail.com</span>
-          </div>
+        <div id="userInfo" class="row mb-3">
         </div>
       </div>
       <div class="col-lg-4 offset-lg-1 text-center">
@@ -104,17 +88,71 @@
 
     <script>
       $(document).ready(function () {
+        var parameterList = new URLSearchParams(window.location.search);
+        var requestedUser = parameterList.get("user"); // prendo lo user dai parametri
+        var html = "";
+
         $.ajax({
-                  'url': '/api/users/',
+                  'url': '/api/users/user',
                   'type': 'GET',
                   'dataType': 'json',
-                  'data': { name: club },
+                  'data': { user: requestedUser },
                   'success': function(response) {
 
-                    if(response) {
-                      $('#descrizioneClub').html(response.description);
-                      owner = response.owner;
+                    if(response.fiscal_code) {
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Nome e cognome </strong> </h5>';
+                      html += '<span>' + response.display_name + '</span>';
+                      html += '</div>';
+
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Username </strong> </h5>';
+                      html += '<span>' + response.username + '</span>';
+                      html += '</div>';
+
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Email </strong> </h5>';
+                      html += '<span>' + response.email + '</span>';
+                      html += '</div>';
+
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Data di nascita </strong> </h5>';
+                      html += '<span>' + response.birth_date + '</span>';
+                      html += '</div>';
+
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Indirizzo </strong> </h5>';
+                      html += '<span>' + response.address + '</span>';
+                      html += '</div>';
+
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Telefono </strong> </h5>';
+                      html += '<span>' + response.phone_number + '</span>';
+                      html += '</div>';
+
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Codice fiscale </strong> </h5>';
+                      html += '<span>' + response.fiscal_code + '</span>';
+                      html += '</div>';
                     }
+                    else {
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Nome e cognome </strong> </h5>';
+                      html += '<span>' + response.display_name + '</span>';
+                      html += '</div>';
+
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Username </strong> </h5>';
+                      html += '<span>' + response.username + '</span>';
+                      html += '</div>';
+
+                      html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
+                      html += '<h5 class="m-0"> <strong> Email </strong> </h5>';
+                      html += '<span>' + response.email + '</span>';
+                      html += '</div>';
+                    }
+
+                    $('#userInfo').html(html);
                   }
                 });
       });
