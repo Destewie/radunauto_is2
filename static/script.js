@@ -389,3 +389,33 @@ function remove_post(post_id) {
     alert("post eliminato!");
   });
 }
+
+//----------------------------------------------------------------------------
+
+function remove_ban(userName, clubName) {
+  fetch('../api/clubs/remove_ban', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nomeUtente: userName, nomeClub: clubName})
+  }).then((resp) => resp.json())
+
+  .then(function(data) {
+
+    console.log(data.message);
+
+    if(data.success) {
+      //disabilito il bottone se la richiesta è andata a buon fine
+      btnId = "btnRmBan" + userName;
+      document.getElementById(btnId).disabled = true; 
+      
+      alert("Utente rimosso dal ban!");
+    }
+    else {
+      alert("Qualcosa è andato storto");
+    }
+
+      return;
+      }).catch( error => console.error(error));
+}
+
+//----------------------------------------------------------------------------

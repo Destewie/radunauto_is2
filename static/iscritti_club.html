@@ -113,7 +113,8 @@
                     if (response) {
                         var usernameCookie = getCookie("username");
 
-                        var html = '<br><div class=container-lg textcenter>';
+                        var html = '<br><div class=container-lg textcenter> ';
+                        html += '<br> <h1>Iscritti al club</h1> <br>';
 
                         //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere l'iscritto
                         if (usernameCookie == response.owner) {
@@ -163,7 +164,7 @@
 
         $(document).ready(function () {
             $.ajax({
-                'url': '/api/clubs/',
+                'url': '/api/clubs/banditi',
                 'type': 'GET',
                 'dataType': 'json',
                 'data': { nomeClub: club_name },
@@ -173,41 +174,31 @@
                         var usernameCookie = getCookie("username");
 
                         var html = '<br><div class=container-lg textcenter>';
+                        html += '<br> <h1>Banditi dal club</h1> <br>';
 
-                        //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere l'iscritto
+                        //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere il ban dall'utente
                         if (usernameCookie == response.owner) {
                             console.log(response.subscribers);
                             html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Username</th><th style=\"text-align:center\">Gestisci</th></tr></thead>';
                         }
                         else {
                             console.log("non sono il proprietario");
-                            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Username</th></tr></thead>';
+                            html = "Solo il proprietario può gestire gli utenti bannati";
                         }
 
-                        for (var i = 0; i < response.subscribers.length; i++) {
-                            var idBtn = "btnRm" + response.subscribers[i];
+                        for (var i = 0; i < response.banditi.length; i++) {
+                            var idBtn = "btnRmBan" + response.banditi[i];
 
-                            if (usernameCookie != response.owner) {
-                                //qualsiasi utente che non sia il proprietario non può eliminare degli utenti iscritti al club
-                                html += "<tr><td>" + response.subscribers[i] + "</td></tr>";
-                            }
-                            else {
-                                //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere l'iscritto
-
-                                if (response.subscribers[i] == usernameCookie) {
-                                    //non posso rimuovere se stesso
-                                    html += "<tr><td>" + response.subscribers[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('" + response.subscribers[i] + "', '" + response.nomeClub + "')\" disabled>Rimuovi</button></td></tr>";
-                                }
-                                else {
-                                    html += "<tr><td>" + response.subscribers[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('" + response.subscribers[i] + "', '" + response.nomeClub + "')\">Rimuovi</button></td></tr>";
-                                }
+                            if (usernameCookie == response.owner) {
+                                html += "<tr><td>" + response.banditi[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_ban('" + response.banditi[i] + "', '" + response.nomeClub + "')\">Rimuovi BAN</button></td></tr>";
+                                html += "</table>";
                             }
 
                         }
 
-                        html += "</table></div>";
+                        html += "</div>";
 
-                        $('#iscritti').html(html); //va a mettere tutto dento all'elemento con id = eventi
+                        $('#banditi').html(html); //va a mettere tutto dento all'elemento con id = eventi
                     }
 
                 }

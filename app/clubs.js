@@ -13,19 +13,22 @@ router.post('/remove_ban', async(req, res) => {
 	var nomeUtenteSbannato = req.body.nomeUtente;
 
 	//devo pigliarmi il club da cui voglio rimuovere il ban sull'utente
-	let clubFound = await Club.findOne({ name: req.body.name }).exec();
+	let clubFound = await Club.findOne({ name: req.body.nomeClub }).exec();
+
+	var payload;
+	var usernameChiamante;
 
 	//prendo e verifico il token
 	try {
 		var token = req.cookies.token;
-		const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
+		payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
+
+		//prendo lo username dell'utente che sta facendo la chiamata
+		usernameChiamante = payload.username;
 	} catch (err) {
 		res.status(401).json({ success: false, message: 'Invalid token' });
 		return;
 	}
-
-	//prendo lo username dell'utente che sta facendo la chiamata
-	var usernameChiamante = payload.username;
 
 	//sfilza di messaggi d'errore vari
 	if(!clubFound) {
