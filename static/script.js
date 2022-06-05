@@ -5,11 +5,22 @@ function registration() {
   var password = document.getElementById('password').value;
   var email = document.getElementById('email').value;
   var display_name = document.getElementById('display_name').value;
+  var birth_date = document.getElementById('birth_date').value;
+  var address = document.getElementById('address').value;
+  var phone_number = document.getElementById('phone_number').value;
+  var fiscal_code = document.getElementById('fiscal_code').value;
 
   fetch('../api/users', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: username, password: password, email: email, display_name: display_name }),
+    body: JSON.stringify({ username: username,
+                           password: password,
+                           email: email,
+                           display_name: display_name,
+                           birth_date: birth_date,
+                           address: address,
+                           phone_number: phone_number,
+                           fiscal_code: fiscal_code }),
   }).then((resp) => resp.json())
 
     .then(function (data) { // Here you get the data to modify as you please

@@ -12,7 +12,11 @@ router.post('', async (req, res) => {
 		username: req.body.username,
 		password: req.body.password,
 		email: req.body.email,
-		display_name: req.body.display_name
+		display_name: req.body.display_name,
+		birth_date: req.body.birth_date,
+		address: req.body.address,
+		phone_number: req.body.phone_number,
+		fiscal_code: req.body.fiscal_code
 	});
 
 	//cerco lo user in base allo username passato nel body della richiesta
