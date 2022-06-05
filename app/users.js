@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user'); // get our mongoose model
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
 
 const SALT_WORK_FACTOR = 10;
 
@@ -52,6 +53,31 @@ router.post('', async (req, res) => {
 	 * https://www.restapitutorial.com/lessons/httpmethods.html
 	 */
 	//res.location("/api/v1/user/" + userId).status(201).send();
+});
+
+//----------------------------------------------------------------------------
+
+router.get('/user', async (req, res) => {
+	var token = req.cookies.token;
+  const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+
+	let user = await User.findOne({
+    username: req.query.user
+  })
+  .exec();
+
+	if(user) {
+		if(user.username == payload.username) {
+			res.status(200).json(user);
+		}
+		else {
+			res.status(200).json( {display_name: user.display_name, username: user.username, email: user.email} );
+		}
+	}
+	else {
+		res.status(404).json("Errore");
+	}
+
 });
 
 

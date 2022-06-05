@@ -66,12 +66,6 @@
   </nav>
     <!-- fine navbar -->
 
-    <script>
-      $(document).ready(function () {
-
-      });
-    </script>
-
     <div class="row justify-content-evenly m-5">
       <div class="col-md-4 col-sm-12 text-center">
       <img width="200" class="rounded-circle border border-dark" src="images/generic_profile_picture.jpg"/>
@@ -107,6 +101,24 @@
       <button class="btn btn-block" onclick="logout()"> Esci </button>
       </div>
     </div>
+
+    <script>
+      $(document).ready(function () {
+        $.ajax({
+                  'url': '/api/users/',
+                  'type': 'GET',
+                  'dataType': 'json',
+                  'data': { name: club },
+                  'success': function(response) {
+
+                    if(response) {
+                      $('#descrizioneClub').html(response.description);
+                      owner = response.owner;
+                    }
+                  }
+                });
+      });
+    </script>
 
 
 
