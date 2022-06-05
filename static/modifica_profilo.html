@@ -66,6 +66,32 @@
   </nav>
     <!-- fine navbar -->
 
+    <form id="form" class="container" enctype="multipart/form-data">
+      <br><br>
+      <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Nome e cognome</label>
+      <input type="text" class="form-control" id="display_name" name="display_name" placeholder="Nome e cognome">
+      </div>
+      <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Data di nascita</label>
+      <input type="date" class="form-control" id="birth_date" name="birth_date" placeholder="Data di nascita">
+      </div>
+      <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Indirizzo</label>
+      <input type="text" class="form-control" id="address" name="address" placeholder="Indirizzo">
+      </div>
+      <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Numero di telefono</label>
+      <input type="number" class="form-control" id="phone_number" name="phone_number" placeholder="Numero di telefono">
+      </div>
+      <div class="mb-3">
+      <label for="formFile" class="form-label">Immagine profilo</label>
+      <input class="form-control" type="file" id="image">
+      </div>
+      <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="updateProfile()">Salva</button>
+      <a href="/profilo.html"><button class=btn type="button">Annulla</button></a>
+    </form>
+
   </body>
 
 </html>

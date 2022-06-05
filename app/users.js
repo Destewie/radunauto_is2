@@ -6,6 +6,40 @@ const jwt = require('jsonwebtoken');
 
 const SALT_WORK_FACTOR = 10;
 
+// aggiorno l'utente
+router.post('/update', async (req, res) => {
+	var token = req.cookies.token;
+  const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
+
+	var filter = { username: payload.username };
+	var update = {};
+
+	if(req.body.display_name != "") {
+		update["display_name"] = req.body.display_name;
+	}
+
+	for(key in req.body) {
+		if(req.body[key] != "") {
+			update[key] = req.body[key];
+		}
+	}
+
+	let user = await User.findOneAndUpdate(filter, update, {
+		new: true
+	});
+
+	if(user) {
+		res.status(201).json({success: true, message: "utente aggiornato"});
+	}
+	else {
+		res.status(400).json({success: false, message: "Errore"});
+	}
+
+
+});
+
+//----------------------------------------------------------------------------
+
 //----- ADD USER
 router.post('', async (req, res) => {
 	//creo un contenitore per un user basandomi su un modello per mongoose

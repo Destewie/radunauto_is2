@@ -492,3 +492,27 @@ function removeCar(id) {
     window.location.reload();
   });
 }
+
+//----------------------------------------------------------------------------
+
+function updateProfile() {
+  var display_name = document.getElementById("display_name").value;
+  var birth_date = document.getElementById("birth_date").value;
+  var address = document.getElementById("address").value;
+  var phone_number = document.getElementById("phone_number").value;
+  var image = document.getElementById("image").files[0]; // prendo il file dal form
+
+  fetch('../api/users/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({display_name: display_name,
+                          birth_date: birth_date,
+                          address: address,
+                          phone_number: phone_number })
+  }).then((resp) => resp.json())
+
+  .then(function(data) {
+    window.location.href = "profilo.html";
+  });
+
+}
