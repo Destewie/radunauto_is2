@@ -8,6 +8,52 @@ const SALT_WORK_FACTOR = 10;
 
 //-------------------------------------------------------------------------------------------
 
+router.post('/remove_ban', async(req, res) => {
+
+	var nomeUtenteSbannato = req.body.nomeUtente;
+
+	//devo pigliarmi il club da cui voglio rimuovere il ban sull'utente
+	let clubFound = await Club.findOne({ name: req.body.nomeClub }).exec();
+
+	var payload;
+	var usernameChiamante;
+
+	//prendo e verifico il token
+	try {
+		var token = req.cookies.token;
+		payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
+
+		//prendo lo username dell'utente che sta facendo la chiamata
+		usernameChiamante = payload.username;
+	} catch (err) {
+		res.status(401).json({ success: false, message: 'Invalid token' });
+		return;
+	}
+
+	//sfilza di messaggi d'errore vari
+	if(!clubFound) {
+		//se il club in questione non esiste
+		res.json({ success: false, message: 'Club non trovato' });
+	}
+	else if (clubFound.bans.indexOf(nomeUtenteSbannato) == -1) {
+		//se l'utente non è stato bannato 
+		res.json({ success: false, message: 'Non puoi togliere il ban ad un utente non bannato' });
+	}
+	else if (usernameChiamante != clubFound.owner) {
+		//se l'utente che fa la chiamata alle api non è il proprietario del club da cui vuole sbannare un utente
+		res.json({ success: false, message: 'Non puoi sbannare qualcuno da un club non tuo'});
+	}
+	else {
+		//se tutto è ok
+		clubFound.bans.splice(clubFound.bans.indexOf(nomeUtenteSbannato), 1);
+		clubFound.save();
+		res.json({ success: true, message: 'Utente sbannato' });
+	}
+
+});
+
+//-------------------------------------------------------------------------------------------
+
 router.post('/remove_subscriber', async (req, res) => {
 	var nomeUtente = req.body.nomeUtente;
 
@@ -25,24 +71,31 @@ router.post('/remove_subscriber', async (req, res) => {
 		res.json({ success: false, message: 'Non puoi rimuovere dal club un utente non iscritto' });
 	}
 	else if (clubFound.owner == nomeUtente) {
+		//se l'utente è il proprietario del club
 		res.json({ success: false, message: 'Non puoi rimuovere il proprietario del club' });
 	}
 	else {
-		//devo togliere l'utente dal club
+		//devo togliere l'utente dal club e aggiornare la lista dei banditi
+		
 		let index = clubFound.subscribers.indexOf(nomeUtente);
 		if (index > -1) {
-			clubFound.subscribers.splice(index, 1);
+			clubFound.subscribers.splice(index, 1); //dalla posizione index, rimuovo 1 elemento
+			clubFound.bans.push(nomeUtente);
+		}
+		else {
+			res.json({ success: false, message: 'Stavo provando ad eliminare l\'utente dal club ma non lo trovo' });
 		}
 
-		//devo aggiornare il club
+		//aggiorno il club
 		clubFound.save(function (err) {
 			if (err) {
 				res.json({ success: false, message: 'Errore nell\'aggiornamento del club' });
 			}
 			else {
-				res.json({ success: true, message: 'Utente rimosso dal club' });
+				res.json({ success: true, message: 'Utente rimosso definitivamente dal club' });
 			}
 		});
+
 	}
 });
 
@@ -69,9 +122,13 @@ router.post('/add_subscriber', async (req, res) => {
 		//mi prendo l'array del club trovato nel db
 		var iscritti = clubFound.subscribers;
 
-		//controllo che l'utente non sia già iscritto
 		if (iscritti.includes(payload.username)) {
+			//controllo che l'utente non sia già iscritto
 			res.json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti del club" });
+		}
+		else if (clubFound.bans.includes(payload.username)) {
+			//controllo che l'utente non sia già bannato
+			res.json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è bannato dal club" });
 		}
 		else {
 			//se non dovesse essere già iscritto
@@ -139,6 +196,32 @@ router.get('/subscribers', async (req, res) => {
 		}
 		else {
 			res.status(200).json({ success: true, owner: clubFound.owner, nomeClub: clubFound.name, subscribers: clubFound.subscribers });
+		}
+	}
+	else {
+		res.json({ success: false, message: 'Nessun club specificato nei parametri della URL' });
+	}
+});
+
+//-------------------------------------------------------------------------------------------
+
+//ritorna gli utenti banditi da un particolare club
+router.get('/banditi', async (req, res) => {
+
+	//prendo il club da cui voglio vedere gli utenti banditi
+	if (req.query.nomeClub) {
+
+		let clubFound = await Club.findOne({
+			name: req.query.nomeClub
+		}).exec();
+
+		if (!clubFound) {
+			//se non trovo il club
+			res.json({ success: false, message: 'Club non trovato' });
+		}
+		else {
+			//se trovo il club
+			res.status(200).json({ success: true, owner: clubFound.owner, nomeClub: clubFound.name, banditi: clubFound.bans });
 		}
 	}
 	else {

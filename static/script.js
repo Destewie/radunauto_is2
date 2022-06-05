@@ -75,6 +75,8 @@ function create_club() {
     });
 }
 
+//----------------------------------------------------------------------------
+
 function create_event() {
   var title = document.getElementById('title').value;
   var club = document.getElementById('club').value;
@@ -96,7 +98,7 @@ function create_event() {
 
       if (result == true) {
         outcome = "Raduno creato con successo";
-      }
+      } 
       else {
         outcome = "Errore";
       }
@@ -220,15 +222,13 @@ function add_sub_club(nomeClub) {
       // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
       console.log(data.message)
 
-      console.log("modifico i pulsanti di " + "btn" + nomeClub + "feed");
-
       document.getElementById("btn" + nomeClub).classList.add('disabled'); //disattiva il bottone dopo averlo premuto
-      document.getElementById("btn" + nomeClub + "feed").classList.remove('disabled'); // attiva il bottone per vedere il club feed
 
       if (data.success) {
+        document.getElementById("btn" + nomeClub + "feed").classList.remove('disabled'); // attiva il bottone per vedere il club feed
         alert("Iscrizione avvenuta con successo!")
       } else {
-        alert("Sei già iscritto a questo club")
+        alert("Qualcosa ha impedito la tua iscrizine al club :(")
       }
 
       return;
@@ -480,3 +480,33 @@ function removeCar(id) {
     window.location.reload();
   });
 }
+
+//----------------------------------------------------------------------------
+
+function remove_ban(userName, clubName) {
+  fetch('../api/clubs/remove_ban', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nomeUtente: userName, nomeClub: clubName})
+  }).then((resp) => resp.json())
+
+  .then(function(data) {
+
+    console.log(data.message);
+
+    if(data.success) {
+      //disabilito il bottone se la richiesta è andata a buon fine
+      btnId = "btnRmBan" + userName;
+      document.getElementById(btnId).disabled = true; 
+      
+      alert("Utente rimosso dal ban!");
+    }
+    else {
+      alert("Qualcosa è andato storto");
+    }
+
+      return;
+      }).catch( error => console.error(error));
+}
+
+//----------------------------------------------------------------------------
