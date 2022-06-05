@@ -70,8 +70,8 @@
       <div id="profilepic" class="col-md-4 col-sm-12 text-center">
       <img width="200" class="rounded-circle border border-dark" src="images/generic_profile_picture.jpg"/>
       </div>
-      <div class="col-md-4 col-sm-12 text-center m-4">
-      <img width="150" class="rounded border border-dark" src="images/generic_profile_picture.jpg"/>
+      <div id="vetrinaAuto" class="col-md-4 col-sm-12 text-center m-4">
+      <a href="/vetrina_auto.html"> <img width="150" class="rounded border border-dark" src="favicon.ico"/> </a>
       </div>
     </div>
 
@@ -158,6 +158,9 @@
                       html = '<img width="200" class="rounded-circle border border-dark" src="images/' + response.image + '.jpg"/>';
                       $('#profilepic').html(html);
                     }
+
+                    html = '<a href="/vetrina_auto.html?user=' + response.username + '"> <img width="150" class="rounded border border-dark" src="favicon.ico"/> </a>';
+                    $('#vetrinaAuto').html(html);
                   }
                 });
       });
