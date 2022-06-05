@@ -80,9 +80,8 @@
         <div id="userInfo" class="row mb-3">
         </div>
       </div>
-      <div class="col-lg-4 offset-lg-1 text-center">
-      <button class="btn btn-block" style="background-color: #ffb4b0;"> Modifica </button>
-      <button class="btn btn-block" onclick="logout()"> Esci </button>
+      <div id="modificaProfilo" class="col-lg-4 offset-lg-1 text-center">
+      <!-- con js metto i pulsanti solo se sono proprietario del profilo che sto guardando -->
       </div>
     </div>
 
@@ -134,6 +133,11 @@
                       html += '<h5 class="m-0"> <strong> Codice fiscale </strong> </h5>';
                       html += '<span>' + response.fiscal_code + '</span>';
                       html += '</div>';
+
+                      var pulsantihtml = '<a href=""> <button class="btn btn-block" style="background-color: #ffb4b0;"> Modifica </button> </a>';
+                      pulsantihtml += '<button class="btn btn-block" onclick="logout()"> Esci </button>';
+
+                      $('#modificaProfilo').html(pulsantihtml);
                     }
                     else {
                       html += '<div class="col-md-6 col-xs-12 offset-sm-3 offset-md-0 mb-2">';
