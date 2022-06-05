@@ -529,6 +529,9 @@ function updateProfile() {
         window.location.href = "profilo.html";
       });
     }
+    else {
+      window.location.href = "profilo.html";
+    }
   });
 
 }
