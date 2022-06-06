@@ -387,14 +387,14 @@ function create_new_post() {
         }).then((resp) => resp.json())
         .then(function(data) {
           hide_post_form();
-
-          alert("Post creato!");
-
-          show_club_feed(club);
-
-          return;
         });
       }
+
+      alert("Post creato!");
+
+      show_club_feed(club);
+
+      return;
 
 
       }).catch( error => console.error(error));
