@@ -157,6 +157,7 @@
     $(document).ready(function () {
       var parameterList = new URLSearchParams(window.location.search);
       var requestedUserProfile = parameterList.get("user"); // prendo il nome utente dai parametri
+      var usernameCookie = getCookie("username");
 
       $.ajax({
         'url': '/api/cars',
@@ -185,7 +186,12 @@
             html += '<h5 class="card-title">' + response[i].name + '</h5>';
             html += '<p class="card-text">Costruttore: ' + response[i].manufacturer + '<br>';
             html += 'Modello: ' + response[i].model + '<br>';
-            html += 'Anno: ' + response[i].model;
+
+            if(usernameCookie == requestedUserProfile) {
+              html += 'Targa: ' + response[i].license_plate + '<br>';
+            }
+
+            html += 'Anno: ' + response[i].year;
             html += '</p>';
             html += '<button class="btn btn-danger pulsanterimozione" style="display: none" onclick="removeCar(\'' + response[i]._id + '\')">Rimuovi</button>';
             html += '</div></div></div>';
