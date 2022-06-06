@@ -76,7 +76,7 @@ router.post('', async (req, res) => {
 		title: req.body.title
 	}).exec();
 
-	if (findRaduno || raduno.title == "" || !club || club.owner != payload.username) {
+	if (findRaduno || raduno.title == "" || !clubFound || clubFound.owner != payload.username) {
 		res.status(400).json({ success: false, message: 'Informazioni per la creazione del raduno errate' });
 	}
 	else {
