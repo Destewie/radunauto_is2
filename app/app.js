@@ -59,6 +59,7 @@ app.use('/api/users', Users);
 
 app.use('/api/clubs', Clubs);
 app.use('/api/clubs', TokenChecker);
+app.use('/api/clubs/subscribers', Clubs);
 app.use('/api/clubs/add_subscriber', Clubs);
 app.use('/api/clubs/remove_subscriber', Clubs);
 app.use('/api/clubs/remove_ban', Clubs);
@@ -66,6 +67,7 @@ app.use('/api/clubs/remove_ban', Clubs);
 //non sono sicuro che quest'ordine delle api funzioni
 app.use('/api/raduni', Raduni);
 app.use('/api/raduni', TokenChecker);
+app.use('/api/raduni/subscribers', Raduni);
 app.use('/api/raduni/add_subscriber', Raduni);
 
 //app.use('api/club_posts', TokenChecker);

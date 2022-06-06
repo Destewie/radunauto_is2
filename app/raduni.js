@@ -56,17 +56,15 @@ router.post('', async (req, res) => {
 	var token = req.cookies.token;
 	const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
 
-	//prendo l'utente con username uguale a quello presente nel token
-	let user = await User.findOne({
-		name: payload.username
-	}).exec();
+	console.log("username: " + payload.username);
 
-	let club = await Club.findOne({
+	let clubFound = await Club.findOne({
 		name: req.body.club
 	}).exec();
 
 	var raduno = new Raduno({
 		title: req.body.title, //il titolo sarà univoco tra i raduni
+		manager: payload.username, //l'organizzatore è l'utente che ha fatto la richiesta
 		club: req.body.club,
 		description: req.body.description,
 		//aggiugni iscritti
@@ -77,7 +75,7 @@ router.post('', async (req, res) => {
 		title: req.body.title
 	}).exec();
 
-	if (findRaduno || raduno.title == "" || !club || club.owner != payload.username) {
+	if (findRaduno || raduno.title == "" || !clubFound || clubFound.owner != payload.username) {
 		res.json({ success: false, message: 'Informazioni per la creazione del raduno errate' });
 	}
 	else {
@@ -88,11 +86,84 @@ router.post('', async (req, res) => {
 
 //----------------------------------------------------------------------------
 
+//ritorna gli iscritti ad un particolare raduno
+router.get('/subscribers', async (req, res) => {
+
+	//mi prendo il token e controllo che sia valido
+	var token = req.cookies.token;
+	if (token == null) {
+		res.json({ success: false, message: 'Non sei loggato' });
+		return;
+	} 
+	const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
+
+	if (req.query.titoloRaduno) {
+		//mi prendo il raduno da cui devo estrarre gli iscritti
+		let radunoFound = await Raduno.findOne({
+			title: req.query.titoloRaduno
+		}).exec();
+
+		//mi vado a prendere il club organizzatore del raduno per vedere chi è il suo owner
+		let ClubFound = await Club.findOne({
+			name: radunoFound.club
+		}).exec();
+
+
+		if (!radunoFound) {
+			//se non ha trovato il raduno
+			res.status(404).json({ success: false, message: 'Raduno non trovato' });
+		}
+		else if (radunoFound.manager != payload.username && ClubFound.owner != payload.username) {
+			//se l'utente non è il manager del raduno e non è il proprietario del club
+			res.status(403).json({ success: false, message: 'Non sei autorizzato a vedere gli iscritti a questo raduno' });
+		}
+		else {
+			res.status(200).json({ success: true, owner: radunoFound.owner, nomeClub: radunoFound.name, subscribers: radunoFound.subscribers });
+		}
+	}
+	else {
+		//se non ha specificato il titolo del raduno nella URL
+		res.status(400).json({ success: false, message: 'Nessun club specificato nei parametri della URL' });
+	}
+});
+
+//----------------------------------------------------------------------------
+
 //GET DI TUTTI I RADUNI
 router.get('', async (req, res) => {
+
+	if (req.query.organizzatore != null) {
+		//se ho specificato l'organizzatore
+		getMieiRaduni(req, res);
+	}
+	else {
+		//se non ho specificato l'organizzatore
+		getDiBase(res);
+	}
+});
+
+//torna tutti i raduni
+async function getDiBase(res) {
 	let tuttiRaduni = await Raduno.find({});
 
 	tuttiRaduni = tuttiRaduni.map((raduno) => {
+		return {
+			title: raduno.title,
+			club: raduno.club,
+			manager: raduno.manager,
+			description: raduno.description,
+			subscribers: raduno.subscribers
+		};
+	});
+	res.status(200).json(tuttiRaduni);
+}
+
+//Restituisce i raduni di un determinato organizzatore
+async function getMieiRaduni(req, res) {
+	let organizzatore = req.query.organizzatore;
+	let mieiRaduni = await Raduno.find({ manager: organizzatore });
+
+	mieiRaduni = mieiRaduni.map((raduno) => {
 		return {
 			title: raduno.title,
 			club: raduno.club,
@@ -100,8 +171,9 @@ router.get('', async (req, res) => {
 			subscribers: raduno.subscribers
 		};
 	});
-	res.status(200).json(tuttiRaduni);
-});
+	res.status(200).json(mieiRaduni);
+
+}
 
 //----------------------------------------------------------------------------
 

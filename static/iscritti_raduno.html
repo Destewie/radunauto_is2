@@ -21,7 +21,7 @@
     <meta http-equiv="pragma" content="no-cache" />
     <!-- In teoria dovrebbe fare in modo che il browser non faccia il cache della pagina -->
 
-    <title> Iscritti Club </title>
+    <title> Iscritti Raduno </title>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
+                        <a class="nav-link active dropdown-toggle" href="" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Eventi
                         </a>
@@ -51,7 +51,7 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Club
                         </a>
@@ -86,127 +86,52 @@
     <div id='iscritti'>
     </div>
 
-    <br>
 
-    <div id='banditi'>
-    </div>
-
-
-    <!-- Script per prendersi il nome del club dalla URL-->
+    <!-- Script per prendersi il titolo del raduno dalla URL-->
     <script>
-        var url = window.location.href;
-        var url_split = url.split("=");
-        var club_name = url_split[1];
+        var parameterList = new URLSearchParams(window.location.search);
+        var titoloRaduno = parameterList.get("titoloRaduno"); // prendo il club dai parametri
     </script>
 
 
-    <!-- Script per prendersi gli iscritti al club dal server -->
+    <!-- Script per prendersi gli iscritti al raduno dal server -->
     <script>
 
         $(document).ready(function () {
             $.ajax({
-                'url': '/api/clubs/subscribers',
+                'url': '/api/raduni/subscribers',
                 'type': 'GET',
                 'dataType': 'json',
-                'data': { nomeClub: club_name },
+                'data': { titoloRaduno: titoloRaduno },
                 'success': function (response) {
 
                     if (response) {
-                        var usernameCookie = getCookie("username");
-
+                        
                         var html = '<br><div class=container-lg textcenter> ';
-                        html += '<br> <h1>Iscritti al club</h1> <br>';
+                        html += '<br> <h1>Iscritti al raduno</h1> <br>';
 
-                        //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere l'iscritto
-                        if (usernameCookie == response.owner) {
-                            console.log(response.subscribers);
-                            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Username</th><th style=\"text-align:center\">Gestisci</th></tr></thead>';
+                        if (response.success == true) {
+                            //Head della table
+                            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Username</th></tr></thead>';
+
+                            //Body della table
+                            for (var i = 0; i < response.subscribers.length; i++) {
+                                html += '<tr><td>' + response.subscribers[i] + '</td></tr>';
+                            }
+
+                            html += "</table></div>";
                         }
                         else {
-                            console.log("non sono il proprietario");
-                            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Username</th></tr></thead>';
+                            html += '<h4>O non sei autorizzato o hai strutturato male la richiesta... <br> Fatto sta che, purtroppo, non puoi vedere questi dati</h4>';
                         }
 
-                        for (var i = 0; i < response.subscribers.length; i++) {
-                            var idBtn = "btnRm" + response.subscribers[i];
 
-                            if (usernameCookie != response.owner) {
-                                //qualsiasi utente che non sia il proprietario non può eliminare degli utenti iscritti al club
-                                html += "<tr><td>" + response.subscribers[i] + "</td></tr>";
-                            }
-                            else {
-                                //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere l'iscritto
-
-                                if (response.subscribers[i] == usernameCookie) {
-                                    //non posso rimuovere se stesso
-                                    html += "<tr><td>" + response.subscribers[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('" + response.subscribers[i] + "', '" + response.nomeClub + "')\" disabled>Rimuovi</button></td></tr>";
-                                }
-                                else {
-                                    html += "<tr><td>" + response.subscribers[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_sub_club('" + response.subscribers[i] + "', '" + response.nomeClub + "')\">Rimuovi</button></td></tr>";
-                                }
-                            }
-
-                        }
-
-                        html += "</table></div>";
 
                         $('#iscritti').html(html); //va a mettere tutto dento all'elemento con id = eventi
                     }
-
                 }
             });
         });
-    </script>
-
-
-
-    <!-- Script per prendersi gli iscritti banditi dal club dal server -->
-    <script>
-
-        $(document).ready(function () {
-            $.ajax({
-                'url': '/api/clubs/banditi',
-                'type': 'GET',
-                'dataType': 'json',
-                'data': { nomeClub: club_name },
-                'success': function (response) {
-
-                    if (response) {
-                        var usernameCookie = getCookie("username");
-
-                        var html = '<br><div class=container-lg textcenter>';
-                        html += '<br> <h1>Banditi dal club</h1> <br>';
-
-                        //se l'utente che sta guardando la pagina è il proprietario, gli mostro il pulsante per rimuovere il ban dall'utente
-                        if (usernameCookie == response.owner) {
-                            console.log(response.subscribers);
-                            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Username</th><th style=\"text-align:center\">Gestisci</th></tr></thead>';
-                        }
-                        else {
-                            console.log("non sono il proprietario");
-                            html = "Solo il proprietario può gestire gli utenti bannati";
-                        }
-
-                        for (var i = 0; i < response.banditi.length; i++) {
-                            var idBtn = "btnRmBan" + response.banditi[i];
-
-                            if (usernameCookie == response.owner) {
-                                html += "<tr><td>" + response.banditi[i] + "</td><td style=\"text-align:center\"><button id=\"" + idBtn + "\" class=\"btn btn-danger\" onclick=\"remove_ban('" + response.banditi[i] + "', '" + response.nomeClub + "')\">Rimuovi BAN</button></td></tr>";
-                                html += "</table>";
-                            }
-
-                        }
-
-                        html += "</div>";
-
-                        $('#banditi').html(html); //va a mettere tutto dento all'elemento con id = eventi
-                    }
-
-                }
-            });
-        });
-
-
     </script>
 
 

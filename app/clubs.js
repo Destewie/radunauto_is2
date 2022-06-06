@@ -247,21 +247,19 @@ router.get('/get_club', async (req, res) => {
 
 //-------------------------------------------------------------------------------------------
 
-//torna tutti i club
 router.get('', async (req, res) => {
-	// https://mongoosejs.com/docs/api.html#model_Model.find
-	console.log(req.query.proprietario);
 
 	if (req.query.proprietario != null) {
-		console.log("il proprietario non è null nella richiesta");
+		//se ho specificato il proprietario
 		getMieiClub(req, res);
 	}
 	else {
-		console.log("get di base");
+		//se non ho specificato il proprietario
 		getDiBase(res);
 	}
 });
 
+//torna tutti i club
 async function getDiBase(res) {
 	let clubs = await Club.find({});
 
@@ -275,6 +273,7 @@ async function getDiBase(res) {
 	res.status(200).json(clubs);
 }
 
+//torna solo i club di cui è proprietario l'utente che ha l'username nella URL
 async function getMieiClub(req, res) {
 	let clubs = await Club.find({ owner: req.query.proprietario });
 
