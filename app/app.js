@@ -27,7 +27,6 @@ app.use(CookieParser());
 
 //Sicurezza di base
 //Per fare in modo che un utente non loggato non possa richiedere queste pagine
-app.use('/home.html', TokenChecker);
 app.use('/creazione_club.html', TokenChecker);
 app.use('/creazione_raduno.html', TokenChecker);
 app.use('/club_feed.html', TokenChecker);
@@ -68,11 +67,13 @@ app.use('/api/raduni', Raduni);
 app.use('/api/raduni', TokenChecker);
 app.use('/api/raduni/add_subscriber', Raduni);
 
-//app.use('api/club_posts', TokenChecker);
+app.use('api/club_posts', TokenChecker);
 app.use('/api/club_posts', Club_post);
 
+app.use('/api/cars', TokenChecker);
 app.use('/api/cars', Cars);
 
+app.use('/api/upload', TokenChecker);
 app.use('/api/upload', UploadFiles);
 
 app.use(function (req, res) {

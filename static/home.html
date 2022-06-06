@@ -2,6 +2,11 @@
 <html lang="en">
 
 <head>
+    <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+
     <script src="script.js"></script>
 
     <meta charset="UTF-8">
@@ -24,7 +29,22 @@
         </h5><br><br><br><br><br><br><br><br>
 
 
-        <button type="button" onclick="logout()" class="btn btn-danger"> <i>Logout</i> </button><br>
+        <div id="pulsantiAuth">
+        </div>
+
+        <script>
+          var usernameCookie = getCookie("username");
+          var html = "";
+
+          if(usernameCookie && usernameCookie != "") {
+            html += '<button type="button" onclick="logout()" class="btn btn-danger"> <i>Logout</i> </button><br>';
+          }
+          else {
+            html += '<button type="button" onclick="login_redirect()" class="btn" style="background-color: #ffb4b0;"> <i>Login</i> </button><br>';
+          }
+
+          $('#pulsantiAuth').html(html);
+        </script>
 
     </div>
 </body>
