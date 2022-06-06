@@ -16,39 +16,57 @@
   <div id="registration_alert" class="alert alert-success" style="display: none" role="alert">
   </div>
 
-  <div class="container-fluid d-flex">
+  <div class="container-sm">
     <div class="mx-auto"><br><br>
 
-      <h1 id="titolo"> Registrazione </h1><br>
+      <h1 id="titolo" class="text-center"> Registrazione </h1>
 
-      <form id="form" method="POST">
-        Email<br>
-        <input class="form-control" type="text" id="email" name="email"><br>
-        Nome e Cognome<br>
-        <input class="form-control" type="text" id="display_name" name="display_name"><br>
-        Username<br>
-        <input class="form-control" type="text" id="username" name="username"><br>
-        Password<br>
-        <input class="form-control" type="password" id="password" name="password"><br>
-        Password<br>
-        <input class="form-control" type="password" id="password2" name="password2"><br>
-        Data di nascita<br>
-        <input class="form-control" type="date" id="birth_date" name="birth_date"><br>
-        Indirizzo<br>
-        <input class="form-control" type="text" id="address" name="address"><br>
-        Numero di telefono<br>
-        <input class="form-control" type="number" id="phone_number" name="phone_number"><br>
-        Codice fiscale<br>
-        <input class="form-control" type="text" id="fiscal_code" name="fiscal_code"><br>
-
-        <button class="btn" style="background-color: #ffb4b0;" type="button"
-          onclick="registration()">Registrati</button>
+      <form class="row g-3">
+        <div class="col-md-12">
+          <label for="email" class="form-label">Email</label>
+          <input id="email" type="email" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label for="display_name" class="form-label">Nome e Cognome</label>
+          <input id="display_name" type="text" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label for="username" class="form-label">Username</label>
+          <input id="username" type="text" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label for="password" class="form-label">Password</label>
+          <input id="password" type="password" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label for="password2" class="form-label">Password</label>
+          <input id="password2" type="password" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label for="birth_date" class="form-label">Data di nascita</label>
+          <input id="birth_date" type="date" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label for="address" class="form-label">Indirizzo</label>
+          <input id="address" type="text" class="form-control">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="phone_number" class="form-label">Telefono</label>
+          <input id="phone_number" type="number" class="form-control">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="fiscal_code" class="form-label">Codice fiscale</label>
+          <input id="fiscal_code" type="text" class="form-control">
+        </div>
+        <div class="col-3">
+          <button class="btn" style="background-color: #ffb4b0;" type="button"
+            onclick="registration()">Registrati</button>
+        </div>
+        <div class="col-3 mt-4" id="accedi">
+          Hai già un account? <a href="login.html"> Accedi </a>
+        </div>
       </form>
 
-      <br>
-      <div class="align-middle" id="accedi">
-        Hai già un account? <a href="login.html"> Accedi </a>
-      </div>
     </div>
   </div>
 
