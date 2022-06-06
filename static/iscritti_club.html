@@ -91,6 +91,11 @@
     <div id='banditi'>
     </div>
 
+    <div class="container-fluid d-flex">
+      <div id="authMsg" class="mx-auto">
+      </div>
+    </div>
+
 
     <!-- Script per prendersi il nome del club dalla URL-->
     <script>
@@ -111,7 +116,7 @@
           }
 
           $('#loginlogout').html(pulsanteloginlogout);
-          
+
             $.ajax({
                 'url': '/api/clubs/subscribers',
                 'type': 'GET',
@@ -207,7 +212,12 @@
 
                         html += "</div>";
 
-                        $('#banditi').html(html); //va a mettere tutto dento all'elemento con id = eventi
+                        if (usernameCookie == response.owner) {
+                          $('#banditi').html(html); //va a mettere tutto dento all'elemento con id = eventi
+                        }
+                        else {
+                          $('#authMsg').html(html);
+                        }
                     }
 
                 }
