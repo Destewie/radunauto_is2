@@ -172,13 +172,12 @@ function getCookie(name) {
 //----------------------------------------------------------------------------
 
 function logout() {
-  var cookie = getCookie("token");
 
   //faccio una richiesta POST a /api/logout
   fetch('../api/logout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ cookie: cookie }), //inglobo il cookie preso nel body della richiesta post che faccio al server
+    body: JSON.stringify({}),
   }).then((resp) => resp.json()) //penso che resp sia la risposta ricevuta da /api/logout e che qui viene trasformata in json
 
     .then(function (data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro

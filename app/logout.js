@@ -4,10 +4,11 @@ const router = express.Router();
 //----------------------------------------------------------------------------
 
 router.post('', (req, res) => {
-  var myCookie = req.body.cookie;
+  var myCookie = req.cookies.token;
 
   if (myCookie != null) {
     res.clearCookie("token");
+    res.clearCookie("username");
     res.json({
       success: true,
       message: "Logout avvenuto con successo"
