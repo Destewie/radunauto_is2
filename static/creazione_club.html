@@ -80,8 +80,16 @@
 
   <br>
 
+  <script>
+  function submitFunction() {
+    event.preventDefault();
+    create_club();
+    return false;
+  }
+  </script>
+
   <div class="container">
-    <div id="form" class="container">
+    <form id="form" class="container" onsubmit="return submitFunction();">
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Nome</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Nome club"><br>
@@ -89,8 +97,8 @@
         <textarea type="text" class="form-control" id="description" name="description"
           placeholder="Descrizione"></textarea>
       </div>
-      <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="create_club()">Crea club</button>
-    </div>
+      <button class="btn" style="background-color: #ffb4b0;" type="submit">Crea club</button>
+    </form>
   </div>
 </body>
 
