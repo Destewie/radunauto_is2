@@ -94,9 +94,8 @@
 
     <!-- Script per prendersi il nome del club dalla URL-->
     <script>
-        var url = window.location.href;
-        var url_split = url.split("=");
-        var club_name = url_split[1];
+        var parameterList = new URLSearchParams(window.location.search);
+        var club_name = parameterList.get("nomeClub"); // prendo il club dai parametri
     </script>
 
 

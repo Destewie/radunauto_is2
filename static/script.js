@@ -267,6 +267,8 @@ function remove_sub_club(userName, clubName) {
 
       if (data.success) {
         alert("Utente rimosso con successo!")
+
+        window.location.reload();
       } else {
         alert("Ci sono stati problemi nella rimozione dell'utente")
       }
@@ -570,6 +572,8 @@ function remove_ban(userName, clubName) {
       document.getElementById(btnId).disabled = true;
 
       alert("Utente rimosso dal ban!");
+
+      window.location.reload();
     }
     else {
       alert("Qualcosa è andato storto");
