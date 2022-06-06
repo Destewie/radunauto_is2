@@ -32,6 +32,7 @@ app.use('/creazione_club.html', TokenChecker);
 app.use('/creazione_raduno.html', TokenChecker);
 app.use('/club_feed.html', TokenChecker);
 app.use('/profilo.html', TokenChecker);
+app.use('/modifica_profilo.html', TokenChecker);
 
 
 /**
