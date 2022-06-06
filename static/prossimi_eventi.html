@@ -129,6 +129,7 @@
               var usernameCookie = getCookie("username");
               console.log(usernameCookie);
 
+              console.log(response[i].datetime)
               if(response[i].datetime) {
                 var datetime = response[i].datetime;
                 var datetime = datetime.slice(0, 10) + ' - ' + datetime.slice(11);

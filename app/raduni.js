@@ -56,8 +56,6 @@ router.post('', async (req, res) => {
 	var token = req.cookies.token;
 	const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
 
-	console.log("username: " + payload.username);
-
 	let clubFound = await Club.findOne({
 		name: req.body.club
 	}).exec();
@@ -152,6 +150,7 @@ async function getDiBase(res) {
 			title: raduno.title,
 			club: raduno.club,
 			manager: raduno.manager,
+			datetime: raduno.datetime,
 			description: raduno.description,
 			subscribers: raduno.subscribers
 		};
