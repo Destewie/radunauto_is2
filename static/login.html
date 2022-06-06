@@ -20,16 +20,24 @@
 
   <p id="errore"> </p>
 
+  <script>
+  function submitFunction() {
+    event.preventDefault();
+    login();
+    return false;
+  }
+  </script>
+
   <div class="container-fluid d-flex">
     <div class="mx-auto"><br><br>
       <h1 class="textcenter"> Login </h1> <br>
 
-      <form id="form" method="POST">
+      <form id="form" onsubmit="return submitFunction();" method="POST">
         Username<br>
         <input class="form-control" type="text" id="username" name="username"><br>
         Password<br>
         <input class="form-control" type="password" id="password" name="password"><br><br>
-        <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="login()">Login</button>
+        <button class="btn" style="background-color: #ffb4b0;" type="submit"> Accedi </button>
       </form>
 
       <br>

@@ -257,7 +257,7 @@ function add_sub_club(nomeClub) {
         document.getElementById("btn" + nomeClub + "feed").classList.remove('disabled'); // attiva il bottone per vedere il club feed
         alert("Iscrizione avvenuta con successo!")
       } else {
-        alert("Qualcosa ha impedito la tua iscrizine al club :(")
+        alert("Qualcosa ha impedito la tua iscrizione al club :(")
       }
 
       return;
