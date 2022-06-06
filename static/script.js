@@ -145,24 +145,29 @@ function login() {
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
 
-  fetch('../api/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: username, password: password }),
-  }).then((resp) => resp.json())
+  if(username != "" && password != "") {
+    fetch('../api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, password: password }),
+    }).then((resp) => resp.json())
 
-    .then(function (data) {
-      // qui "data" è il json che è stato tornato da  authentication
-      //volendo qui puoi fare quello che vuoi con quel json
-      if (data.success) {
-        window.location = "/home.html"; //se il login è andato, rimando alla home
-      } else {
-        document.getElementById("login_alert").style = "display: block";
-        //window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login
-      }
+      .then(function (data) {
+        // qui "data" è il json che è stato tornato da  authentication
+        //volendo qui puoi fare quello che vuoi con quel json
+        if (data.success) {
+          window.location = "/home.html"; //se il login è andato, rimando alla home
+        } else {
+          document.getElementById("login_alert").style = "display: block";
+          //window.location = "login.html"; //se il login non è andato, rimando di nuovo alla pagina del login
+        }
 
-      return;
-    }).catch(error => console.error(error));
+        return;
+      }).catch(error => console.error(error));
+  }
+  else {
+    alert("Compilare tutti i campi");
+  }
 };
 
 //----------------------------------------------------------------------------
