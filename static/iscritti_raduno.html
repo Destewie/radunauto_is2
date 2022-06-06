@@ -73,7 +73,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropRight">
                             <li><a class="dropdown-item" href="profilo.html" onclick=""> Profilo </a></li>
-                            <li><a class="dropdown-item" href="" onclick="logout()"> Logout </a></li>
+                            <li id="loginlogout"></li>
                         </ul>
                     </li>
                 </ul>
@@ -98,6 +98,15 @@
     <script>
 
         $(document).ready(function () {
+          if(getCookie("username")) {
+            var pulsanteloginlogout = '<a class="dropdown-item" href="" onclick="logout()"> Logout </a>';
+          }
+          else {
+            var pulsanteloginlogout = '<a class="dropdown-item" href="login.html" > Log in </a>'
+          }
+
+          $('#loginlogout').html(pulsanteloginlogout);
+
             $.ajax({
                 'url': '/api/raduni/subscribers',
                 'type': 'GET',
@@ -106,7 +115,7 @@
                 'success': function (response) {
 
                     if (response) {
-                        
+
                         var html = '<br><div class=container-lg textcenter> ';
                         html += '<br> <h1>Iscritti al raduno</h1> <br>';
 
