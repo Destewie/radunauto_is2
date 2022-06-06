@@ -82,19 +82,28 @@
         <div id="form" style="display: none" class="container">
           <br><br>
           <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Titolo</label>
-          <input type="text" class="form-control" id="title" name="title" placeholder="Titolo">
+            <label for="exampleFormControlInput1" class="form-label">Titolo</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="title" name="title" placeholder="Titolo">
+              <span class="input-group-text">*</span>
+            </div>
           </div>
           <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Titolo</label>
-          <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrizione"></textarea>
+            <label for="exampleFormControlInput1" class="form-label">Titolo</label>
+            <div class="input-group mb-3">
+              <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrizione"></textarea>
+              <span class="input-group-text">*</span>
+            </div>
           </div>
           <div class="mb-3">
-          <label for="formFile" class="form-label">Immagine</label>
-          <input class="form-control" type="file" id="image">
+            <label for="formFile" class="form-label">Immagine</label>
+            <input class="form-control" type="file" id="image">
           </div>
           <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="create_new_post()">Crea post</button>
           <button class=btn type="button" onclick="hide_post_form()">Annulla</button>
+          <div class="text-end">
+            <b>* </b>: campi obbligatori
+          </div>
         </div>
 
       </div>
@@ -103,7 +112,7 @@
     <br><br>
     <div class="container-fluid d-flex">
       <div class="mx-auto">
-        <div class="list-group" id="listaPost">
+        <div class="list-group mb-3" id="listaPost">
         </div>
       </div>
     </div>

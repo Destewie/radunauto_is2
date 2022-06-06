@@ -505,6 +505,9 @@ function create_new_post() {
 
       }).catch(error => console.error(error));
   }
+  else {
+    alert("Compilare tutti i campi richiesti");
+  }
 }
 
 //----------------------------------------------------------------------------
