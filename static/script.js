@@ -37,6 +37,8 @@ function registration() {
         document.getElementById("registration_alert").className = "alert alert-success";
         document.getElementById("registration_alert").innerHTML = outcome + '<a href="login.html">Accedi</a>';
         document.getElementById("registration_alert").style = "display: block";
+
+        window.location.href = "login.html";
       }
       else {
         outcome = "Username già esistente";
