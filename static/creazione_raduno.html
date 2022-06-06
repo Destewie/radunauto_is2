@@ -85,9 +85,17 @@
 
   <br>
 
+  <script>
+  function submitFunction() {
+    event.preventDefault();
+    create_event();
+    return false;
+  }
+  </script>
+
   <div class="container">
 
-    <div id="form" class="container">
+    <form id="form" class="container" onsubmit="return submitFunction();">
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Titolo</label>
         <input type="text" class="form-control" id="title" name="title" placeholder="Titolo raduno">
@@ -103,11 +111,11 @@
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Club</label>
-        <select id="club" name="club">
+        <select class="form-select" id="club" name="club">
         </select>
       </div>
-      <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="create_event()">Crea raduno</button>
-    </div>
+      <button class="btn" style="background-color: #ffb4b0;" type="submit">Crea raduno</button>
+    </form>
 
     <p id="risultato"> </p>
 
