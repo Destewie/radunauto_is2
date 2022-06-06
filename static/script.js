@@ -379,6 +379,12 @@ function apriPaginaIscrittiClub(nomeClub) {
 
 //----------------------------------------------------------------------------
 
+function apriPaginaIscrittiRaduno(titoloRaduno) {
+  window.location.href = "iscritti_raduno.html?titoloRaduno=" + titoloRaduno;
+}
+
+//----------------------------------------------------------------------------
+
 function show_club_feed(nomeClub) {
   window.location.href = "/club_feed.html?club=" + nomeClub;
 }
