@@ -9,7 +9,7 @@ router.post('', (req, res) => {
   if (myCookie != null) {
     res.clearCookie("token");
     res.clearCookie("username");
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Logout avvenuto con successo"
     });
@@ -18,6 +18,7 @@ router.post('', (req, res) => {
 
   } else {
     console.log("Sta provando a fare il logout ma non è loggato...");
+    res.status(400).json("Non sei loggato");
   }
 });
 

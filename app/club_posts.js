@@ -31,11 +31,11 @@ router.post('/remove_post', async (req, res) => {
         res.status(200).json("Post eliminato");
       }
     }
-    else {
-      res.status(404).json("Errore");
+    else { // errore che non dovrebbe succedere perchè se esiste il post, allora esiste anche il club
+      res.status(500).json("Errore");
     }
   }
-  else {
+  else { // se faccio richiesta per eliminare un post che non esiste
     res.status(404).json("Errore");
   }
 
@@ -70,10 +70,10 @@ router.get('', async (req, res) => {
         }
     }
     else {
-      res.json("Non risulti iscritto al club");
+      res.status(403).json("Non risulti iscritto al club");
     }
   }
-  else {
+  else { // se faccio richiesta su un club che non esiste
     res.status(404).json("Club non trovato");
   }
 });
@@ -113,10 +113,10 @@ router.post('', async (req, res) => {
 
             club_post = await club_post.save();
 
-            res.json({ success: true, message: 'Post successfully created' });
+            res.status(201).json({ success: true, message: 'Post successfully created' });
         }
-        else {
-          res.json({success: false, message: 'Non sei iscritto al club'});
+        else { // se non sei iscritto al club, non hai i permessi per creare un post
+          res.status(403).json({success: false, message: 'Non sei iscritto al club'});
         }
 
       }
@@ -124,7 +124,7 @@ router.post('', async (req, res) => {
 
     }
     else {
-      res.json({success: false, message: 'Inserire tutti i campi richiesti'});
+      res.status(400).json({success: false, message: 'Inserire tutti i campi richiesti'});
     }
 });
 

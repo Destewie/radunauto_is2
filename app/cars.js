@@ -16,7 +16,7 @@ router.get('', async (req, res) => {
       res.status(200).json(cars);
     }
     else {
-      res.status(404).json("Errore");
+      res.status(404).json("Auto non trovate");
     }
 });
 
@@ -34,10 +34,10 @@ router.post('/remove', async (req, res) => {
     if(car.owner == payload.username) {
       await Car.deleteOne({ _id: car._id }); // elimino l'automobile
 
-      res.status(201).json("Auto rimossa");
+      res.status(200).json("Auto rimossa");
     }
     else {
-      res.status(400).json("Non puoi rimuovere questa automobile");
+      res.status(403).json("Non puoi rimuovere questa automobile");
     }
 });
 
@@ -68,10 +68,9 @@ router.post('', async (req, res) => {
           res.status(201).json("Auto salvata");
         }
         else {
-          res.status(400).json("Errore");
+          res.status(500).json("Errore");
         }
     }
-
     else {
       res.status(400).json("Errore");
     }

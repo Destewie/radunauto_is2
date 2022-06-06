@@ -15,7 +15,7 @@ router.post('/add_subscriber', async (req, res) => {
 	}).exec();
 
 	if (!findRaduno) {
-		res.json({ success: false, message: 'Raduno non trovato' });
+		res.status(404).json({ success: false, message: 'Raduno non trovato' });
 	}
 	else {
 		//prendo e verifico il token
@@ -27,7 +27,7 @@ router.post('/add_subscriber', async (req, res) => {
 
 		//controllo che l'utente non sia già iscritto
 		if (iscritti.includes(payload.username)) {
-			res.json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti al raduno" });
+			res.status(400).json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti al raduno" });
 		}
 		else {
 			//se non dovesse essere già iscritto
@@ -43,7 +43,7 @@ router.post('/add_subscriber', async (req, res) => {
 
 			const oldRaduno = await Raduno.updateOne(filter, update);
 
-			res.json({ success: true, message: 'Raduno modificato', raduno: oldRaduno });
+			res.status(200).json({ success: true, message: 'Raduno modificato', raduno: oldRaduno });
 		}
 	}
 });
@@ -79,11 +79,11 @@ router.post('', async (req, res) => {
 	}).exec();
 
 	if (findRaduno || raduno.title == "" || !club || club.owner != payload.username) {
-		res.json({ success: false, message: 'Informazioni per la creazione del raduno errate' });
+		res.status(400).json({ success: false, message: 'Informazioni per la creazione del raduno errate' });
 	}
 	else {
 		raduno = await raduno.save();
-		res.json({ success: true, message: 'Event successfully created' });
+		res.status(201).json({ success: true, message: 'Event successfully created' });
 	}
 });
 

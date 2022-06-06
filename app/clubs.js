@@ -26,28 +26,28 @@ router.post('/remove_ban', async(req, res) => {
 		//prendo lo username dell'utente che sta facendo la chiamata
 		usernameChiamante = payload.username;
 	} catch (err) {
-		res.status(401).json({ success: false, message: 'Invalid token' });
+		res.status(403).json({ success: false, message: 'Invalid token' });
 		return;
 	}
 
 	//sfilza di messaggi d'errore vari
 	if(!clubFound) {
 		//se il club in questione non esiste
-		res.json({ success: false, message: 'Club non trovato' });
+		res.status(404).json({ success: false, message: 'Club non trovato' });
 	}
 	else if (clubFound.bans.indexOf(nomeUtenteSbannato) == -1) {
-		//se l'utente non è stato bannato 
-		res.json({ success: false, message: 'Non puoi togliere il ban ad un utente non bannato' });
+		//se l'utente non è stato bannato
+		res.status(400).json({ success: false, message: 'Non puoi togliere il ban ad un utente non bannato' });
 	}
 	else if (usernameChiamante != clubFound.owner) {
 		//se l'utente che fa la chiamata alle api non è il proprietario del club da cui vuole sbannare un utente
-		res.json({ success: false, message: 'Non puoi sbannare qualcuno da un club non tuo'});
+		res.status(403).json({ success: false, message: 'Non puoi sbannare qualcuno da un club non tuo'});
 	}
 	else {
 		//se tutto è ok
 		clubFound.bans.splice(clubFound.bans.indexOf(nomeUtenteSbannato), 1);
 		clubFound.save();
-		res.json({ success: true, message: 'Utente sbannato' });
+		res.status(200).json({ success: true, message: 'Utente sbannato' });
 	}
 
 });
@@ -64,35 +64,35 @@ router.post('/remove_subscriber', async (req, res) => {
 
 	if (!clubFound) {
 		//se il club in questione non esiste
-		res.json({ success: false, message: 'Club non trovato' });
+		res.status(404).json({ success: false, message: 'Club non trovato' });
 	}
 	else if (clubFound.subscribers.indexOf(nomeUtente) == -1) {
 		//se l'utente non è iscritto al club
-		res.json({ success: false, message: 'Non puoi rimuovere dal club un utente non iscritto' });
+		res.status(400).json({ success: false, message: 'Non puoi rimuovere dal club un utente non iscritto' });
 	}
 	else if (clubFound.owner == nomeUtente) {
 		//se l'utente è il proprietario del club
-		res.json({ success: false, message: 'Non puoi rimuovere il proprietario del club' });
+		res.status(400).json({ success: false, message: 'Non puoi rimuovere il proprietario del club' });
 	}
 	else {
 		//devo togliere l'utente dal club e aggiornare la lista dei banditi
-		
+
 		let index = clubFound.subscribers.indexOf(nomeUtente);
 		if (index > -1) {
 			clubFound.subscribers.splice(index, 1); //dalla posizione index, rimuovo 1 elemento
 			clubFound.bans.push(nomeUtente);
 		}
 		else {
-			res.json({ success: false, message: 'Stavo provando ad eliminare l\'utente dal club ma non lo trovo' });
+			res.status(404).json({ success: false, message: 'Stavo provando ad eliminare l\'utente dal club ma non lo trovo' });
 		}
 
 		//aggiorno il club
 		clubFound.save(function (err) {
 			if (err) {
-				res.json({ success: false, message: 'Errore nell\'aggiornamento del club' });
+				res.status(500).json({ success: false, message: 'Errore nell\'aggiornamento del club' });
 			}
 			else {
-				res.json({ success: true, message: 'Utente rimosso definitivamente dal club' });
+				res.status(200).json({ success: true, message: 'Utente rimosso definitivamente dal club' });
 			}
 		});
 
@@ -112,7 +112,7 @@ router.post('/add_subscriber', async (req, res) => {
 
 	if (!clubFound) {
 		//se il club in questione non esiste
-		res.json({ success: false, message: 'Club non trovato' });
+		res.status(404).json({ success: false, message: 'Club non trovato' });
 	}
 	else {
 		//prendo e verifico il token
@@ -124,11 +124,11 @@ router.post('/add_subscriber', async (req, res) => {
 
 		if (iscritti.includes(payload.username)) {
 			//controllo che l'utente non sia già iscritto
-			res.json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti del club" });
+			res.status(400).json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti del club" });
 		}
 		else if (clubFound.bans.includes(payload.username)) {
 			//controllo che l'utente non sia già bannato
-			res.json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è bannato dal club" });
+			res.status(403).json({ success: false, message: "Spiazze, ma l'utente che volevi aggiungere è bannato dal club" });
 		}
 		else {
 			//se non dovesse essere già iscritto
@@ -144,14 +144,14 @@ router.post('/add_subscriber', async (req, res) => {
 
 			const oldClub = await Club.updateOne(filter, update);
 
-			res.json({ success: true, message: 'Club modificato', club: oldClub });
+			res.status(200).json({ success: true, message: 'Club modificato', club: oldClub });
 		}
 	}
 });
 
 //-------------------------------------------------------------------------------------------
 
-
+// CREARE UN NUOVO CLUB
 router.post('', async (req, res) => {
 	var token = req.cookies.token;
 	const payload = jwt.verify(token, process.env.SUPER_SECRET, { ignoreExpiration: true });
@@ -168,15 +168,15 @@ router.post('', async (req, res) => {
 	}).exec();
 
 	if (club.name == "") {
-		res.json({ success: false, message: 'Nome del club non valido' });
+		res.status(400).json({ success: false, message: 'Nome del club non valido' });
 	}
 	else if (findClub) {
-		res.json({ success: false, message: 'Club già esistente' });
+		res.status(400).json({ success: false, message: 'Club già esistente' });
 	}
 	else {
 		club = await club.save();
 
-		res.json({ success: true, message: 'Club successfully created' });
+		res.status(201).json({ success: true, message: 'Club successfully created' });
 	}
 });
 
@@ -192,14 +192,14 @@ router.get('/subscribers', async (req, res) => {
 		}).exec();
 
 		if (!clubFound) {
-			res.json({ success: false, message: 'Club non trovato' });
+			res.status(404).json({ success: false, message: 'Club non trovato' });
 		}
 		else {
 			res.status(200).json({ success: true, owner: clubFound.owner, nomeClub: clubFound.name, subscribers: clubFound.subscribers });
 		}
 	}
 	else {
-		res.json({ success: false, message: 'Nessun club specificato nei parametri della URL' });
+		res.status(400).json({ success: false, message: 'Nessun club specificato nei parametri della URL' });
 	}
 });
 
@@ -217,7 +217,7 @@ router.get('/banditi', async (req, res) => {
 
 		if (!clubFound) {
 			//se non trovo il club
-			res.json({ success: false, message: 'Club non trovato' });
+			res.status(404).json({ success: false, message: 'Club non trovato' });
 		}
 		else {
 			//se trovo il club
@@ -225,7 +225,7 @@ router.get('/banditi', async (req, res) => {
 		}
 	}
 	else {
-		res.json({ success: false, message: 'Nessun club specificato nei parametri della URL' });
+		res.status(400).json({ success: false, message: 'Nessun club specificato nei parametri della URL' });
 	}
 });
 
@@ -238,10 +238,10 @@ router.get('/get_club', async (req, res) => {
 	}).exec();
 
 	if(club) {
-		res.json(club);
+		res.status(200).json(club);
 	}
 	else {
-		res.json({});
+		res.status(404).json("Club non trovato");
 	}
 });
 

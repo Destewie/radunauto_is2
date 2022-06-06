@@ -24,7 +24,7 @@ router.post('', async function (req, res) {
     //se non trovo l'utente
     if (userFound == null) {
         console.log("Utente non trovato");
-        res.json({ success: false, message: 'login errato' });
+        res.status(404).json({ success: false, message: 'login errato' });
         return;
     }
     //se trovo l'utente
@@ -49,7 +49,7 @@ router.post('', async function (req, res) {
                 res.cookie("token", token);
                 res.cookie("username", user.username);
 
-                res.json({
+                res.status(200).json({
                     success: true,
                     username: user.username,
                     message: 'Adesso che sei loggato, goditi il token!',
@@ -58,7 +58,7 @@ router.post('', async function (req, res) {
 
             }
             else {
-                res.json({
+                res.status(401).json({
                     success: false,
                     message: 'Login non autorizzato'
                 });

@@ -36,10 +36,10 @@ router.post('/update', async (req, res) => {
 	});
 
 	if(user) {
-		res.status(201).json({success: true, message: "utente aggiornato"});
+		res.status(200).json({success: true, message: "utente aggiornato"});
 	}
 	else {
-		res.status(400).json({success: false, message: "Errore"});
+		res.status(500).json({success: false, message: "Errore"});
 	}
 });
 
@@ -74,17 +74,17 @@ router.post('', async (req, res) => {
 		//salvataggio in mongodb
 		user = await user.save();
 
-		res.json({ success: true, message: 'User saved successfully' });
+		res.status(201).json({ success: true, message: 'User saved successfully' });
 	}
 	//se l'utente è stato trovato all'interno del db, non può registrarsi
 	else if (userFound) {
-		res.json({ success: false, message: 'This username is used.' });
+		res.status(400).json({ success: false, message: 'This username is used.' });
 	}
 	else if (user.username == "") {
-		res.json({ success: false, message: 'Il campo username non può essere lasciato vuoto!' });
+		res.status(400).json({ success: false, message: 'Il campo username non può essere lasciato vuoto!' });
 	}
 	else if (user.password == "") {
-		res.json({ success: false, message: 'La password non può essere vuota!' });
+		res.status(400).json({ success: false, message: 'La password non può essere vuota!' });
 	}
 
 	/**
@@ -122,7 +122,7 @@ router.get('/user', async (req, res) => {
 		}
 	}
 	else {
-		res.status(404).json("Errore");
+		res.status(404).json("Utente non trovato");
 	}
 
 });
