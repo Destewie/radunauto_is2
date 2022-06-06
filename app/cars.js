@@ -13,7 +13,22 @@ router.get('', async (req, res) => {
     .exec();
 
     if(cars) {
-      res.status(200).json(cars);
+      if(req.query.owner == req.cookies.username) {
+        res.status(200).json(cars);
+      }
+      else {
+        publicInfoCars = cars.map((car) => {
+      		return {
+      			name: car.name,
+      			manufacturer: car.manufacturer,
+      			model: car.model,
+      			year: car.year,
+      			image: car.image
+      		};
+      	});
+
+        res.status(200).json(publicInfoCars);
+      }
     }
     else {
       res.status(404).json("Auto non trovate");
