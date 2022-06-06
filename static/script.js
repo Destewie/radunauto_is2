@@ -88,7 +88,10 @@ function create_club() {
         outcome += '</form>';
       }
       else {
-        outcome = "Errore";
+        outcome = "Errore <br><br>";
+        outcome += '<form method="get" action="lista_club.html">';
+        outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Torna ai club</button>';
+        outcome += '</form>';
       }
 
       document.getElementById("risultato").innerHTML = outcome;
@@ -113,15 +116,21 @@ function create_event() {
       var result = data.success;
 
       document.getElementById("form").innerHTML = "";
-      document.getElementById("titolo").innerHTML = "Esito creazione club";
+      document.getElementById("titolo").innerHTML = "Esito creazione evento";
 
       var outcome;
 
       if (result == true) {
-        outcome = "Raduno creato con successo";
+        outcome = "Evento creato con successo <br><br>";
+        outcome += '<form method="get" action="prossimi_eventi.html">';
+        outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Mostra tutti gli eventi</button>';
+        outcome += '</form>';
       }
       else {
-        outcome = "Errore";
+        outcome = "Errore <br><br>";
+        outcome += '<form method="get" action="prossimi_eventi.html">';
+        outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Torna agli eventi</button>';
+        outcome += '</form>';
       }
 
       document.getElementById("risultato").innerHTML = outcome;
