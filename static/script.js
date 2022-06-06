@@ -577,6 +577,9 @@ function add_car() {
         window.location.reload();
       });
   }
+  else {
+    alert("Compilare tutti i campi richiesti");
+  }
 }
 
 //----------------------------------------------------------------------------

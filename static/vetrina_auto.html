@@ -102,28 +102,42 @@
 
     <div>
       <form id="form" style="display: none" class="container" enctype="multipart/form-data">
-        <br><br>
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Nome">
+          <label for="exampleFormControlInput1" class="form-label">Nome</label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nome">
+            <span class="input-group-text">*</span>
+          </div>
         </div>
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Targa</label>
-        <input type="text" class="form-control" id="license_plate" name="license_plate" placeholder="Targa">
+          <label for="exampleFormControlInput1" class="form-label">Targa</label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="license_plate" name="license_plate" placeholder="Targa">
+            <span class="input-group-text">*</span>
+          </div>
         </div>
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Costruttore</label>
-        <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Costruttore">
+          <label for="exampleFormControlInput1" class="form-label">Costruttore</label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Costruttore">
+            <span class="input-group-text">*</span>
+          </div>
         </div>
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Modello</label>
-        <input type="text" class="form-control" id="model" name="model" placeholder="Modello">
+          <label for="exampleFormControlInput1" class="form-label">Modello</label>
+          <div class="input-group mb-3">
+              <input type="text" class="form-control" id="model" name="model" placeholder="Modello">
+              <span class="input-group-text">*</span>
+          </div>
         </div>
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Anno</label>
-        <input type="number" class="form-control" id="year" name="year" placeholder="Anno">
+          <label for="exampleFormControlInput1" class="form-label">Anno</label>
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" id="year" name="year" placeholder="Anno">
+            <span class="input-group-text">*</span>
+          </div>
         </div>
-        <div class="mb-3">
+        <div class="mb-4">
         <label for="formFile" class="form-label">Immagine</label>
         <input class="form-control" type="file" id="image">
         </div>
