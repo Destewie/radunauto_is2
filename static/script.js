@@ -680,3 +680,5 @@ function remove_ban(userName, clubName) {
 function login_redirect() {
   window.location.href = "login.html";
 }
+
+//----------------------------------------------------------------------------
