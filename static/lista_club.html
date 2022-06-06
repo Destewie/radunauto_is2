@@ -115,11 +115,17 @@
         'success': function (response) {
 
           if (response) {
-            var html = '<br><div class=container-lg textcenter>';
-            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th style=\"text-align:center\">Iscrizioni</th><th style=\"text-align:center\">Feed</th></tr></thead>';
-
             var usernameCookie = getCookie("username");
             console.log(usernameCookie);
+
+            var html = '<br><div class=container-lg textcenter>';
+
+            if(usernameCookie) {
+              html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th style=\"text-align:center\">Iscrizioni</th><th style=\"text-align:center\">Feed</th></tr></thead>';
+            }
+            else {
+              html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
+            }
 
             for (var i = 0; i < response.length; i++) {
               var idBtn = "btn" + response[i].name;
@@ -127,7 +133,7 @@
               if (usernameCookie == null) {
                 //se un utente non autenticato vuole vedere la pagina dei prossimi eventi non avrà un cookie e i tasti lo rimanderanno alla pagina del login
                 console.log("cookie username = " + usernameCookie);
-                html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + "</td><td style=\"text-align:center\"> <form action='login.html' method='get'> <button type='submit' class='btn btn-outline-primary'> Devi fare il login!</button> </form></td><td>a</td></tr>";
+                html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + "</td><td style=\"text-align:center\"> <form action='login.html' method='get'> <button type='submit' class='btn btn-outline-primary'> Devi fare il login!</button> </form></td></tr>";
               }
               else if (response[i].subscribers.includes(usernameCookie)) {
                 //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone per registrarsi
@@ -139,7 +145,6 @@
                 html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"> <button id="' + idBtn + '" type="button" class="btn btn-outline-primary" onclick="add_sub_club(\'' + response[i].name + '\')" >Entra nel club!</button> </td>';
                 html += '<td style="text-align: center"> <button id="' + idBtn + 'feed"' + ' type="button" class="btn btn-outline-primary disabled" onclick="show_club_feed(\'' + response[i].name + '\')"> Visualizza </button> </td></tr>';
               }
-
             }
 
             html += "</table></div>";
