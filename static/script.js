@@ -357,32 +357,46 @@ function create_new_post() {
 
   var title = document.getElementById("title").value;
   var description = document.getElementById("description").value;
+  var image = document.getElementById("image").files[0]; // prendo il file dal form
+
+  if(image) {
+    var img = "img";
+  }
 
   if(title != "" && description != "") {
     fetch('../api/club_posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({club: club,
-                            author: usernameCookie,
                             title: title,
-                            description: description})
+                            description: description,
+                            img: img})
     }).then((resp) => resp.json())
 
     .then(function(data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
       // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
       console.log(data.message)
 
-      hide_post_form();
+      if(image) {
+        const formData = new FormData();
+        formData.append("image", image);
 
-      if(data.success) {
-        alert("Post creato!");
+        fetch('../api/upload/single', {
+          method: 'POST',
+          body: formData
+        }).then((resp) => resp.json())
+        .then(function(data) {
+          hide_post_form();
 
-        show_club_feed(club);
-      } else {
-        alert("Qualcosa è andato storto");
+          alert("Post creato!");
+
+          show_club_feed(club);
+
+          return;
+        });
       }
 
-      return;
+
       }).catch( error => console.error(error));
   }
 }

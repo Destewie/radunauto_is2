@@ -85,10 +85,19 @@ router.post('', async (req, res) => {
     var token = req.cookies.token;
     const payload = jwt.verify(token, process.env.SUPER_SECRET, {ignoreExpiration: true});
 
-		if(req.body.club != "" && req.body.title != "" && req.body.description != "" && req.body.author != "") {
+		if(req.body.club != "" && req.body.title != "" && req.body.description != "") {
       let clubFound = await Club.findOne({
     			name: req.body.club
     		}).exec();
+
+      if(req.body.img) {
+        var time = Date.now().toString();
+      	var image = payload.username + time;
+      	res.cookie("image_timestamp", time);
+      }
+      else {
+        var image = "";
+      }
 
       if(clubFound) {
         var iscritti = clubFound.subscribers;
@@ -98,7 +107,8 @@ router.post('', async (req, res) => {
             club: req.body.club,
       	    author: payload.username,
             title: req.body.title,
-            description: req.body.description
+            description: req.body.description,
+            img: image
       	    });
 
             club_post = await club_post.save();

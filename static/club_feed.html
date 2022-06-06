@@ -83,6 +83,10 @@
           <label for="exampleFormControlInput1" class="form-label">Titolo</label>
           <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrizione"></textarea>
           </div>
+          <div class="mb-3">
+          <label for="formFile" class="form-label">Immagine</label>
+          <input class="form-control" type="file" id="image">
+          </div>
           <button class="btn" style="background-color: #ffb4b0;" type="button" onclick="create_new_post()">Crea post</button>
           <button class=btn type="button" onclick="hide_post_form()">Annulla</button>
         </div>
@@ -139,6 +143,11 @@
                         html += '<small>' + response[i].timestamp.slice(0, 10) + '&nbsp;alle ore&nbsp;' + response[i].timestamp.slice(11, 16) + '</small>';
                         html += '</div>';
                         html += '<p class="mb-1">' + response[i].description + '</p>';
+
+                        if(response[i].img && response[i].img != "") {
+                          html += '<img width="500px" src="images/' + response[i].img + '.png">'
+                        }
+
                         html += '<b><h6>autore: </b><a href="profilo.html?user=' + response[i].author + '">' + response[i].author + '</a></h6>';
                         html += '</div>';
 

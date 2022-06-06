@@ -7,6 +7,7 @@ module.exports = mongoose.model('Club_post', new Schema({
 	author: String,
 	title: String,
 	description: String,
+	img: String,
   timestamp: {
     type: Date,
     default: Date.now
