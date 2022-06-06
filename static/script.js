@@ -9,47 +9,53 @@ function registration() {
   var address = document.getElementById('address').value;
   var phone_number = document.getElementById('phone_number').value;
   var fiscal_code = document.getElementById('fiscal_code').value;
+  var password2 = document.getElementById('password2').value;
 
-  fetch('../api/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: username,
-                           password: password,
-                           email: email,
-                           display_name: display_name,
-                           birth_date: birth_date,
-                           address: address,
-                           phone_number: phone_number,
-                           fiscal_code: fiscal_code }),
-  }).then((resp) => resp.json())
+  if(password == password2) {
+    fetch('../api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username,
+                             password: password,
+                             email: email,
+                             display_name: display_name,
+                             birth_date: birth_date,
+                             address: address,
+                             phone_number: phone_number,
+                             fiscal_code: fiscal_code }),
+    }).then((resp) => resp.json())
 
-    .then(function (data) { // Here you get the data to modify as you please
-      var result = data.success;
+      .then(function (data) { // Here you get the data to modify as you please
+        var result = data.success;
 
-      var outcome;
+        var outcome;
 
-      if (result == true) {
-        outcome = "Registrazione effettuata con successo, ";
+        if (result == true) {
+          outcome = "Registrazione effettuata con successo, ";
 
-        //document.getElementById("form").innerHTML = "";
-        //document.getElementById("titolo").innerHTML = "Registrazione effettuata con successo";
+          //document.getElementById("form").innerHTML = "";
+          //document.getElementById("titolo").innerHTML = "Registrazione effettuata con successo";
 
-        document.getElementById("registration_alert").className = "alert alert-success";
-        document.getElementById("registration_alert").innerHTML = outcome + '<a href="login.html">Accedi</a>';
-        document.getElementById("registration_alert").style = "display: block";
+          document.getElementById("registration_alert").className = "alert alert-success";
+          document.getElementById("registration_alert").innerHTML = outcome + '<a href="login.html">Accedi</a>';
+          document.getElementById("registration_alert").style = "display: block";
 
-        window.location.href = "login.html";
-      }
-      else {
-        outcome = "Username già esistente";
+          window.location.href = "login.html";
+        }
+        else {
+          outcome = "Username già esistente";
 
-        document.getElementById("registration_alert").className = "alert alert-danger";
-        document.getElementById("registration_alert").innerHTML = outcome;
-        document.getElementById("registration_alert").style = "display: block";
-      }
+          document.getElementById("registration_alert").className = "alert alert-danger";
+          document.getElementById("registration_alert").innerHTML = outcome;
+          document.getElementById("registration_alert").style = "display: block";
+        }
 
-      return;
-    }).catch(error => console.error(error));
+        return;
+      }).catch(error => console.error(error));
+  }
+  else {
+    alert("Le password inserite non corrispondono");
+  }
 };
 
 //----------------------------------------------------------------------------
