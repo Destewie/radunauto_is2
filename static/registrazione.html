@@ -16,12 +16,20 @@
   <div id="registration_alert" class="alert alert-success" style="display: none" role="alert">
   </div>
 
+  <script>
+  function submitFunction() {
+    event.preventDefault();
+    registration();
+    return false;
+  }
+  </script>
+
   <div class="container-sm">
     <div class="mx-auto"><br><br>
 
       <h1 id="titolo" class="text-center"> Registrazione </h1>
 
-      <form class="row g-3">
+      <form id="form" class="row g-3" onsubmit="return submitFunction();" method="POST">
         <div class="col-md-12">
           <label for="email" class="form-label">Email</label>
           <input id="email" type="email" class="form-control">
@@ -59,7 +67,7 @@
           <input id="fiscal_code" type="text" class="form-control">
         </div>
         <div class="col-3">
-          <button class="btn" style="background-color: #ffb4b0;" type="button"
+          <button class="btn" style="background-color: #ffb4b0;" type="submit"
             onclick="registration()">Registrati</button>
         </div>
         <div class="col-3 mt-4" id="accedi">
