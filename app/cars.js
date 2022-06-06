@@ -51,6 +51,13 @@ router.post('', async (req, res) => {
     const image = payload.username + time;
     res.cookie("image_timestamp", time);
 
+    if(req.body.image) {
+      var img = image;
+    }
+    else {
+      var img = "";
+    }
+
 		if(req.body.name != "" && req.body.manufacturer != "" && req.body.model != "" && req.body.year != "" && req.body.license_plate != "") {
       var car = new Car({
         name: req.body.name,
@@ -59,7 +66,7 @@ router.post('', async (req, res) => {
         manufacturer: req.body.manufacturer,
         model: req.body.model,
         year: req.body.year,
-        image: image
+        image: img
         });
 
         car = await car.save();

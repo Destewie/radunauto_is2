@@ -555,24 +555,32 @@ function add_car() {
         license_plate: license_plate,
         manufacturer: manufacturer,
         model: model,
-        year: year
+        year: year,
+        image: image
       })
     }).then((resp) => resp.json())
 
       .then(function (data) {
-        const formData = new FormData();
-        formData.append("image", image);
+        if(image) {
+          const formData = new FormData();
+          formData.append("image", image);
 
-        fetch('../api/upload/single', {
-          method: 'POST',
-          body: formData
-        }).then((resp) => resp.json())
+          fetch('../api/upload/single', {
+            method: 'POST',
+            body: formData
+          }).then((resp) => resp.json())
 
-          .then(function (data) {
-            alert("Auto inserita");
+            .then(function (data) {
+              alert("Auto inserita");
 
-            hide_car_form();
-          });
+              hide_car_form();
+            });
+        }
+        else {
+          alert("Auto inserita");
+
+          hide_car_form();
+        }
 
         window.location.reload();
       });

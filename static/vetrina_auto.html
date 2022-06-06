@@ -170,7 +170,14 @@
 
             html += '<div class="col" style="justify-content: center; display: flex;">'
             html += '<div class="card" style="width: 18rem">';
-            html += '<img src="images/' + response[i].image + '.png" class="card-img-top" alt="...">';
+
+            if(response[i].image && response[i].image != "") {
+              html += '<img src="images/' + response[i].image + '.png" class="card-img-top" alt="...">';
+            }
+            else {
+              html += '<img src="favicon.ico" class="card-img-top" alt="...">';
+            }
+
             html += '<div class="card-body">';
             html += '<h5 class="card-title">' + response[i].name + '</h5>';
             html += '<p class="card-text">Costruttore: ' + response[i].manufacturer + '<br>';
