@@ -309,7 +309,7 @@ function filtra_mieiClub() {
           html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th style="text-align:center">Gestisci iscritti</th></tr></thead>';
           btnId = 'btnRm' + usernameCookie;
           for (var i = 0; i < response.length; i++) {
-            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"><button id="' + btnId + '" type="button" class="btn btn-outline-primary" onclick="apriPaginaIscritti(\'' + response[i].name + '\')">Iscritti</button></td></tr>';
+            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"><button id="' + btnId + '" type="button" class="btn btn-outline-primary" onclick="apriPaginaIscrittiClub(\'' + response[i].name + '\')">Iscritti</button></td></tr>';
           }
           html += "</table></div>";
         }
@@ -324,7 +324,56 @@ function filtra_mieiClub() {
 
 //----------------------------------------------------------------------------
 
-function apriPaginaIscritti(nomeClub) {
+//modifica il contenuto della div con id="eventi" riempiendola solo con gli eventi di cui l'utente attivo è organizzatore
+//WIP SHAG
+function filtra_mieiEventi() {
+  var usernameCookie = getCookie("username");
+
+  $.ajax({
+    'url': '/api/raduni',
+    'type': 'GET',
+    'dataType': 'json',
+    'data': { proprietario: usernameCookie },
+    'success': function (response) {
+
+      if (response) {
+        //per modificare la riga sopra alla tabella
+        let htmlFiltro = '<br> Mostra nuovamente tutti i raduni<br>'
+        htmlFiltro += '<form action="prossimi_eventi.html" method="get">'
+        htmlFiltro += '<button type="submit" style="background-color: #ffb4b0;" class="btn"> <i>Mostra</i> </button><br>'
+        htmlFiltro += '</form>'
+        $('#filtro').html(htmlFiltro);
+
+
+        //per modificare la lista dei club
+        var html = '<br><div class=container-lg textcenter>';
+
+        //se l'utente non è loggato non può filtrare i raduni per vedere solo quelli di cui è organizzatore
+        if (usernameCookie == null) {
+          html = '<br> <div style="text-align:center"> Per vedere i raduni che hai organizzato devi aver fatto il <a href="login.html">login</a></div>';
+        }
+        else {
+          //mostro i raduni di cui l'utente è organizzatore
+          html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club organizzatore</th><th style="text-align:center">Visualizza iscritti</th></tr></thead>';
+          btnId = 'btnVis' + response[i].title;
+          for (var i = 0; i < response.length; i++) {
+            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + '</td><td>'+ response[i].club +'</td><td style="text-align:center"><button id="' + btnId + '" type="button" class="btn btn-outline-primary" onclick="apriPaginaIscrittiRaduno(\'' + response[i].title + '\')">Iscritti</button></td></tr>';
+          }
+          html += "</table></div>";
+        }
+
+
+        $('#eventi').html(html); //va a mettere tutto dento all'elemento con id = eventi
+      }
+
+    }
+  });
+}
+
+
+//----------------------------------------------------------------------------
+
+function apriPaginaIscrittiClub(nomeClub) {
   window.location.href = "iscritti_club.html?nomeClub=" + nomeClub;
 }
 

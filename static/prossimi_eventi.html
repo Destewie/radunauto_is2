@@ -84,8 +84,16 @@
   </nav>
   <!-- fine navbar -->
 
-  <div id='eventi'>
 
+  <!-- Sezione di comando per vedere solo i club di cui si è proprietari-->
+  <div id='filtro' style="text-align:center">
+    <br> Mostra solo gli eventi organizzati da te<br>
+    <button type="button" onclick="filtra_mieiEventi()" style="background-color: #ffb4b0;" class="btn"> <i>Filtra</i>
+    </button><br>
+  </div>
+
+  <!-- Div che verrà popolata da ajax non appena si riceve la risposta dalle api-->
+  <div id='eventi'>
   </div>
 
   <script>
