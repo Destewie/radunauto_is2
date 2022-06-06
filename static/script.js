@@ -95,11 +95,12 @@ function create_event() {
   var title = document.getElementById('title').value;
   var club = document.getElementById('club').value;
   var description = document.getElementById('description').value;
+  var datetime = document.getElementById('datetime').value;
 
   fetch('../api/raduni', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title: title, description: description, club: club }),
+    body: JSON.stringify({ title: title, description: description, club: club, datetime: datetime }),
   }).then((resp) => resp.json())
 
     .then(function (data) {

@@ -98,28 +98,36 @@
         'success': function (response) {
 
           if (response) {
-            $('#eventi').html('ciao'); //test
             var html = '<br><div class=container-lg textcenter>';
-            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
+            html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Data e ora</th><th>Club</th><th style=\"text-align:center\">Iscrizioni</th></tr></thead>';
+
             for (var i = 0; i < response.length; i++) {
               var idBtn = "btn" + response[i].title;
 
               var usernameCookie = getCookie("username");
               console.log(usernameCookie);
 
+              if(response[i].datetime) {
+                var datetime = response[i].datetime;
+                var datetime = datetime.slice(0, 10) + ' - ' + datetime.slice(11);
+              }
+              else {
+                var datetime = "Data e ora non indicati";
+              }
+
               //creo la riga del singolo evento
 
               if (usernameCookie == null) {
                 //se un utente non autenticato vuole vedere la pagina dei prossimi eventi non avrà un cookie e i tasti lo rimanderanno alla pagina del login
                 console.log("cookie username = " + usernameCookie);
-                html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <form action="login.html" method="get"><button type="submit" class="btn btn-outline-primary"> Devi fare il login!</button></form> </td></tr>';
+                html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + datetime + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <form action="login.html" method="get"><button type="submit" class="btn btn-outline-primary"> Devi fare il login!</button></form> </td></tr>';
               }
               else if (response[i].subscribers.includes(usernameCookie)) {
                 //se l'utente a cui sto mostrando la pagina è già nella lista degli iscritti di un evento, faccio in modo che non possa premere il bottone per registrarsi
-                html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="' + idBtn + '" type="button" class="btn btn-outline-primary" onclick="add_sub_raduno(\'' + response[i].title + '\')" disabled>Iscriviti!</button> </td></tr>';
+                html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + datetime + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="' + idBtn + '" type="button" class="btn btn-outline-primary" onclick="add_sub_raduno(\'' + response[i].title + '\')" disabled>Iscriviti!</button> </td></tr>';
               }
               else {
-                html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + response[i].club + '</td><td style="text-align:center"> <button id="' + idBtn + '" type="button" class="btn btn-outline-primary" onclick="add_sub_raduno(\'' + response[i].title + '\')" >Iscriviti!</button> </td></tr>';
+                html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + "</td><td>" + datetime + "</td><td>"  + response[i].club + '</td><td style="text-align:center"> <button id="' + idBtn + '" type="button" class="btn btn-outline-primary" onclick="add_sub_raduno(\'' + response[i].title + '\')" >Iscriviti!</button> </td></tr>';
               }
 
             }

@@ -69,6 +69,7 @@ router.post('', async (req, res) => {
 		title: req.body.title, //il titolo sarà univoco tra i raduni
 		club: req.body.club,
 		description: req.body.description,
+		datetime: req.body.datetime
 		//aggiugni iscritti
 	});
 
@@ -97,7 +98,8 @@ router.get('', async (req, res) => {
 			title: raduno.title,
 			club: raduno.club,
 			description: raduno.description,
-			subscribers: raduno.subscribers
+			subscribers: raduno.subscribers,
+			datetime: raduno.datetime
 		};
 	});
 	res.status(200).json(tuttiRaduni);
