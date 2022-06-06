@@ -11,7 +11,7 @@ function registration() {
   var fiscal_code = document.getElementById('fiscal_code').value;
   var password2 = document.getElementById('password2').value;
 
-  if (password == password2) {
+  if (password == password2 && username != "" && password != "" && email != "" && display_name != "") {
     fetch('../api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -56,7 +56,12 @@ function registration() {
       }).catch(error => console.error(error));
   }
   else {
-    alert("Le password inserite non corrispondono");
+    if(password == password2) {
+      alert("Compilare tutti i campi richiesti");
+    }
+    else {
+      alert("Le password inserite non corrispondono");
+    }
   }
 };
 
@@ -66,38 +71,43 @@ function create_club() {
   var name = document.getElementById('name').value;
   var description = document.getElementById('description').value;
 
-  fetch('../api/clubs', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: name,
-      description: description
-    }),
-  }).then((resp) => resp.json())
+  if(name != "" && description != "") {
+    fetch('../api/clubs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        description: description
+      }),
+    }).then((resp) => resp.json())
 
-    .then(function (data) { // Here you get the data to modify as you please
-      var result = data.success;
+      .then(function (data) { // Here you get the data to modify as you please
+        var result = data.success;
 
-      document.getElementById("form").innerHTML = "";
-      document.getElementById("titolo").innerHTML = "Esito creazione club";
+        document.getElementById("form").innerHTML = "";
+        document.getElementById("titolo").innerHTML = "Esito creazione club";
 
-      var outcome;
+        var outcome;
 
-      if (result == true) {
-        outcome = "Club creato con successo <br><br>";
-        outcome += '<form method="get" action="lista_club.html">';
-        outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Mostra tutti i club</button>';
-        outcome += '</form>';
-      }
-      else {
-        outcome = "Errore <br><br>";
-        outcome += '<form method="get" action="lista_club.html">';
-        outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Torna ai club</button>';
-        outcome += '</form>';
-      }
+        if (result == true) {
+          outcome = "Club creato con successo <br><br>";
+          outcome += '<form method="get" action="lista_club.html">';
+          outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Mostra tutti i club</button>';
+          outcome += '</form>';
+        }
+        else {
+          outcome = "Errore <br><br>";
+          outcome += '<form method="get" action="lista_club.html">';
+          outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Torna ai club</button>';
+          outcome += '</form>';
+        }
 
-      document.getElementById("risultato").innerHTML = outcome;
-    });
+        document.getElementById("risultato").innerHTML = outcome;
+      });
+  }
+  else {
+    alert("Compilare tutti i campi richiesti");
+  }
 }
 
 //----------------------------------------------------------------------------
@@ -108,35 +118,40 @@ function create_event() {
   var description = document.getElementById('description').value;
   var datetime = document.getElementById('datetime').value;
 
-  fetch('../api/raduni', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title: title, description: description, club: club, datetime: datetime }),
-  }).then((resp) => resp.json())
+  if(title != "" && club != "" && datetime != "") {
+    fetch('../api/raduni', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: title, description: description, club: club, datetime: datetime }),
+    }).then((resp) => resp.json())
 
-    .then(function (data) {
-      var result = data.success;
+      .then(function (data) {
+        var result = data.success;
 
-      document.getElementById("form").innerHTML = "";
-      document.getElementById("titolo").innerHTML = "Esito creazione evento";
+        document.getElementById("form").innerHTML = "";
+        document.getElementById("titolo").innerHTML = "Esito creazione evento";
 
-      var outcome;
+        var outcome;
 
-      if (result == true) {
-        outcome = "Evento creato con successo <br><br>";
-        outcome += '<form method="get" action="prossimi_eventi.html">';
-        outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Mostra tutti gli eventi</button>';
-        outcome += '</form>';
-      }
-      else {
-        outcome = "Errore <br><br>";
-        outcome += '<form method="get" action="prossimi_eventi.html">';
-        outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Torna agli eventi</button>';
-        outcome += '</form>';
-      }
+        if (result == true) {
+          outcome = "Evento creato con successo <br><br>";
+          outcome += '<form method="get" action="prossimi_eventi.html">';
+          outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Mostra tutti gli eventi</button>';
+          outcome += '</form>';
+        }
+        else {
+          outcome = "Errore <br><br>";
+          outcome += '<form method="get" action="prossimi_eventi.html">';
+          outcome += '<button class="btn" style="background-color: #ffb4b0;" type="submit" >Torna agli eventi</button>';
+          outcome += '</form>';
+        }
 
-      document.getElementById("risultato").innerHTML = outcome;
-    });
+        document.getElementById("risultato").innerHTML = outcome;
+      });
+  }
+  else {
+    alert("Compilare tutti i campi richiesti");
+  }
 }
 
 //----------------------------------------------------------------------------
@@ -166,7 +181,7 @@ function login() {
       }).catch(error => console.error(error));
   }
   else {
-    alert("Compilare tutti i campi");
+    alert("Compilare tutti i campi richiesti");
   }
 };
 
