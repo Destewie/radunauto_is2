@@ -11,18 +11,20 @@ function registration() {
   var fiscal_code = document.getElementById('fiscal_code').value;
   var password2 = document.getElementById('password2').value;
 
-  if(password == password2) {
+  if (password == password2) {
     fetch('../api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: username,
-                             password: password,
-                             email: email,
-                             display_name: display_name,
-                             birth_date: birth_date,
-                             address: address,
-                             phone_number: phone_number,
-                             fiscal_code: fiscal_code }),
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        email: email,
+        display_name: display_name,
+        birth_date: birth_date,
+        address: address,
+        phone_number: phone_number,
+        fiscal_code: fiscal_code
+      }),
     }).then((resp) => resp.json())
 
       .then(function (data) { // Here you get the data to modify as you please
@@ -217,7 +219,7 @@ function add_sub_raduno(titoloRaduno) {
   fetch('../api/raduni/add_subscriber', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title: titoloRaduno})
+    body: JSON.stringify({ title: titoloRaduno })
   }).then((resp) => resp.json())
 
     .then(function (data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
@@ -327,7 +329,7 @@ function filtra_mieiClub() {
           html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Nome club</th><th>Proprietario</th><th style="text-align:center">Gestisci iscritti</th></tr></thead>';
           btnId = 'btnRm' + usernameCookie;
           for (var i = 0; i < response.length; i++) {
-            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"><button id="' + btnId + '" type="button" class="btn btn-outline-primary" onclick="apriPaginaIscritti(\'' + response[i].name + '\')">Iscritti</button></td></tr>';
+            html += "<tr><td>" + response[i].name + "</td><td>" + response[i].owner + '</td><td style="text-align:center"><button id="' + btnId + '" type="button" class="btn btn-outline-primary" onclick="apriPaginaIscrittiClub(\'' + response[i].name + '\')">Iscritti</button></td></tr>';
           }
           html += "</table></div>";
         }
@@ -342,8 +344,71 @@ function filtra_mieiClub() {
 
 //----------------------------------------------------------------------------
 
-function apriPaginaIscritti(nomeClub) {
+//modifica il contenuto della div con id="eventi" riempiendola solo con gli eventi di cui l'utente attivo è organizzatore
+//WIP SHAG
+function filtra_mieiEventi() {
+  var usernameCookie = getCookie("username");
+
+  $.ajax({
+    'url': '/api/raduni',
+    'type': 'GET',
+    'dataType': 'json',
+    'data': { organizzatore: usernameCookie },
+    'success': function (response) {
+
+      if (response) {
+        //per modificare la riga sopra alla tabella
+        let htmlFiltro = '<br> Mostra nuovamente tutti i raduni<br>'
+        htmlFiltro += '<form action="prossimi_eventi.html" method="get">'
+        htmlFiltro += '<button type="submit" style="background-color: #ffb4b0;" class="btn"> <i>Mostra</i> </button><br>'
+        htmlFiltro += '</form>'
+        $('#filtro').html(htmlFiltro);
+
+
+        //per modificare la lista dei club
+        var html = '<br><div class=container-lg textcenter>';
+
+        //se l'utente non è loggato non può filtrare i raduni per vedere solo quelli di cui è organizzatore
+        if (usernameCookie == null) {
+          html = '<br> <div style="text-align:center"> Per vedere i raduni che hai organizzato devi aver fatto il <a href="login.html">login</a></div>';
+        }
+        else if (response.length == 0) {
+          html += '<br> <div style="text-align:center">'
+          html += 'Non hai ancora organizzato nessun raduno <br>'
+          html += '<a href="creazione_raduno.html">Crea un nuovo raduno</a>'
+          html += '</div>';
+        }
+        else {
+          //mostro i raduni di cui l'utente è organizzatore
+          html += '<table class="table"><thead style="background-color: #ffb4b0;"><tr><th>Titolo</th><th>Descrizione</th><th>Club organizzatore</th><th style="text-align:center">Visualizza iscritti</th></tr></thead>';
+
+          for (var i = 0; i < response.length; i++) {
+            btnId = 'btnVis' + response[i].title;
+            html += "<tr><td>" + response[i].title + "</td><td>" + response[i].description + '</td><td>' + response[i].club + '</td><td style="text-align:center"><button id="' + btnId + '" type="button" class="btn btn-outline-primary" onclick="apriPaginaIscrittiRaduno(\'' + response[i].title + '\')">Iscritti</button></td></tr>';
+          }
+
+          html += "</table></div>";
+        }
+
+
+        $('#eventi').html(html); //va a mettere tutto dento all'elemento con id = eventi
+      }
+
+    }
+  });
+}
+
+
+//----------------------------------------------------------------------------
+
+function apriPaginaIscrittiClub(nomeClub) {
   window.location.href = "iscritti_club.html?nomeClub=" + nomeClub;
+}
+
+//----------------------------------------------------------------------------
+
+function apriPaginaIscrittiRaduno(titoloRaduno) {
+  window.location.href = "iscritti_raduno.html?titoloRaduno=" + titoloRaduno;
 }
 
 //----------------------------------------------------------------------------
@@ -378,45 +443,47 @@ function create_new_post() {
   var description = document.getElementById("description").value;
   var image = document.getElementById("image").files[0]; // prendo il file dal form
 
-  if(image) {
+  if (image) {
     var img = "img";
   }
 
-  if(title != "" && description != "") {
+  if (title != "" && description != "") {
     fetch('../api/club_posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({club: club,
-                            title: title,
-                            description: description,
-                            img: img})
+      body: JSON.stringify({
+        club: club,
+        title: title,
+        description: description,
+        img: img
+      })
     }).then((resp) => resp.json())
 
-    .then(function(data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
-      // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
-      console.log(data.message)
+      .then(function (data) { //il json di "resp" viene poi passato direttamente a questa funzione come parametro
+        // qui "data" è quindi la versione in json della risposta tornata dalla richiesta
+        console.log(data.message)
 
-      if(image) {
-        const formData = new FormData();
-        formData.append("image", image);
+        if (image) {
+          const formData = new FormData();
+          formData.append("image", image);
 
-        fetch('../api/upload/single', {
-          method: 'POST',
-          body: formData
-        }).then((resp) => resp.json())
-        .then(function(data) {
-          hide_post_form();
-        });
-      }
+          fetch('../api/upload/single', {
+            method: 'POST',
+            body: formData
+          }).then((resp) => resp.json())
+            .then(function (data) {
+              hide_post_form();
+            });
+        }
 
-      alert("Post creato!");
+        alert("Post creato!");
 
-      show_club_feed(club);
+        show_club_feed(club);
 
-      return;
+        return;
 
 
-      }).catch( error => console.error(error));
+      }).catch(error => console.error(error));
   }
 }
 
@@ -426,13 +493,13 @@ function remove_post(post_id) {
   fetch('../api/club_posts/remove_post', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ post_id: post_id})
+    body: JSON.stringify({ post_id: post_id })
   }).then((resp) => resp.json())
 
-  .then(function(data) {
-    document.getElementById("post" + post_id).innerHTML = ""; // cancello dalla pagina il post appena tolto
-    alert("post eliminato!");
-  });
+    .then(function (data) {
+      document.getElementById("post" + post_id).innerHTML = ""; // cancello dalla pagina il post appena tolto
+      alert("post eliminato!");
+    });
 }
 
 //----------------------------------------------------------------------------
@@ -459,34 +526,36 @@ function add_car() {
   var year = document.getElementById("year").value;
   var image = document.getElementById("image").files[0]; // prendo il file dal form
 
-  if(name != "" && license_plate != "" && manufacturer != "" && model != "" && year != "") {
+  if (name != "" && license_plate != "" && manufacturer != "" && model != "" && year != "") {
     fetch('../api/cars', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({name: name,
-                            license_plate: license_plate,
-                            manufacturer: manufacturer,
-                            model: model,
-                            year: year})
+      body: JSON.stringify({
+        name: name,
+        license_plate: license_plate,
+        manufacturer: manufacturer,
+        model: model,
+        year: year
+      })
     }).then((resp) => resp.json())
 
-    .then(function(data) {
-      const formData = new FormData();
-      formData.append("image", image);
+      .then(function (data) {
+        const formData = new FormData();
+        formData.append("image", image);
 
-      fetch('../api/upload/single', {
-        method: 'POST',
-        body: formData
-      }).then((resp) => resp.json())
+        fetch('../api/upload/single', {
+          method: 'POST',
+          body: formData
+        }).then((resp) => resp.json())
 
-      .then(function(data) {
-        alert("Auto inserita");
+          .then(function (data) {
+            alert("Auto inserita");
 
-        hide_car_form();
+            hide_car_form();
+          });
+
+        window.location.reload();
       });
-
-      window.location.reload();
-    });
   }
 }
 
@@ -495,15 +564,15 @@ function add_car() {
 function show_removal_buttons() {
   var removal_buttons = document.getElementsByClassName("pulsanterimozione");
 
-  if(removal_buttons[0].style.display == "none") {
-    for(let removal_button of removal_buttons) {
+  if (removal_buttons[0].style.display == "none") {
+    for (let removal_button of removal_buttons) {
       removal_button.style = "display: block";
     }
 
     document.getElementById("pulsanterimozioneauto").innerHTML = "Annulla";
   }
   else {
-    for(let removal_button of removal_buttons) {
+    for (let removal_button of removal_buttons) {
       removal_button.style = "display: none";
     }
 
@@ -517,13 +586,13 @@ function removeCar(id) {
   fetch('../api/cars/remove', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({_id: id})
+    body: JSON.stringify({ _id: id })
   }).then((resp) => resp.json())
 
-  .then(function(data) {
-    alert("Auto rimossa");
-    window.location.reload();
-  });
+    .then(function (data) {
+      alert("Auto rimossa");
+      window.location.reload();
+    });
 }
 
 //----------------------------------------------------------------------------
@@ -535,37 +604,39 @@ function updateProfile() {
   var phone_number = document.getElementById("phone_number").value;
   var image = document.getElementById("image").files[0]; // prendo il file dal form
 
-  if(image) {
+  if (image) {
     var img = "img";
   }
 
   fetch('../api/users/update', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ display_name: display_name,
-                           birth_date: birth_date,
-                           address: address,
-                           phone_number: phone_number,
-                           img: img })
+    body: JSON.stringify({
+      display_name: display_name,
+      birth_date: birth_date,
+      address: address,
+      phone_number: phone_number,
+      img: img
+    })
   }).then((resp) => resp.json())
 
-  .then(function(data) {
-    if(image) {
-      const formData = new FormData();
-      formData.append("image", image);
+    .then(function (data) {
+      if (image) {
+        const formData = new FormData();
+        formData.append("image", image);
 
-      fetch('../api/upload/single', {
-        method: 'POST',
-        body: formData
-      }).then((resp) => resp.json())
-      .then(function(data) {
+        fetch('../api/upload/single', {
+          method: 'POST',
+          body: formData
+        }).then((resp) => resp.json())
+          .then(function (data) {
+            window.location.href = "profilo.html";
+          });
+      }
+      else {
         window.location.href = "profilo.html";
-      });
-    }
-    else {
-      window.location.href = "profilo.html";
-    }
-  });
+      }
+    });
 
 }
 
@@ -575,28 +646,28 @@ function remove_ban(userName, clubName) {
   fetch('../api/clubs/remove_ban', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nomeUtente: userName, nomeClub: clubName})
+    body: JSON.stringify({ nomeUtente: userName, nomeClub: clubName })
   }).then((resp) => resp.json())
 
-  .then(function(data) {
+    .then(function (data) {
 
-    console.log(data.message);
+      console.log(data.message);
 
-    if(data.success) {
-      //disabilito il bottone se la richiesta è andata a buon fine
-      btnId = "btnRmBan" + userName;
-      document.getElementById(btnId).disabled = true;
+      if (data.success) {
+        //disabilito il bottone se la richiesta è andata a buon fine
+        btnId = "btnRmBan" + userName;
+        document.getElementById(btnId).disabled = true;
 
-      alert("Utente rimosso dal ban!");
+        alert("Utente rimosso dal ban!");
 
-      window.location.reload();
-    }
-    else {
-      alert("Qualcosa è andato storto");
-    }
+        window.location.reload();
+      }
+      else {
+        alert("Qualcosa è andato storto");
+      }
 
       return;
-      }).catch( error => console.error(error));
+    }).catch(error => console.error(error));
 }
 
 //----------------------------------------------------------------------------
