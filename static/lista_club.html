@@ -75,7 +75,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropRight">
               <li><a class="dropdown-item" href="profilo.html" onclick=""> Profilo </a></li>
-              <li><a class="dropdown-item" href="" onclick="logout()"> Logout </a></li>
+              <li id="loginlogout"></li>
             </ul>
           </li>
         </ul>
@@ -107,6 +107,15 @@
   <!-- Ajax con Jquery per prendere e mostrare tutti i club -->
   <script>
     $(document).ready(function () {
+      if(getCookie("username")) {
+        var pulsanteloginlogout = '<a class="dropdown-item" href="" onclick="logout()"> Logout </a>';
+      }
+      else {
+        var pulsanteloginlogout = '<a class="dropdown-item" href="login.html" > Log in </a>'
+      }
+
+      $('#loginlogout').html(pulsanteloginlogout);
+
       $.ajax({
         'url': '/api/clubs',
         'type': 'GET',
