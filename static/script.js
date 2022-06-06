@@ -118,7 +118,7 @@ function create_event() {
   var description = document.getElementById('description').value;
   var datetime = document.getElementById('datetime').value;
 
-  if(title != "" && club != "") {
+  if(title != "" && club != "" && datetime != "") {
     fetch('../api/raduni', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

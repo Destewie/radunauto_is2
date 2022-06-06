@@ -92,12 +92,21 @@
     <form id="form" class="container" onsubmit="return submitFunction();">
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Nome club"><br>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" id="name" name="name" placeholder="Nome club"><br>
+          <span class="input-group-text">*</span>
+        </div>
         <label for="exampleFormControlInput1" class="form-label">Descrizione</label>
-        <textarea type="text" class="form-control" id="description" name="description"
+        <div class="input-group mb-3">
+          <textarea type="text" class="form-control" id="description" name="description"
           placeholder="Descrizione"></textarea>
+          <span class="input-group-text">*</span>
+        </div>
       </div>
       <button class="btn" style="background-color: #ffb4b0;" type="submit">Crea club</button>
+      <div class="text-end">
+        <b>* </b>: campi obbligatori
+      </div>
     </form>
   </div>
 </body>

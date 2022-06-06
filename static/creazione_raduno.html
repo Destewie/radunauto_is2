@@ -98,7 +98,10 @@
     <form id="form" class="container" onsubmit="return submitFunction();">
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Titolo</label>
-        <input type="text" class="form-control" id="title" name="title" placeholder="Titolo raduno">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" id="title" name="title" placeholder="Titolo raduno">
+          <span class="input-group-text">*</span>
+        </div>
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Descrizione</label>
@@ -107,14 +110,23 @@
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Data e ora</label>
-        <input type="datetime-local" class="form-control" id="datetime" name="datetime" placeholder="Data e ora">
+        <div class="input-group mb-3">
+          <input type="datetime-local" class="form-control" id="datetime" name="datetime" placeholder="Data e ora">
+          <span class="input-group-text">*</span>
+        </div>
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Club</label>
-        <select class="form-select" id="club" name="club">
-        </select>
+        <div class="input-group mb-3">
+          <select class="form-select" id="club" name="club">
+          </select>
+          <span class="input-group-text">*</span>
+        </div>
       </div>
       <button class="btn" style="background-color: #ffb4b0;" type="submit">Crea raduno</button>
+      <div class="text-end">
+        <b>* </b>: campi obbligatori
+      </div>
     </form>
 
     <p id="risultato"> </p>
