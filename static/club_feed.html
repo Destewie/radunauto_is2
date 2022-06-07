@@ -169,7 +169,9 @@
                         html += '<p class="mb-1">' + response[i].description + '</p>';
 
                         if(response[i].img && response[i].img != "") {
-                          html += '<img width="500px" src="images/' + response[i].img + '.png">'
+                          html += '<div class="container-fluid d-flex m-3"><div class="mx-auto">';
+                          html += '<img class="text-center" width="500px" src="images/' + response[i].img + '.png">'
+                          html += '</div></div>';
                         }
 
                         html += '<b><h6>autore: </b><a href="profilo.html?user=' + response[i].author + '">' + response[i].author + '</a></h6>';
