@@ -1,12 +1,12 @@
 FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
+HOST: https://radunauto.herokuapp.com
 
 # radunauto
 
 API per visualizzare, creare e gestire i raduni d'auto d'epoca.
 
 
-## Registration [/api/users]
+## New User [/api/users]
 
 ### Create a New User [POST]
 
@@ -17,7 +17,12 @@ Crea un nuovo utente nel sistema.
         {
             "username": "username",
             "password": "password",
-            "email": "email"
+            "email": "email",
+            "display_name": "user",
+            "birth_date": "2000-11-25",
+            "address": "Via Roma 3",
+            "phone_number": "0123456789",
+            "fiscal_code": "DSNFRC00S42K234I"
         }
 
 + Response 201 (application/json)
@@ -32,6 +37,76 @@ Crea un nuovo utente nel sistema.
                 "success": true,
                 "message": "User saved successfully"
             }
+
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /api/users
+
+    + Body
+
+            {
+                "success": false,
+                "message": "L'username è già usato o hai lasciato qualche campo vuoto"
+            }
+            
+
+## Get user [/api/users/user{?user}]
+
+### Get information reguarding a specific user [GET]
+Se non viene specificato il nome di un utente all'interno dei parametri, allora vengono tornate le info dell'utente attuale
+
++ Response 200 (application/json)
+
+            {
+                "display_name": "user",
+                "username": "username",
+                "email": "email",
+                "img": ...
+            }
+
+
+
+## Modify user [/api/users/update]
+
+### Modify an existing user [POST]
+
+Modifica un utente già esistente nel sistema.
+
++ Request (application/json)
+
+        {
+            "display_name": "nome cognome",
+            "birth_date": "2000-11-25",
+            "address": "Via Roma 3",
+            "phone_number": "0123456789",
+            "img": ...
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/users/update
+
+    + Body
+
+            {
+                "success": true,
+                "message": "utente aggiornato"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Errore"
+            }
+
+
             
             
 ## Login [/api/login]
@@ -47,7 +122,7 @@ Verifica username e password inseriti e fa accedere l'utente al sito.
             "password": "password"
         }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
@@ -59,7 +134,7 @@ Verifica username e password inseriti e fa accedere l'utente al sito.
                 "success": true,
                 "username": "username",
                 "message": "Adesso che sei loggato, goditi il token!",
-                "token": "token"
+                "token": "fkdsjahfjk-gèùàa'ìèd0f9484%$£234fewkajsf!£flk"
             }
             
 
@@ -75,7 +150,7 @@ Revoca il token di accesso all'utente.
             "cookie": "cookie"
         }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
@@ -93,7 +168,7 @@ Revoca il token di accesso all'utente.
 
 ### List Clubs [GET]
 
-Restituisce la lista dei club.
+Se non viene specificato un particolare proprietario, ritorna la lista di tutti i club.
 
 + Response 200 (application/json)
 
@@ -101,6 +176,7 @@ Restituisce la lista dei club.
             {
                 "name": "name",
                 "owner": "owner"
+                "subscribers": ["des", "davide", "stella"]
             }
         ]
 
@@ -112,7 +188,9 @@ Crea un nuovo club.
 
         {
             "name": "name",
-            "owner": "owner"
+            "description": "description",
+            "owner": "owner",
+            "subscribers": ["username"]
         }
 
 + Response 201 (application/json)
@@ -127,6 +205,227 @@ Crea un nuovo club.
                 "success": true,
                 "message": "Club successfully created"
             }
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Nome non valido o club già esistente"
+            }
+            
+## Get specific club [/api/clubs/getClub{?name}]
+### Get club by name  [GET]
+Restituisce le informazioni di un determinato club. <br><br>
+Il parametro "name" è obbligatorio. <br>
+In caso contrario non trova il club.
+
++ Response 200 (application/json)
+
+            {
+                "name": "name",
+                "owner": "owner"
+                "subscribers": ["des", "davide", "stella"]
+            }
+
++ Response 400 (application/json)
+
+            {
+                "Club non trovato"
+            }
+
+## Get banditi [/api/clubs/banditi{?name}]
+### Get club's banned users  [GET]
+Restituisce alcune info di un determinato club assieme alla lista degli utenti bannati dal club stesso. <br><br>
+Il parametro "name" è obbligatorio.<br>
+In caso contrario non trova il club.
+
++ Response 200 (application/json)
+
+            {
+                "success": true,
+                "owner": "owner",
+                "nomeClub": "nome",
+                "banditi": ["davide", "stella"]
+            }
+
++ Response 400 (application/json)
+
+            {
+                "success": "false",
+                "message": "Club non trovato"
+            }
+
+## Get subscribers [/api/clubs/subscribers{?name}]
+### Get club's subscribers  [GET]
+Restituisce alcune info di un determinato club assieme alla lista degli utenti iscritti. <br><br>
+Il parametro "name" è obbligatorio. <br>
+In caso contrario non trova il club.
+
++ Response 200 (application/json)
+
+            {
+                "success": true,
+                "owner": "owner"
+                "nomeClub": "name",
+                "subscribers": ["des", "davide", "stella"]
+            }
+
++ Response 400 (application/json)
+
+            {
+                "Club non trovato"
+            }
+            
+## Add subscriber [/api/clubs/add_subscriber]
+### Add club subscriber [POST]
+
+Aggiunge l'utente chiamante alla lista di iscritti del club.
+
++ Request (application/json)
+
+        {
+            "name": "nomeClub"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/clubs
+
+    + Body
+
+            {
+                "success": true,
+                "message": "Club modificato"
+            }
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti del club"
+            }
+
+            
++ Response 403 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Spiazze, ma l'utente che volevi aggiungere è bannato dal club"
+            }
+
+## Ban subscriber [/api/clubs/remove_subscriber]
+### Remove club subscriber [POST]
+
+Aggiunge un utente alla lista degli utenti banditi dal club.
+
++ Request (application/json)
+
+        {
+            "nomeUtente": "username",
+            "nomeClub": "nomeClub"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/clubs
+
+    + Body
+
+            {
+                "success": true,
+                "message": "Utente rimosso definitivamente dal club"
+            }
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Problemi con l'eliminazione dell'utente"
+            }
+
+            
++ Response 404 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Utente o club non trovato"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Errore nell'aggiornamento del club"
+            }
+
+## Remove banned subscriber [/api/clubs/remove_ban]
+### Remove a banned subscriber from the ban list [POST]
+Toglie l'utente dalla lista degli utenti bannati da quel club
+
++ Request (application/json)
+
+        {
+            "nomeUtente": "username",
+            "nomeClub": "nomeClub"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/clubs
+
+    + Body
+
+            {
+                "success": true,
+                "message": "Utente sbannato"
+            }
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Non puoi togliere il ban ad un utente non bannato"
+            }
+
+            
++ Response 403 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Non puoi sbannare qualcuno da un club non tuo"
+            }
+
++ Response 404 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Club non trovatoAggiu"
+            }
+
                        
 
 ## Raduni [/api/raduni]
