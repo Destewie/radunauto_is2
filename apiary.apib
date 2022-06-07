@@ -54,7 +54,7 @@ Crea un nuovo utente nel sistema.
 
 ## Get user [/api/users/user{?user}]
 
-### Get information reguarding a specific user [GET]
+### Get information regarding a specific user [GET]
 Se non viene specificato il nome di un utente all'interno dei parametri, allora vengono tornate le info dell'utente attuale
 
 + Response 200 (application/json)
@@ -278,7 +278,7 @@ In caso contrario non trova il club.
                 "Club non trovato"
             }
             
-## Add subscriber [/api/clubs/add_subscriber]
+## Add club subscriber [/api/clubs/add_subscriber]
 ### Add club subscriber [POST]
 
 Aggiunge l'utente chiamante alla lista di iscritti del club.
@@ -440,7 +440,7 @@ Crea un nuovo raduno.
             "title": "title",
             "club": "club",
             "description": "description",
-            "email": "email"
+            "datetime": "2022-06-16T06:43"
         }
 
 + Response 201 (application/json)
@@ -456,21 +456,285 @@ Crea un nuovo raduno.
                 "message": "Event successfully created"
             }
             
++ Response 400 (application/json)
+
+            {
+                "success": true,
+                "message": "Informazioni per la creazione del raduno errate"
+            }
+
+
+            
 ### List raduni [GET]
 
-Restituisce la lista dei raduni.
+Se non viene specificato un particolare organizzatore, ritorna la lista di tutti i raduni.
+
+
++ Response 200 (application/json)
+
+            [
+                {
+                    "title": "title",
+                    "club": "club",
+                    "manager": "username",
+                    "datetime": "2022-06-16T06:43",
+                    "description": "description",
+                    "subscribers": [subs]
+                }
+            ]
+            
+            
+## Get raduno's subscribers [/api/raduni/subscribers{?titoloRaduno}]
+### Raduno's subs [GET]
+
+Ritorna gli iscritti ad un particolare raduno (è obbligatorio che il nome sia passato tra i params)
+
++ Response 200 (application/json)
+
+            {
+                "success": true,
+                "owner": "owner"
+                "nomeClub": "name",
+                "subscribers": ["des", "davide", "stella"]
+            }
+
++ Response 400 (application/json)
+
+            {
+                "success": false,
+                "message": "Nessun club specificato nei parametri della URL"
+            }
+            
++ Response 403 (application/json)
+
+            {
+                "success": false,
+                "message": "Non sei autorizzato a vedere gli iscritti a questo raduno"
+            }
+            
++ Response 404 (application/json)
+
+            {
+                "success": false,
+                "message": "Raduno non trovato"
+            }
+
+## Add raduno subscriber [/api/raduni/add_subscriber]
+### Add raduno's subscriber [POST]
+
+Aggiunge l'utente chiamante alla lista di iscritti del raduno.
+
++ Request (application/json)
+
+        {
+            "title": "titoloRaduno"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/clubs
+
+    + Body
+
+            {
+                "success": true,
+                "message": "Raduno modificato"
+            }
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Spiazze, ma l'utente che volevi aggiungere è già tra gli iscritti del raduno"
+            }
+
+            
++ Response 404 (application/json)
+
+    + Body
+
+            {
+                "success": false,
+                "message": "Raduno non trovato"
+            }
+            
+## Cars [/api/cars{?owner}]
+
+### List Cars [GET]
+
+Ritorna le macchine di un particolare utente
+
++ Response 200 (application/json)
+
+        [
+            {
+                "name": "carName",
+                "manufacturer": "manifattore",
+                "model": "modello",
+                "year": "2000",
+                "image": img
+            }
+        ]
+
++ Response 404 (application/json)
+
+        {
+            "Auto non trovate"
+        }
+
+
+### Add a new car [POST]
+
+Aggiunge una nuova auto
+
++ Request (application/json)
+
+        {
+            "name": "carName",
+            "owner": "proprietario",
+            "license_plate": "FW123DB"
+            "manufacturer": "manifattore",
+            "model": "modello",
+            "year": "2000",
+            "image": img
+        }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /api/raduni     
+            Location: /api/cars
 
     + Body
 
             {
-                "title": "title",
-                "description": "description",
-                "club": "club",
-                "email": "email"
+                "Auto salvata"
+            }
+            
++ Response 400 (application/json)
+
+            {
+                "Errore"
+            }
+
++ Response 500 (application/json)
+
+            {
+                "Errore"
+            }
+
+
+## Remove cars [/api/cars/remove]
+
+### Remove user's car [POST]
+
++ Request (application/json)
+
+        {
+            "_id": "3424243245234"
+        }
+        
++ Response 200 (application/json)
+
+            {
+                "Auto rimossa"
+            }
+
++ Response 403 (application/json)
+
+            {
+                "Non puoi rimuovere questa automobile"
+            }
+
+## Club posts [/api/club_posts{?club}]
+
+### List posts [GET]
+
+Ritorna le macchine di un particolare utente
+
++ Response 200 (application/json)
+
+        [
+            {
+                "club": "clubName",
+                "author": "fadsf",
+                "title": "belkla",
+                "description": "bel post",
+                "image": img
+            }
+        ]
++ Response 403 (application/json)
+
+        {
+            "Non risulti iscritto al club"
+        }
++ Response 404 (application/json)
+
+        {
+            "Nessun post trovato"
+        }
+
+
+### Add a new post [POST]
+
+Aggiunge un nuovo post ad un club
+
++ Request (application/json)
+
+        {
+            "club": "clubName",
+            "author": "fadsf",
+            "title": "belkla",
+            "description": "bel post",
+            "image": img
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/club_posts
+
+    + Body
+
+            {
+                "Post successfully created"
+            }
+            
++ Response 403 (application/json)
+
+            {
+                "Non sei iscritto al club"
+            }
+
+
+## Remove post [/api/club_posts/remove_post]
+
+### Remove user's post from club [POST]
+
++ Request (application/json)
+
+        {
+            "post_id": "3424243245234"
+        }
+        
++ Response 200 (application/json)
+
+            {
+                "Post eliminato"
+            }
+
++ Response 404 (application/json)
+
+            {
+                "Errore"
+            }
++ Response 500 (application/json)
+
+            {
+                "Errore"
             }
