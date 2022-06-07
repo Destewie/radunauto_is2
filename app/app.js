@@ -69,7 +69,7 @@ app.use('/api/raduni', TokenChecker);
 app.use('/api/raduni/subscribers', Raduni);
 app.use('/api/raduni/add_subscriber', Raduni);
 
-app.use('api/club_posts', TokenChecker);
+app.use('/api/club_posts', TokenChecker);
 app.use('/api/club_posts', Club_post);
 
 app.use('/api/cars', TokenChecker);
